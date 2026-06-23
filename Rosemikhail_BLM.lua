@@ -32,7 +32,7 @@ Potential enhancements:
 
 -- Modes and toggles
 nuking_mode = M{"Free Nuke", "Burst", "Occult Acumen"}
-weapon_mode = M{"Marin Staff", "Wizard's Rod", "Maxentius", "Opashoro", "Khatvanga"}
+weapon_mode = M{"Marin Staff", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"}
 engaged_mode = M{}
 idle_mode = M{"Normal", "Refresh"}
 
@@ -162,6 +162,22 @@ function get_sets()
             engaged_sets = {}, -- Use the default
             overrides = {},
         },
+        ["Maxentius"] = {
+            gear = {
+                 main="Maxentius",
+                sub="Ammurapi Shield",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {},
+        },
+        ["Daybreak"] = {
+            gear = {
+                 main="Daybreak",
+                sub="Ammurapi Shield",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {},
+        },
         ["Opashoro"] = {
             gear = {
                 main="Opashoro",
@@ -174,14 +190,6 @@ function get_sets()
             gear = {
                 main="Khatvanga",
                 sub="Enki Strap",
-            },
-            engaged_sets = {}, -- Use the default
-            overrides = {},
-        },
-        ["Maxentius"] = {
-            gear = {
-                 main="Maxentius",
-                sub="Ammurapi Shield",
             },
             engaged_sets = {}, -- Use the default
             overrides = {},
@@ -321,8 +329,8 @@ function get_sets()
         feet=jse.empyrean.feet, -- Could instead be Battlecast Gaiters
         neck="Null Loop",
         waist="Null Belt", -- Could instead be Grunfeld
-        left_ear="Cessance Earring",
-        right_ear="Odnowa Earring +1",
+        left_ear="Odnowa Earring +1",
+        right_ear="Cessance Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
         back="Null Shawl",
@@ -721,8 +729,8 @@ function get_sets()
         feet={ name="Psycloth Boots", augments={'MP+50','INT+7','"Conserve MP"+6',}},
         neck="Dualism Collar +1",
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
-        left_ear="Nehalennia Earring",
-        right_ear="Moonshade Earring",
+        left_ear="Moonshade Earring",
+        right_ear="Nehalennia Earring",
         left_ring="Mephitas's Ring",
         right_ring="Mephitas's Ring +1",
         back=jse.capes.idle_fc,

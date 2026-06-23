@@ -18,6 +18,9 @@ Potential enhancements:
     - Kinda less less important but can make a conserve focused set, potentially with Cure II stat
 - When Agwu's is upgraded, I may want a separate magic burst set for Ebullience. Check SCH guide later. This will require adjustment to a check in midcast.
 - I don't know how much I care about the Grimoire thing. Right now, it seems to cast faster? But I'm not using the logic as I don't trust it.
+
+- Consider switching to Stormsurge (can Gearswap check merits?)
+    - Would need a check, as there's a bit of gear that can boost this
 ]]
 
 ----------------------------------------------------------------
@@ -136,7 +139,7 @@ function get_sets()
         head="Peda. M.Board +3", 
         body="Peda. Gown +3",       -- Didn't make a check for the bonus to skill because I've barely invested into it Merit-wise (though it works on the JA, so I could just do it whenever)
         hands="Peda. Bracers +3",   -- Didn't merit Tranquility or Equanimity, so didn't bother checking for that
-        legs="Peda. Pants +3",
+        legs="Peda. Pants +4",
         feet="Peda. Loafers +3",    -- Added a check into precast for the bonus, but I don't want it to affect my midcasts for the recast reduction. Maybe if I ever end up using Stun on this job.
     }
 
@@ -696,8 +699,8 @@ function get_sets()
         feet="Nyame Sollerets",
         neck="Null Loop",
         waist="Grunfeld Rope",
-        left_ear="Odnowa Earring +1",
-        right_ear="Moonshade Earring",
+        left_ear="Moonshade Earring",
+        right_ear="Odnowa Earring +1",
         left_ring="Murky Ring",
         right_ring="Defending Ring",
         back="Alabaster Mantle",
@@ -760,8 +763,8 @@ function get_sets()
         feet={ name="Psycloth Boots", augments={'MP+50','INT+7','"Conserve MP"+6',}},
         neck="Dualism Collar +1",
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
-        left_ear="Nehalennia Earring",
-        right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
+        right_ear="Nehalennia Earring",
         left_ring="Mephitas's Ring",
         right_ring="Mephitas's Ring +1",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},

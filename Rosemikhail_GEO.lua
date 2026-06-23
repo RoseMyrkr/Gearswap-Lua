@@ -15,6 +15,8 @@ Potential enhancements:
 - Potentially build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
 - Something that checks the direction of the player in relation to the enemy to tell them what buff they'd have against it
 - Might be worth having a Gishdubar check on Refresh as it can give bonus refresh on self
+
+- Update this to work with WHM stuff potentially + set up GEO WHM macros
 ]]
 
 ----------------------------------------------------------------
@@ -852,9 +854,6 @@ function sub_job_change(new,old)
     update_lockstyle()
     update_macro_book()
 end
-
-send_command("bind f1 gs c nukemode burst")
-send_command("bind f2 gs c nukemode freenuke")
 
 function self_command(command)
     -- Lowercase and split

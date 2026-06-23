@@ -28,6 +28,8 @@ Need to check for enmity spells and apply an enmity set
 -- Maybe consider resist death set / toggle overlay or whatever?
 
 -- Idle embolden overlay
+    -- Also needs to be in my buff_change
+    -- Current functionality should apply embolden gear when I gain the buff and remove it when I don't
 
 - Update barspell logic to care about the fact that elemental and status barspells have different resistance calculations
     - i.e. status ones have a base potency, so I could just cast in conserve or idle
@@ -36,6 +38,10 @@ Need to check for enmity spells and apply an enmity set
 - See if hachirin no obi logic works with blu magic or if it even needs to
 
 -- Possibly have a "casting mode" for SIRD vs effect
+
+-- upgrade loricate torque and all of the other unm items
+
+-- May need a force phalanx set toggle, rather than having it as an idle
 ]]
 
 ----------------------------------------------------------------
@@ -175,28 +181,27 @@ function get_sets()
     jse.capes = {}                 -- Leave this empty
 
     jse.AF = {
-        head="Runeist Bandeau +3", -- FC, Regen
-        body="Runeist Coat +3", -- Valliance/Vallation, "FC"?, Refresh swap? -- Not as good as Nyame for MEVA
-        hands="Runeist Mitons +3", -- Gambit, Enhancing Magic Skill
-        legs="Runeist Trousers +3", -- Vaguely useful in niche circumstances, yolo
-        feet="Runeist Bottes +3", -- I have these for lockstyle more than anything, thank you AF+3 voucher
+        head="Runeist Bandeau +3",          -- FC, Regen
+        body="Runeist Coat +3",             -- Valliance/Vallation, "FC"?, Refresh swap? -- Not as good as Nyame for MEVA
+        hands="Runeist Mitons +3",          -- Gambit, Enhancing Magic Skill
+        legs="Runeist Trousers +3",         -- Vaguely useful in niche circumstances, yolo
+        feet="Runeist Bottes +3",           -- I have these for lockstyle more than anything, thank you AF+3 voucher
     }
 
     jse.relic = {
-        head="Futhark Bandeau +3", -- Phalanx!!!, PDT
-        --body="", -- Get +1 via Deeds
-        --hands="",
-        --legs="",
-        --feet="",
+        head="Futhark Bandeau +4",          -- Phalanx!!!, PDT
+        body="Futhark Coat +1",             -- Elemental Sforzo, Liement
+        hands="Futhark Mitons +1",          -- Maybe not as important, but used for Sleight of Sword
+        legs="Futhark Trousers +1",         -- Enhancing duration, Enhancing FC, additionally 50% FC when used with Vallation/Alliance via Inspiration merit trait
+        feet="Futhark Boots +1",            -- Rayke, maybe not useful for much else
     }
 
-    -- Commission and upgrade
     jse.empyrean = {
-        --head="",
-        --body="",
-        --hands="",
-        legs="Erilaz Leg Guards +3", -- Passive parry bonus, DT, Enmity
-        --feet="",
+        --head="",                          -- SIRD, Vivacious Pulse, Refresh, Enhancing duration
+        --body="",                          -- Potentially good for early gear if I have the DT, enmity retention, otherwise Nyame
+        --hands="",                         -- GS skill :), DT, Resistance to status ailments - use when +3
+        legs="Erilaz Leg Guards +3",        -- Passive parry bonus, DT, Enmity
+        --feet="",                          -- Enmity, eva/meva, resistances, 
     }
 
     jse.capes = {
@@ -222,38 +227,36 @@ function get_sets()
     
     -- May be worth keeping a RUN +1 earring for Regen received
 
-    sets.idle["Normal"] = {
-        range="",
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+    sets.idle["Normal"] = { -- Used not only when running around but also for unengaged tanking
+        ammo="Staunch Tathlum",     -- -2% DT, Resistance
+        head="Null Masque",         -- -10% DT, 2 regain, 1 refresh
+        body="Nyame Mail",          -- -9% DT  -- Consider Empyrean body for enmity retention, Consider AF body for refresh, Adamantite (if I ever get it) for more hp
+        hands="Nyame Gauntlets",    -- -7% DT
+        legs="Nyame Flanchard",     -- -8% DT
+        feet="Nyame Sollerets",     -- -7% DT
+        neck="Loricate Torque +1",  -- -6 DT
+        waist="", -- Engraved Belt
+        left_ear="", -- Tuisto Earring
+        right_ear="", -- Odnowa Earring +1
+        left_ring="", -- Gelatinous Ring +1
+        right_ring="", -- Moonlight Ring or Warden's Ring
+        back="Null Shawl",
     }
 
     sets.idle["Phalanx"] = {
-        range="",
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+        ammo="Staunch Tathlum",         -- -2% DT, Resistance, 10% SIRD
+        head=jse.relic.head,
+        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
+        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
+        legs={ name="Herculean Trousers", augments={'INT+2','Pet: Haste+1','Phalanx +3','Mag. Acc.+10 "Mag.Atk.Bns."+10',}},
+        feet={ name="Herculean Boots", augments={'Rng.Atk.+25','Crit. hit damage +1%','Phalanx +2','Accuracy+11 Attack+11','Mag. Acc.+11 "Mag.Atk.Bns."+11',}},
+        neck="Loricate Torque +1",      -- -6 DT
+        waist="Plat. Mog. Belt",        -- -3% DT
+        left_ear="", -- Tuisto Earring
+        right_ear="", -- Alabaster Earring
+        left_ring="", -- Gelatinous Ring +1
+        right_ring="", -- Moonbeam/light Ring
+        back="", --Moonbeam/light Cape
     }
 
     ----------------------------------------------------------------
@@ -396,7 +399,6 @@ function get_sets()
     ----------------------------------------------------------------
     
     sets.midcast["Enhancing Magic"] = { -- I assume I can just make this an enhancing duration set, which will be necessary for things like Protect, Shell and spikes
-        range="",
         ammo="",
         head="",
         body="",
@@ -414,7 +416,21 @@ function get_sets()
 
     sets.midcast["Enfeebling Magic"] = {}
 
-    sets.midcast["Phalanx"] = {} -- This is for self-casting
+    sets.midcast["Phalanx"] = {
+        ammo="",
+        head=jse.relic.head,
+        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
+        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
+        legs={ name="Herculean Trousers", augments={'INT+2','Pet: Haste+1','Phalanx +3','Mag. Acc.+10 "Mag.Atk.Bns."+10',}},
+        feet={ name="Herculean Boots", augments={'Rng.Atk.+25','Crit. hit damage +1%','Phalanx +2','Accuracy+11 Attack+11','Mag. Acc.+11 "Mag.Atk.Bns."+11',}},
+        neck="",
+        waist="",
+        left_ear="",
+        right_ear="",
+        left_ring="",
+        right_ring="",
+        back="",
+    } -- This is for self-casting
 
     sets.midcast["Regen"] = {}
 
@@ -743,10 +759,7 @@ function midcast(spell)
     local element_matches_weather = world.weather_element == spell.element
 
     if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
-        -- Helixes get weather bonuses 100% of the time.
-        if not helix_spells:contains(spell.name) then
-            equip({waist="Hachirin-no-Obi"})
-        end
+        equip({waist="Hachirin-no-Obi"})
     end
 
     if is_cure and element_matches_weather then
@@ -756,6 +769,14 @@ end
 
 function aftercast(spell)
     idle()
+end
+
+function buff_change(name, gain, buff_details)
+    if not midaction() then
+        if name == "Embolden" then
+            idle()
+        end
+    end
 end
 
 function status_change(new, old)
