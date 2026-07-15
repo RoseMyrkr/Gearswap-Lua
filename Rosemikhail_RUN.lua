@@ -42,6 +42,8 @@ Need to check for enmity spells and apply an enmity set
 -- upgrade loricate torque and all of the other unm items
 
 -- May need a force phalanx set toggle, rather than having it as an idle
+
+-- augment aettir
 ]]
 
 ----------------------------------------------------------------

@@ -21,6 +21,8 @@ Potential enhancements:
 
 - Consider switching to Stormsurge (can Gearswap check merits?)
     - Would need a check, as there's a bit of gear that can boost this
+
+- Consider a separate Aspir burst set
 ]]
 
 ----------------------------------------------------------------
@@ -305,7 +307,7 @@ function get_sets()
         neck={ name="Argute Stole +1", augments={'Path: A',}},
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear="Barkaro. Earring",
+        right_ear="Regal Earring",
         left_ring="Freke Ring",
         right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
         back=jse.capes.nuking_idle
@@ -322,7 +324,7 @@ function get_sets()
         neck="Mizukage-no-Kubikazari",                                                                                  -- 10% MB
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear="Barkaro. Earring",
+        right_ear="Regal Earring",
         left_ring="Freke Ring",
         right_ring="Mujin Band",                                                                                        -- 5% MB II
         back=jse.capes.nuking_idle,
@@ -367,7 +369,7 @@ function get_sets()
 
     -- Helix duration cape might be helpful maybe... but I do less damage with it.
 
-    sets.midcast.helix["Free Nuke"] = set_combine(sets.midcast["Free Nuke"], {
+    sets.midcast.helix["Free Nuke"] = {
         main="Wizard's Rod",
         sub="Culminus",
         range=empty,
@@ -379,14 +381,14 @@ function get_sets()
         feet=jse.empyrean.feet,
         neck={ name="Argute Stole +1", augments={'Path: A',}},
         waist="Eschan Stone",
-        left_ear="Barkaro. Earring",
-        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+11','Enmity-1',}},
+        left_ear="Malignance Earring",
+        right_ear="Regal Earring",
         left_ring="Freke Ring",
         right_ring="Mallquis Ring",
         back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
-    })
+    }
 
-    sets.midcast.helix["Burst"] = set_combine(sets.midcast["Burst"], {
+    sets.midcast.helix["Burst"] = {
         main="Wizard's Rod",
         sub="Culminus",
         range=empty,
@@ -398,14 +400,14 @@ function get_sets()
         feet=jse.empyrean.feet,
         neck="Mizu. Kubikazari",
         waist="Eschan Stone",
-        left_ear="Barkaro. Earring",
-        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+11','Enmity-1',}},
+        left_ear="Malignance Earring",
+        right_ear="Regal Earring",
         left_ring="Mujin Band",
         right_ring="Mallquis Ring",
         back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
-    })
+    }
 
-    sets.midcast["Kaustra"] = set_combine(sets.midcast["Enhancing Magic"], {
+    sets.midcast["Kaustra"] = {
         main="Wizard's Rod",
         sub="Ammurapi Shield",
         range=empty,
@@ -417,12 +419,12 @@ function get_sets()
         feet=jse.empyrean.feet,
         neck="Mizu. Kubikazari",
         waist="Acuity Belt +1",
-        left_ear="Barkaro. Earring", -- Regal Earring
-        right_ear="Malignance Earring",
+        left_ear="Malignance Earring",
+        right_ear="Regal Earring",
         left_ring="Archon Ring",
         right_ring="Freke Ring",
         back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
-    })
+    }
 
     ----------------------------------------------------------------
     -- ENFEEBLING MIDCAST
@@ -438,7 +440,7 @@ function get_sets()
         neck="Incanter's Torque",
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+11','Enmity-1',}},
+        right_ear="Regal Earring",
         left_ring="Kishar Ring",
         right_ring="Stikini Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
@@ -454,25 +456,24 @@ function get_sets()
         neck="Incanter's Torque",
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+11','Enmity-1',}},
+        right_ear="Regal Earring",
         left_ring="Kishar Ring",
         right_ring="Stikini Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
     }
     
     -- Impact likes more elemental magic skill
-    -- TODO: This wants Artifact hands when I have the Regal Earring
     sets.midcast["Impact"] = {
         ammo="Pemphredo Tathlum",
         head=empty,
         body="Crepuscular Cloak",
-        hands=jse.empyrean.hands,
+        hands=jse.AF.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Incanter's Torque",
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
-        left_ear="Malignance Earring",
-        right_ear="Ilmr Earring", -- Replace with Regal Earring (and move Ilmr to Malignance's spot)
+        left_ear="Ilmr Earring",
+        right_ear="Regal Earring",
         left_ring="Stikini Ring",
         right_ring="Stikini Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
@@ -496,7 +497,7 @@ function get_sets()
         ammo="Pemphredo Tathlum",
         head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},                                                         -- +10% duration
         body=jse.relic.body                                                                  ,                                      -- +12% duration
-        hands={ name="Telchine Gloves", augments={'Pet: "Regen"+3','Enh. Mag. eff. dur. +10',}},                                    -- +10% duratiom. This should be replaced by empy hands during Perpetuance
+        hands={ name="Telchine Gloves", augments={'Pet: "Regen"+3','Enh. Mag. eff. dur. +10',}},                                    -- +10% duration. This should be replaced by empy hands during Perpetuance
         legs={ name="Telchine Braconi", augments={'Enh. Mag. eff. dur. +9',}},                                                      -- +9% duration
         feet={ name="Telchine Pigaches", augments={'Enh. Mag. eff. dur. +10',}},                                                    -- +10% duration
         neck="Incanter's Torque",                                                                                                   -- Skill
@@ -715,8 +716,8 @@ function get_sets()
         feet=jse.empyrean.feet,
         neck="Saevus Pendant +1",
         waist="Eschan Stone",
-        left_ear="Moonshade Earring",
-        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+11','Enmity-1',}},
+        left_ear="Malignance Earring",
+        right_ear="Regal Earring",
         left_ring="Murky Ring",
         right_ring="Defending Ring",
         back="Alabaster Mantle",
@@ -732,7 +733,7 @@ function get_sets()
         neck="Null Loop",
         waist="Null Belt",
         left_ear="Moonshade Earring",
-        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+11','Enmity-1',}},
+        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+14','Enmity-4',}},
         left_ring="Murky Ring",
         right_ring="Rufescent Ring",
         back="Alabaster Mantle",

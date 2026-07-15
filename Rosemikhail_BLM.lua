@@ -24,6 +24,8 @@ Potential enhancements:
 - Probably want to rework the death functionality to allow for occult acumen casting - it'll murder my mp, but the point is to get as much TP as possible to regain mp
 
 - Barspell stuff maybe?
+
+- Consider a separate Aspir burst set
 ]]
 
 ----------------------------------------------------------------
@@ -128,7 +130,7 @@ end
 
 -- Lockstyle
 function update_lockstyle()
-    send_command("wait 5;input /lockstyleset 40") -- Furia
+    send_command("wait 5;input /lockstyleset 21") -- Furia
 end
 
 function update_macro_book()
@@ -392,7 +394,7 @@ function get_sets()
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear="Barkaro. Earring", -- Regal Earring
+        right_ear="Regal Earring",
         left_ring="Freke Ring",
         right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
         back=jse.capes.nuking
@@ -410,7 +412,7 @@ function get_sets()
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear="Barkaro. Earring",
+        right_ear="Regal Earring",
         left_ring="Freke Ring",
         right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
         back=jse.capes.nuking                                                                                           -- 5% MB
@@ -437,6 +439,7 @@ function get_sets()
         head="Pixie Hairpin +1",
         hands="Agwu's Gages",
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
+        left_ear="Barkaro. Earring",
         left_ring="Archon Ring",
         right_ring="Mephitas's Ring +1",
         back=jse.capes.death,
@@ -447,6 +450,7 @@ function get_sets()
         head="Pixie Hairpin +1",
         hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
+        left_ear="Barkaro. Earring",
         left_ring="Archon Ring",
         right_ring="Mephitas's Ring +1",
         back=jse.capes.death,
@@ -461,7 +465,7 @@ function get_sets()
         body=jse.relic.body,
         hands=jse.AF.hands,                                            -- Replace with +3 Archmage hands if and when I get them...
         feet=jse.relic.feet,
-        right_ear="Ilmr Earring",
+        left_ear="Ilmr Earring",
     })
 
     sets.midcast["Comet"] = set_combine(sets.midcast["Free Nuke"], {
@@ -501,7 +505,7 @@ function get_sets()
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear={ name="Wicce Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+13','Enmity-3',}},
+        right_ear="Regal Earring",
         left_ring="Stikini Ring",
         right_ring="Stikini Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
@@ -522,8 +526,8 @@ function get_sets()
         feet=jse.relic.feet,
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
-        left_ear="Malignance Earring",
-        right_ear="Ilmr Earring", -- Replace with Regal Earring (and move Ilmr to Malignance's spot)
+        left_ear="Ilmr Earring",
+        right_ear="Regal Earring",
         left_ring="Stikini Ring",
         right_ring="Stikini Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
@@ -625,8 +629,8 @@ function get_sets()
         feet="Agwu's Pigaches",
         neck="Erra Pendant",
         waist="Fucho-no-Obi",
-        --left_ear=,
-        right_ear="Barkaro. Earring",
+        left_ear="Barkaro. Earring",
+        --right_ear="Barkaro. Earring",
         left_ring="Archon Ring",
         right_ring="Evanescence Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
@@ -714,7 +718,7 @@ function get_sets()
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist="Acuity Belt +1",
         left_ear="Malignance Earring",
-        right_ear="Barkaro. Earring",
+        right_ear="Regal Earring",
         left_ring="Murky Ring",
         right_ring="Archon Ring",
         back=jse.capes.wsd,
@@ -801,7 +805,7 @@ function get_sets()
         neck="Saevus Pendant +1",
         waist="Acuity Belt +1",
         left_ear="Malignance Earring",
-        right_ear="Friomisi Earring",
+        right_ear="Regal Earring",
         left_ring="Murky Ring",
         right_ring="Defending Ring",
         back=jse.capes.wsd,

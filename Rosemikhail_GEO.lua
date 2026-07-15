@@ -17,6 +17,8 @@ Potential enhancements:
 - Might be worth having a Gishdubar check on Refresh as it can give bonus refresh on self
 
 - Update this to work with WHM stuff potentially + set up GEO WHM macros
+
+- Consider a separate Aspir burst set
 ]]
 
 ----------------------------------------------------------------
@@ -315,7 +317,7 @@ function get_sets()
         neck="Saevus Pendant +1",
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear="Barkaro. Earring",
+        right_ear="Regal Earring",
         left_ring="Freke Ring",
         right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
         back=jse.capes.nuking,
@@ -332,7 +334,7 @@ function get_sets()
         neck="Mizu. Kubikazari",                                                                        -- 10% MB
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear="Barkaro. Earring",
+        right_ear="Regal Earring",
         left_ring="Locus Ring",                                                                         -- 5% MB Eventually replace this ring with Freke when I'm at 40%+ mb cap and other gear puts by over by 5%
         right_ring="Mujin Band",                                                                        -- 5% MB II
         back=jse.capes.nuking
@@ -398,20 +400,18 @@ function get_sets()
     ----------------------------------------------------------------
 
     -- Geomancy Attire will be really good for this at +2 and +3
-    -- Need the WHOLE set though lol, maybe minus the hands if I get the regal cuffs.
-    -- Technically Cohort beats the Geo set by a tiny amount on skill+acc alone lol, but I guess more survivability via the geo set...? int? mnd? idk bwo
     sets.midcast["Enfeebling Magic"] = {
         range=empty,
         ammo="Pemphredo Tathlum",
-        head=empty,
-        body={ name="Cohort Cloak +1", augments={'Path: A',}},
-        hands="Jhakri Cuffs +2",
-        legs="Jhakri Slops +2",
-        feet=jse.empyrean.feet,
+        head=empty,  -- This wants to be AF head when upgraded
+        body={ name="Cohort Cloak +1", augments={'Path: A',}}, -- This wants to be AF body when head is upgraded
+        hands=jse.AF.hands,
+        legs="Jhakri Slops +2", -- This wants to be AF legs when upgraded
+        feet=jse.AF.feet,
         neck={ name="Bagua Charm +1", augments={'Path: A',}},
-        waist="Rumination Sash",
+        waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
-        right_ear={ name="Azimuth Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+11','Damage taken-3%',}},
+        right_ear="Regal Earring",
         left_ring="Kishar Ring",
         right_ring="Stikini Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
@@ -431,8 +431,8 @@ function get_sets()
         feet="Azimuth Gaiters +2",
         neck="Incanter's Torque",
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
-        left_ear="Malignance Earring",
-        right_ear="Ilmr Earring", -- Replace with Regal Earring (and move Ilmr to Malignance's spot)
+        left_ear="Ilmr Earring",
+        right_ear="Regal Earring",
         left_ring="Stikini Ring",
         right_ring="Stikini Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
