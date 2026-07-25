@@ -60,6 +60,7 @@ weapon_lock = "Off"
 
 -- Midcast helpers
 match_list = S{"Cure", "Regen"}
+ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 enmity_spells = S{"Biden Blast"}
 
 -- Bindings
@@ -693,7 +694,7 @@ function precast(spell)
     end
 
     -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or spell.type == "Scholar" then
+    if spell.type == "JobAbility" or ignored_spell_types:contains(spell.type) then
         -- Stay in idle.
         return
     end
@@ -707,65 +708,67 @@ end
 
 -- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
-    -- If we ever use spells on PUP, steal stuff from other jobs.
-    local matched = false
+    if spell.action_type == "Magic" then
+        -- If we ever use spells on PUP, steal stuff from other jobs.
+        local matched = false
 
-    -- If the spell matches one of the match_list spells.
-    for match in match_list:it() do
-        if spell.name:match(match) then
-            equip_set_and_weapon(sets.midcast[match])
-            matched = true
-            break
+        -- If the spell matches one of the match_list spells.
+        for match in match_list:it() do
+            if spell.name:match(match) then
+                equip_set_and_weapon(sets.midcast[match])
+                matched = true
+                break
+            end
         end
-    end
 
-    -- If the spell is any Regen spell - More essential if we had regen modes, but we don't.
-    -- Regen is now within the match list
-    -- if not matched and spell.name:match("Regen") then
-    --     equip_set_and_weapon(sets.midcast["Regen"])
-    --     matched = true
-    -- end
+        -- If the spell is any Regen spell - More essential if we had regen modes, but we don't.
+        -- Regen is now within the match list
+        -- if not matched and spell.name:match("Regen") then
+        --     equip_set_and_weapon(sets.midcast["Regen"])
+        --     matched = true
+        -- end
 
-    -- If the spell name EXACTLY matches.
-    if not matched and sets.midcast[spell.name] then
-        equip_set_and_weapon(sets.midcast[spell.name])
-        matched = true
-    end
+        -- If the spell name EXACTLY matches.
+        if not matched and sets.midcast[spell.name] then
+            equip_set_and_weapon(sets.midcast[spell.name])
+            matched = true
+        end
 
-    -- TODO: Update this
-    if not matched and spell.name:match("^Bar") then
-        equip_set_and_weapon(sets.midcast.barspell)
-        matched = true
-    end
+        -- TODO: Update this
+        if not matched and spell.name:match("^Bar") then
+            equip_set_and_weapon(sets.midcast.barspell)
+            matched = true
+        end
 
-    -- Missing elemental
+        -- Missing elemental
 
-    -- Missing enfeebling
+        -- Missing enfeebling
 
-    -- If the spell skill has a relevant set
-    if not matched and sets.midcast[spell.skill] then
-        equip_set_and_weapon(sets.midcast[spell.skill])
-        matched = true
-    end
+        -- If the spell skill has a relevant set
+        if not matched and sets.midcast[spell.skill] then
+            equip_set_and_weapon(sets.midcast[spell.skill])
+            matched = true
+        end
 
-    -- Ez default?
-    if not matched and spell.action_type == "Magic" then
-        equip_set_and_weapon(sets.midcast.SIRD)
-    end
+        -- Any other spell (trusts?)
+        if not matched then
+            equip_set_and_weapon(sets.midcast.SIRD)
+        end
 
-    -- Weather and day overlays
-    -- Technically I could also do Divine for Banish but also lmao
-    local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
-    local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
-    local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
-    local element_matches_weather = world.weather_element == spell.element
+        -- Weather and day overlays
+        -- Technically I could also do Divine for Banish but also lmao
+        local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
+        local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
+        local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
+        local element_matches_weather = world.weather_element == spell.element
 
-    if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
-        equip({waist="Hachirin-no-Obi"})
-    end
+        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
+            equip({waist="Hachirin-no-Obi"})
+        end
 
-    if is_cure and element_matches_weather then
-        equip({main="Chatoyant Staff", sub="Khonsu",})
+        if is_cure and element_matches_weather then
+            equip({main="Chatoyant Staff", sub="Khonsu",})
+        end
     end
 end
 

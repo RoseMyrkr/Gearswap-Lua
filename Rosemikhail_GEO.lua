@@ -35,6 +35,7 @@ toggle_tp = "Off" -- This will disable weapon swapping as well
 
 -- Midcast helpers
 match_list  = S{"Cure", "Aspir", "Drain", "Regen"}
+ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")
@@ -470,8 +471,17 @@ function get_sets()
         neck="Nodens Gorget",                                                                                                       -- +30 Stoneskin
     })
 
-    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {
+    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 91% SIRD
+        ammo="Staunch Tathlum",                                                                                                     -- 10% SIRD
+        head="Agwu's Cap",                                                                                                          -- 10% SIRD
+        body="Ros. Jaseran +1",                                                                                                     -- 25% SIRD
+        hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},                                  -- 11% SIRD
         legs="Shedir Seraweels",                                                                                                    -- +1 Aquaveil
+        neck="Loricate Torque +1",                                                                                                  -- 5% SIRD
+        waist="Rumination Sash",                                                                                                    -- 10% SIRD
+        left_ring="Freke Ring",                                                                                                     -- 10% SIRD
+        right_ring="Evanescence Ring",                                                                                              -- 5% SIRD
+        back="Fi Follet Cape +1",                                                                                                   -- 5% SIRD
     })
 
     sets.midcast.barspell = set_combine(sets.midcast["Enhancing Magic"], {
@@ -748,7 +758,7 @@ function precast(spell)
     end
 
     -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or spell.type == "Scholar" then
+    if spell.type == "JobAbility" or ignored_spell_types:contains(spell.type) then
         -- Stay in idle.
         return
     end
@@ -760,73 +770,75 @@ function precast(spell)
     end
 end
 
+-- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
-    
-    local matched = false
+    if spell.action_type == "Magic" then
+        local matched = false
 
-    -- If the spell is a Geocolure or Indicolure spell
-    if spell.name:match("^Geo") then
-        equip_set_and_weapon(sets.midcast.geocolure)
-        matched = true
-    elseif spell.name:match("^Indi") then
-        if buffactive["Entrust"] then
-            equip_set_and_weapon(sets.midcast.entrust)
-        else
-            equip_set_and_weapon(sets.midcast.indicolure)
+        -- If the spell is a Geocolure or Indicolure spell
+        if spell.name:match("^Geo") then
+            equip_set_and_weapon(sets.midcast.geocolure)
+            matched = true
+        elseif spell.name:match("^Indi") then
+            if buffactive["Entrust"] then
+                equip_set_and_weapon(sets.midcast.entrust)
+            else
+                equip_set_and_weapon(sets.midcast.indicolure)
+            end
+            
+            matched = true
         end
-        
-        matched = true
-    end
 
-    -- If the spell matches one of the match_list spells.
-    -- Note: This HAS to be after the Geo/Indi spells otherwise it'll match those too
-    -- If I ever have to break up these spells into separate sets, it would be worth breaking this up.
-    if not matched then
-        for match in match_list:it() do
-            if spell.name:match(match) then
-                equip_set_and_weapon(sets.midcast[match])
-                matched = true
-                break
+        -- If the spell matches one of the match_list spells.
+        -- Note: This HAS to be after the Geo/Indi spells otherwise it'll match those too
+        -- If I ever have to break up these spells into separate sets, it would be worth breaking this up.
+        if not matched then
+            for match in match_list:it() do
+                if spell.name:match(match) then
+                    equip_set_and_weapon(sets.midcast[match])
+                    matched = true
+                    break
+                end
             end
         end
-    end
-    
-    -- If the spell name EXACTLY matches.
-    if not matched and sets.midcast[spell.name] then
-        equip_set_and_weapon(sets.midcast[spell.name])
-        matched = true
-    end
+        
+        -- If the spell name EXACTLY matches.
+        if not matched and sets.midcast[spell.name] then
+            equip_set_and_weapon(sets.midcast[spell.name])
+            matched = true
+        end
 
-    -- If the spell skill is Elemental Magic
-    if not matched and spell.skill == "Elemental Magic" then
-        equip_set_and_weapon(sets.midcast[nuking_mode.current])
-        matched = true
-    end
+        -- If the spell skill is Elemental Magic
+        if not matched and spell.skill == "Elemental Magic" then
+            equip_set_and_weapon(sets.midcast[nuking_mode.current])
+            matched = true
+        end
 
-    -- If the spell skill has a relevant set
-    if not matched and sets.midcast[spell.skill] then
-        equip_set_and_weapon(sets.midcast[spell.skill])
-        matched = true
-    end
+        -- If the spell skill has a relevant set
+        if not matched and sets.midcast[spell.skill] then
+            equip_set_and_weapon(sets.midcast[spell.skill])
+            matched = true
+        end
 
-    -- Any other spell (trusts?)
-    if not matched and spell.action_type == "Magic" then
-        idle()
-    end
+        -- Any other spell (trusts?)
+        if not matched then
+            idle()
+        end
 
-    -- Weather and day overlays
-    -- Technically I could also do Divine for Banish but also lmao
-    local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
-    local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
-    local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
-    local element_matches_weather = world.weather_element == spell.element
+        -- Weather and day overlays
+        -- Technically I could also do Divine for Banish but also lmao
+        local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
+        local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
+        local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
+        local element_matches_weather = world.weather_element == spell.element
 
-    if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
-        equip({waist="Hachirin-no-Obi"})
-    end
+        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
+            equip({waist="Hachirin-no-Obi"})
+        end
 
-    if is_cure and element_matches_weather then
-        equip({main="Chatoyant Staff", sub="Khonsu",})
+        if is_cure and element_matches_weather then
+            equip({main="Chatoyant Staff", sub="Khonsu",})
+        end
     end
 end
 

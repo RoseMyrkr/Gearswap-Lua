@@ -23,6 +23,8 @@ toggle_speed = "Off"
 toggle_tp = "Off" -- This will disable weapon swapping as well
 
 -- Midcast helpers
+ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
+
 -- Nothing as of yet
 
 -- Bindings
@@ -386,7 +388,7 @@ function precast(spell)
     end
 
     -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or spell.type == "Scholar" then
+    if spell.type == "JobAbility" or ignored_spell_types:contains(spell.type) then
         -- Stay in idle.
         return
     end
@@ -400,17 +402,20 @@ end
 
 -- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
-    -- If we ever use spells on PUP, steal stuff from other jobs.
-    local matched = false
+    if spell.action_type == "Magic" then
+        -- If we ever use spells on PUP, steal stuff from other jobs.
+        local matched = false
 
-    -- If the spell skill has a relevant set
-    if not matched and sets.midcast[spell.skill] then
-        equip_set_and_weapon(sets.midcast[spell.skill])
-        matched = true
-    end
+        -- If the spell skill has a relevant set
+        if not matched and sets.midcast[spell.skill] then
+            equip_set_and_weapon(sets.midcast[spell.skill])
+            matched = true
+        end
 
-    if not matched and spell.action_type == "Magic" then
-        idle()
+        -- Any other spell (trusts?)
+        if not matched then
+            idle()
+        end
     end
 end
 

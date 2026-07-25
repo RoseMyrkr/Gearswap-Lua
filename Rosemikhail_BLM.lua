@@ -17,8 +17,6 @@ Potential enhancements:
 
 - Potentially build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
 
-- Add a max accuracy+TP TP set for use for mercurial pole (funny)
-
 - Casting overrides
 
 - Probably want to rework the death functionality to allow for occult acumen casting - it'll murder my mp, but the point is to get as much TP as possible to regain mp
@@ -26,6 +24,10 @@ Potential enhancements:
 - Barspell stuff maybe?
 
 - Consider a separate Aspir burst set
+
+- Consider midcast enmity toggle instead of tying it only to Mana Wall Stun
+
+- /SAM + Mythic AM3 for very funny Vidohunir->Vidohunir->Retribution or Full Swing->Full Swing->Vidohunir
 ]]
 
 ----------------------------------------------------------------
@@ -48,6 +50,7 @@ match_list = S{"Cure", "Aspir", "Drain", "Regen"}
 elemental_debuffs = S{'Burn','Frost','Choke','Rasp','Shock','Drown'}
 cumulative_spells = S{'Stoneja','Waterja','Aeroja','Firaja','Blizzaja','Thundaja', 'Comet'}
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix"}
+ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")
@@ -134,8 +137,11 @@ function update_lockstyle()
 end
 
 function update_macro_book()
-    -- BLM/SCH macro book
-    send_command("input /macro book 1;input /macro set 1")
+    if player.sub_job == "SCH" then
+        send_command("input /macro book 1;input /macro set 1")
+    elseif player.sub_job == "DNC" then
+        send_command("input /macro book 7;input /macro set 1")
+    end
 end
 
 update_lockstyle()
@@ -161,16 +167,26 @@ function get_sets()
                 main="Wizard's Rod",
                 sub="Ammurapi Shield",
             },
-            engaged_sets = {}, -- Use the default
-            overrides = {},
+            engaged_sets = {"Idle", "TP", "/DNC TP"},
+            overrides = {
+                ["/DNC TP"] = {
+                    main="Wizard's Rod",
+                    sub="Maxentius",
+                },
+            },
         },
         ["Maxentius"] = {
             gear = {
-                 main="Maxentius",
+                main="Maxentius",
                 sub="Ammurapi Shield",
             },
-            engaged_sets = {}, -- Use the default
-            overrides = {},
+            engaged_sets = {"Idle", "TP", "/DNC TP"},
+            overrides = {
+                ["/DNC TP"] = {
+                    main="Maxentius",
+                    sub="Wizard's Rod",
+                },
+            },
         },
         ["Daybreak"] = {
             gear = {
@@ -199,7 +215,7 @@ function get_sets()
         -- Soon Malevolence and Ammurapi Shield
     }
 
-    -- Consider Malignance pole for later.
+    -- Consider Malignance pole for later. Though, I don't know how much I care about that when Mythic AM3 + /SAM exists.
 
     update_engaged_modes(weapon_sets)
     build_info_box()
@@ -258,7 +274,7 @@ function get_sets()
     sets.idle = {}                  -- Leave this empty
     sets.ja = {}                    -- Leave this empty
     sets.ws = {}                    -- Leave this empty
-    sets.engaged = {}                 -- Leave this empty
+    sets.engaged = {}               -- Leave this empty
     sets.buff = {}                  -- Leave this empty
 
     ----------------------------------------------------------------
@@ -317,26 +333,43 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    -- This set is trying its best for accuracy but is suffering; it is a work in progress
-    -- Nyame RP will help a lot, as will stuff like Chirich
-    -- It's not technically BEST but Nyame for DT and evasion is probably best to stick with
-
-    -- Nyame will beat this stuff when augmented path B
-    sets.engaged.TP = { -- 1267 accuracy, -48% DT
+    -- Takes advantage of the AF body bonuses
+    sets.engaged.TP = { -- 1353 accuracy, -0% PDT, -49% DT (-49% PDT, -49% MDT), 25% Haste (25% cap) ~103.66 per WS
         ammo="Amar Cluster",
         head="Null Masque",
-        body=jse.empyrean.body,
+        body=jse.AF.body,
         hands=jse.empyrean.hands,
-        legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet, -- Could instead be Battlecast Gaiters
+        legs=jse.AF.legs,
+        feet=jse.empyrean.feet,
         neck="Null Loop",
-        waist="Null Belt", -- Could instead be Grunfeld
-        left_ear="Odnowa Earring +1",
+        waist="Null Belt",
+        left_ear="Regal Earring",
         right_ear="Cessance Earring",
-        left_ring="Petrov Ring",
-        right_ring="Lehko's Ring",
+        left_ring="Lehko's Ring",
+        right_ring="Defending Ring",
         back="Null Shawl",
     }
+
+    -- Sub Dancer Wiz Rod + Maxentius TP (as a treat)
+    sets.engaged["/DNC TP"] = { -- 1392 accuracy, -0% PDT, -49% DT (-49% PDT, -49% MDT), 25% Haste (25% cap) ~73 per WS
+        ammo="Amar Cluster",
+        head="Null Masque",
+        body=jse.AF.body,
+        hands=jse.empyrean.hands,
+        legs="Jhakri Slops +2",
+        feet=jse.empyrean.feet,
+        neck="Null Loop",
+        waist="Null Belt",
+        left_ear="Regal Earring",
+        right_ear="Cessance Earring",
+        left_ring="Lehko's Ring",
+        right_ring="Defending Ring",
+        back="Null Shawl",
+    }
+    
+    -- Aims are Nyame 20B on the legs + gazu bracelets + crep earring + telos earring + laev
+    -- Resimulate this when I get any one of the above items
+    -- The power of AF set bonus!
 
     ----------------------------------------------------------------
     -- PRECAST
@@ -564,14 +597,24 @@ function get_sets()
         neck="Nodens Gorget",                                                                                                       -- +30 Stoneskin
     })
 
-    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {
+    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 91% SIRD
+        ammo="Staunch Tathlum",                                                                                                     -- 10% SIRD
+        head="Agwu's Cap",                                                                                                          -- 10% SIRD
+        body="Ros. Jaseran +1",                                                                                                     -- 25% SIRD
+        hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},                                  -- 11% SIRD
         legs="Shedir Seraweels",                                                                                                    -- +1 Aquaveil
+        neck="Loricate Torque +1",                                                                                                  -- 5% SIRD
+        waist="Rumination Sash",                                                                                                    -- 10% SIRD
+        left_ring="Freke Ring",                                                                                                     -- 10% SIRD
+        right_ring="Evanescence Ring",                                                                                              -- 5% SIRD
+        back="Fi Follet Cape +1",                                                                                                   -- 5% SIRD
     })
 
     ----------------------------------------------------------------
     -- HEALING MIDCAST
     ----------------------------------------------------------------
 
+    -- TODO: Check out the BLM guide for a set that doesn't require a weapon swap for curing.
     sets.midcast["Cure"] = {                                                                 -- Overall +50%
         main="Daybreak",                                                                                                            -- 30%
         sub="Genmei Shield",
@@ -953,7 +996,7 @@ function precast(spell)
     end
 
     -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or spell.type == "Scholar" then
+    if spell.type == "JobAbility" or ignored_spell_types:contains(spell.type) then
         -- Stay in idle.
         return
     end
@@ -966,106 +1009,107 @@ function precast(spell)
 end
 
 -- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
--- Could probably just early return instead =w=
 function midcast(spell)
-    -- Mana Wall
-    if buffactive["Mana Wall"] and spell.action_type == "Magic"  then
-        if spell.name == "Stun" then
-            equip_set_and_weapon(sets.midcast.stun_enmity)
-        else
-            equip_set_and_weapon(sets.ja["Mana Wall"])
+    if spell.action_type == "Magic" then
+        -- Mana Wall
+        if buffactive["Mana Wall"] then
+            if spell.name == "Stun" then
+                equip_set_and_weapon(sets.midcast.stun_enmity)
+            else
+                equip_set_and_weapon(sets.ja["Mana Wall"])
+            end
+            return
         end
-        return
-    end
 
-    -- Early return Death to avoid overlays
-    if toggle_death == "On" and spell.action_type == "Magic" then
-        if nuking_mode.current == "Burst" then
-            equip_set_and_weapon(sets.midcast.death_burst)
-        else
-            equip_set_and_weapon(sets.midcast.death_free_nuke)
+        -- Early return Death to avoid overlays
+        if toggle_death == "On" then
+            if nuking_mode.current == "Burst" then
+                equip_set_and_weapon(sets.midcast.death_burst)
+            else
+                equip_set_and_weapon(sets.midcast.death_free_nuke)
+            end
+            return
         end
-        return
-    end
 
-    local matched = false
+        local matched = false
 
-    -- If the spell matches one of the match_list spells.
-    -- If I ever have to break up these spells into separate sets, it would be worth breaking this up.
-    for match in match_list:it() do
-        if spell.name:match(match) then
-            equip_set_and_weapon(sets.midcast[match])
+        -- If the spell matches one of the match_list spells.
+        -- If I ever have to break up these spells into separate sets, it would be worth breaking this up.
+        for match in match_list:it() do
+            if spell.name:match(match) then
+                equip_set_and_weapon(sets.midcast[match])
+                matched = true
+                break
+            end
+        end
+
+        -- If we're casting Death even if we're not in the Death mode (why tho)
+        if not matched and spell.name == "Death" then
+            if nuking_mode.current == "Burst" then
+                equip_set_and_weapon(sets.midcast.death_burst)
+            else
+                equip_set_and_weapon(sets.midcast.death_free_nuke)
+            end
+
             matched = true
-            break
-        end
-    end
-
-    -- If we're casting Death even if we're not in the Death mode (why tho)
-    if not matched and spell.name == "Death" then
-        if nuking_mode.current == "Burst" then
-            equip_set_and_weapon(sets.midcast.death_burst)
-        else
-            equip_set_and_weapon(sets.midcast.death_free_nuke)
         end
 
-        matched = true
-    end
-
-    -- If the spell name EXACTLY matches.
-    if not matched and sets.midcast[spell.name] then
-        equip_set_and_weapon(sets.midcast[spell.name])
-        matched = true
-    end
-
-    -- If the spell name is contained within elemental debuffs
-    if not matched and elemental_debuffs:contains(spell.name) then
-        equip_set_and_weapon(sets.midcast.elemental_debuff)
-        matched = true
-    end
-
-    -- If the spell skill is Elemental Magic
-    if not matched and spell.skill == "Elemental Magic" then
-        equip_set_and_weapon(sets.midcast[nuking_mode.current])
-        matched = true
-
-        -- Empyrean leg overlay
-        if cumulative_spells:contains(spell.name) then
-            equip({legs=jse.empyrean.legs})
+        -- If the spell name EXACTLY matches.
+        if not matched and sets.midcast[spell.name] then
+            equip_set_and_weapon(sets.midcast[spell.name])
+            matched = true
         end
 
-        -- AF body overlay
-        if toggle_af_body == "On" and spell.skill == "Elemental Magic" then
-            equip({body=jse.AF.body})
+        -- If the spell name is contained within elemental debuffs
+        if not matched and elemental_debuffs:contains(spell.name) then
+            equip_set_and_weapon(sets.midcast.elemental_debuff)
+            matched = true
         end
-    end
 
-    -- If the spell skill has a relevant set
-    if not matched and sets.midcast[spell.skill] then
-        equip_set_and_weapon(sets.midcast[spell.skill])
-        matched = true
-    end
+        -- If the spell skill is Elemental Magic
+        if not matched and spell.skill == "Elemental Magic" then
+            equip_set_and_weapon(sets.midcast[nuking_mode.current])
+            matched = true
 
-    -- Any other spell (trusts?)
-    if not matched and spell.action_type == "Magic" then
-        idle()
-    end
+            -- Empyrean leg overlay
+            if cumulative_spells:contains(spell.name) then
+                equip({legs=jse.empyrean.legs})
+            end
 
-    -- Weather and day overlays
-    -- Technically I could also do Divine for Banish but also lmao
-    local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
-    local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
-    local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
-    local element_matches_weather = world.weather_element == spell.element
-
-    if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
-        -- Helixes get weather bonuses 100% of the time.
-        if not helix_spells:contains(spell.name) then
-            equip({waist="Hachirin-no-Obi"})
+            -- AF body overlay
+            if toggle_af_body == "On" and spell.skill == "Elemental Magic" then
+                equip({body=jse.AF.body})
+            end
         end
-    end
 
-    if is_cure and element_matches_weather then
-        equip({main="Chatoyant Staff", sub="Khonsu",})
+        -- If the spell skill has a relevant set
+        if not matched and sets.midcast[spell.skill] then
+            equip_set_and_weapon(sets.midcast[spell.skill])
+            matched = true
+        end
+
+        -- Any other spell (trusts?)
+        if not matched then
+            idle()
+        end
+
+        -- Weather and day overlays
+        -- Technically I could also do Divine for Banish but also lmao
+        local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
+        local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
+        local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
+        local element_matches_weather = world.weather_element == spell.element
+
+        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
+            -- Helixes get weather bonuses 100% of the time.
+            if not helix_spells:contains(spell.name) then
+                equip({waist="Hachirin-no-Obi"})
+            end
+        end
+
+        if is_cure and element_matches_weather then
+            equip({main="Chatoyant Staff", sub="Khonsu",})
+        end
     end
 end
 
@@ -1214,3 +1258,23 @@ function file_unload(file_name)
     send_command("unbind f11")
     send_command("unbind f12")
 end
+
+-- high end triboulex potentially burst set
+-- new_set = {
+--     main="Marin Staff +1",
+--     sub="Enki Strap",
+--     ranged="Empty",
+--     ammo="Ghastly Tathlum +1",
+--     head="Ea Hat +1",
+--     neck="Src. Stole +2",
+--     ear1="Malignance Earring",
+--     ear2="Regal Earring",
+--     body="Wicce Coat +3",
+--     hands="Agwu's Gages", <-----
+--     ring1="Freke Ring",
+--     ring2="Metamor. Ring +1",
+--     back="Taranus's Cape",
+--     waist="Hachirin-no-obi",
+--     legs="Wicce Chausses +3",
+--     feet="Wicce Sabots +3",
+-- }

@@ -23,6 +23,7 @@ Potential enhancements:
     - Would need a check, as there's a bit of gear that can boost this
 
 - Consider a separate Aspir burst set
+- Consider having two Aquaveil sets, one for myself that uses SIRD, another that maximises duration for AOE casting (check if accession is on)
 ]]
 
 ----------------------------------------------------------------
@@ -41,6 +42,7 @@ toggle_tp = "Off" -- This will disable weapon swapping as well
 -- Midcast helpers
 match_list = S{"Cure", "Curaga", "Aspir", "Drain"}
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix", "Geohelix II", "Hydrohelix II", "Anemohelix II", "Pyrohelix II", "Cryohelix II", "Ionohelix II", "Noctohelix II", "Luminohelix II",}
+ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")
@@ -245,20 +247,19 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    -- Nyame RP will help a lot, as will stuff like Chirich
-    sets.melee.TP = {
+    sets.melee.TP = { -- 1312 accuracy, -0% PDT, -2 MDT -53% DT (-53% PDT, -55% MDT), 25% Haste (25% cap) ~57 per WS
         ammo="Amar Cluster",
         head="Null Masque",
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet, -- Could instead be Battlecast Gaiters
+        feet=jse.empyrean.feet,
         neck="Null Loop",
-        waist="Null Belt", -- Could instead be Grunfeld
+        waist="Null Belt",
         left_ear="Cessance Earring",
         right_ear="Odnowa Earring +1",
-        left_ring="Petrov Ring",
-        right_ring="Lehko's Ring",
+        left_ring="Lehko's Ring",
+        right_ring="Defending Ring",
         back="Null Shawl",
     }
 
@@ -539,8 +540,17 @@ function get_sets()
         neck="Nodens Gorget",                                                                                                       -- +30 Stoneskin
     })
 
-    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {
+    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 91% SIRD
+        ammo="Staunch Tathlum",                                                                                                     -- 10% SIRD
+        head="Agwu's Cap",                                                                                                          -- 10% SIRD
+        body="Ros. Jaseran +1",                                                                                                     -- 25% SIRD
+        hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},                                  -- 11% SIRD
         legs="Shedir Seraweels",                                                                                                    -- +1 Aquaveil
+        neck="Loricate Torque +1",                                                                                                  -- 5% SIRD
+        waist="Rumination Sash",                                                                                                    -- 10% SIRD
+        left_ring="Freke Ring",                                                                                                     -- 10% SIRD
+        right_ring="Evanescence Ring",                                                                                              -- 5% SIRD
+        back="Fi Follet Cape +1",                                                                                                   -- 5% SIRD
     })
 
     sets.midcast.barspell = set_combine(sets.midcast["Enhancing Magic"], {
@@ -881,7 +891,7 @@ function precast(spell)
     end
 
     -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or spell.type == "Scholar" then
+    if spell.type == "JobAbility" or ignored_spell_types:contains(spell.type) then
         -- Stay in idle.
         return
     end
@@ -897,145 +907,147 @@ local immanence = false
 
 -- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
-    local matched = false
+    if spell.action_type == "Magic" then
+        local matched = false
 
-    -- To avoid any delay in knowing that Immanence is up (I am going to STRANGLE FFXI - it won't immediately register that the buff is active, so I can't check that)
-    -- Redunancy check just in case
-    if spell.name == "Immanence" then
-        immanence = true
-        return
-    end
-
-    -- If Immanence is up and the spell is either a helix or elemental magic
-    -- No need to use "matched", as I don't want to overlay this at all
-    if immanence and spell.skill == "Elemental Magic" then
-        equip_set_and_weapon(sets.midcast.immanence)
-        return
-    end
-
-    -- If the spell matches one of the match_list spells.
-    for match in match_list:it() do
-        if spell.name:match(match) then
-            equip_set_and_weapon(sets.midcast[match])
-            matched = true
-            break
-        end
-    end
-
-    -- If the spell is any Regen spell (not including it in the above due to it being reliant on mode)
-    if not matched and spell.name:match("Regen") then
-        equip_set_and_weapon(sets.midcast.regen[regen_mode.current])
-        matched = true
-    end
-
-    -- If the spell name EXACTLY matches
-    if not matched and sets.midcast[spell.name] then
-        equip_set_and_weapon(sets.midcast[spell.name])
-        matched = true
-    end
-
-    -- If the spell is a barspell
-    if not matched and spell.name:match("^Bar") then
-        equip_set_and_weapon(sets.midcast.barspell)
-        matched = true
-    end
-
-    -- If the spell is a helix
-    if not matched and helix_spells:contains(spell.name) then
-
-        --if nuking_mode.current == "Free Nuke" or nuking_mode.current == "Burst" then
-        if sets.midcast.helix[nuking_mode.current] then
-            equip_set_and_weapon(sets.midcast.helix[nuking_mode.current])
-        else
-            -- Fallback in case we don't have a set for a helix in the given mode
-            equip_set_and_weapon(sets.midcast.helix["Free Nuke"])
+        -- To avoid any delay in knowing that Immanence is up (I am going to STRANGLE FFXI - it won't immediately register that the buff is active, so I can't check that)
+        -- Redunancy check just in case
+        if spell.name == "Immanence" then
+            immanence = true
+            return
         end
 
-        if spell.name:match("Noctohelix") then
-            equip({head="Pixie Hairpin +1", left_ring="Archon Ring",})
+        -- If Immanence is up and the spell is either a helix or elemental magic
+        -- No need to use "matched", as I don't want to overlay this at all
+        if immanence and spell.skill == "Elemental Magic" then
+            equip_set_and_weapon(sets.midcast.immanence)
+            return
         end
 
-        if spell.name:match("Anemohelix") then
-            equip({main={ name="Marin Staff +1", augments={'Path: A',}}, sub="Enki Strap",})
+        -- If the spell matches one of the match_list spells.
+        for match in match_list:it() do
+            if spell.name:match(match) then
+                equip_set_and_weapon(sets.midcast[match])
+                matched = true
+                break
+            end
         end
 
-        if spell.name:match("Luminohelix") then
-            equip({main="Daybreak", sub="Ammurapi Shield",})
-        end
-
-        -- If I happen to get the item.
-        -- Argute Stole +2 may be better.
-        --if spell.name:match("Geohelix") then
-        --    equip({neck="Quanpur Necklace"})
-        --end
-
-        matched = true
-    end
-
-    -- If the spell skill is Elemental Magic
-    if not matched and spell.skill == "Elemental Magic" then
-        equip_set_and_weapon(sets.midcast[nuking_mode.current])
-        matched = true
-    end
-
-    if not matched and spell.skill == "Enfeebling Magic" then
-        if buffactive["Dark Arts"] or buffactive["Addendum: Black"] then
-            equip(sets.midcast.enfeebling_dark)
-            -- Specifically because AF body gives a buff if you're in Dark Arts
-            matched = true
-        else
-            equip(sets.midcast.enfeebling_light)
-            -- Also covering the instance that you're not in any art at all for some reason
+        -- If the spell is any Regen spell (not including it in the above due to it being reliant on mode)
+        if not matched and spell.name:match("Regen") then
+            equip_set_and_weapon(sets.midcast.regen[regen_mode.current])
             matched = true
         end
 
-        if spell.name == "Dispelga" then
-            equip({main="Daybreak", sub="Ammurapi Shield",})
+        -- If the spell name EXACTLY matches
+        if not matched and sets.midcast[spell.name] then
+            equip_set_and_weapon(sets.midcast[spell.name])
+            matched = true
         end
-    end
 
-    -- If the spell skill has a relevant set
-    if not matched and sets.midcast[spell.skill] then
-        equip_set_and_weapon(sets.midcast[spell.skill])
-        matched = true
-    end
-
-    -- Any other spell (trusts?)
-    if not matched and spell.action_type == "Magic" then
-        idle()
-    end
-
-    -- Weather and day overlays
-    -- Technically I could also do Divine for Banish but also lmao
-    local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
-    local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
-    local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
-    local element_matches_weather = world.weather_element == spell.element
-
-    if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
-        -- Helixes get weather bonuses 100% of the time.
-        if not helix_spells:contains(spell.name) then
-            equip({waist="Hachirin-no-Obi"})
+        -- If the spell is a barspell
+        if not matched and spell.name:match("^Bar") then
+            equip_set_and_weapon(sets.midcast.barspell)
+            matched = true
         end
-    end
 
-    if is_cure and element_matches_weather then
-        equip({main="Chatoyant Staff", sub="Khonsu",})
-    end
+        -- If the spell is a helix
+        if not matched and helix_spells:contains(spell.name) then
 
-    -- Ebullience/Rapture overlay. Probably somewhat redundant for Dark atm.
-    if (buffactive["Ebullience"] or buffactive["Rapture"]) and (spell.type == "BlackMagic" or spell.type == "WhiteMagic") then
-        equip({head=jse.empyrean.head})
-    end
+            --if nuking_mode.current == "Free Nuke" or nuking_mode.current == "Burst" then
+            if sets.midcast.helix[nuking_mode.current] then
+                equip_set_and_weapon(sets.midcast.helix[nuking_mode.current])
+            else
+                -- Fallback in case we don't have a set for a helix in the given mode
+                equip_set_and_weapon(sets.midcast.helix["Free Nuke"])
+            end
 
-    -- Perpetuance overlay
-    if buffactive["Perpetuance"] and spell.type == "WhiteMagic" and spell.skill == "Enhancing Magic" then
-        equip({hands=jse.empyrean.hands})
-    end
+            if spell.name:match("Noctohelix") then
+                equip({head="Pixie Hairpin +1", left_ring="Archon Ring",})
+            end
 
-    -- Focalization/Altruism overlay
-    if buffactive["Focalization"] or buffactive["Altruism"] then
-        equip({head=jse.relic.head, waist="Null Belt"})
+            if spell.name:match("Anemohelix") then
+                equip({main={ name="Marin Staff +1", augments={'Path: A',}}, sub="Enki Strap",})
+            end
+
+            if spell.name:match("Luminohelix") then
+                equip({main="Daybreak", sub="Ammurapi Shield",})
+            end
+
+            -- If I happen to get the item.
+            -- Argute Stole +2 may be better.
+            --if spell.name:match("Geohelix") then
+            --    equip({neck="Quanpur Necklace"})
+            --end
+
+            matched = true
+        end
+
+        -- If the spell skill is Elemental Magic
+        if not matched and spell.skill == "Elemental Magic" then
+            equip_set_and_weapon(sets.midcast[nuking_mode.current])
+            matched = true
+        end
+
+        if not matched and spell.skill == "Enfeebling Magic" then
+            if buffactive["Dark Arts"] or buffactive["Addendum: Black"] then
+                equip(sets.midcast.enfeebling_dark)
+                -- Specifically because AF body gives a buff if you're in Dark Arts
+                matched = true
+            else
+                equip(sets.midcast.enfeebling_light)
+                -- Also covering the instance that you're not in any art at all for some reason
+                matched = true
+            end
+
+            if spell.name == "Dispelga" then
+                equip({main="Daybreak", sub="Ammurapi Shield",})
+            end
+        end
+
+        -- If the spell skill has a relevant set
+        if not matched and sets.midcast[spell.skill] then
+            equip_set_and_weapon(sets.midcast[spell.skill])
+            matched = true
+        end
+
+        -- Any other spell (trusts?)
+        if not matched then
+            idle()
+        end
+
+        -- Weather and day overlays
+        -- Technically I could also do Divine for Banish but also lmao
+        local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
+        local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
+        local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
+        local element_matches_weather = world.weather_element == spell.element
+
+        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
+            -- Helixes get weather bonuses 100% of the time.
+            if not helix_spells:contains(spell.name) then
+                equip({waist="Hachirin-no-Obi"})
+            end
+        end
+
+        if is_cure and element_matches_weather then
+            equip({main="Chatoyant Staff", sub="Khonsu",})
+        end
+
+        -- Ebullience/Rapture overlay. Probably somewhat redundant for Dark atm.
+        if (buffactive["Ebullience"] or buffactive["Rapture"]) and (spell.type == "BlackMagic" or spell.type == "WhiteMagic") then
+            equip({head=jse.empyrean.head})
+        end
+
+        -- Perpetuance overlay
+        if buffactive["Perpetuance"] and spell.type == "WhiteMagic" and spell.skill == "Enhancing Magic" then
+            equip({hands=jse.empyrean.hands})
+        end
+
+        -- Focalization/Altruism overlay
+        if buffactive["Focalization"] or buffactive["Altruism"] then
+            equip({head=jse.relic.head, waist="Null Belt"})
+        end
     end
 end
 
