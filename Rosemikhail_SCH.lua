@@ -247,7 +247,7 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    sets.melee.TP = { -- 1312 accuracy, -0% PDT, -2 MDT -53% DT (-53% PDT, -55% MDT), 25% Haste (25% cap) ~57 per WS
+    sets.melee.TP = { -- ~53 per WS
         ammo="Amar Cluster",
         head="Null Masque",
         body=jse.empyrean.body,
@@ -257,7 +257,7 @@ function get_sets()
         neck="Null Loop",
         waist="Null Belt",
         left_ear="Cessance Earring",
-        right_ear="Odnowa Earring +1",
+        right_ear="Crep. Earring",
         left_ring="Lehko's Ring",
         right_ring="Defending Ring",
         back="Null Shawl",
@@ -340,8 +340,8 @@ function get_sets()
         feet="Battlecast Gaiters",
         --neck=,
         waist="Oneiros Rope",
-        left_ear="Steelflash Earring",
-        right_ear="Bladeborn Earring",
+        left_ear="Crep. Earring",
+        right_ear="Cessance Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
         back=jse.capes.occult_acumen,

@@ -25,9 +25,18 @@ Potential enhancements:
 
 - Consider a separate Aspir burst set
 
+- Update enfeebling set
+
 - Consider midcast enmity toggle instead of tying it only to Mana Wall Stun
 
 - /SAM + Mythic AM3 for very funny Vidohunir->Vidohunir->Retribution or Full Swing->Full Swing->Vidohunir
+apparently might be able to replace Retribution with Shattersoul
+
+- Chrysopoeia torque toggle for guaranteeing AM2 (probably keep it on while above 2800 TP?)
+
+- potentially add /whm capability i.e. curaga
+
+- finish upgrading AF+4 for accuracy purposes
 ]]
 
 ----------------------------------------------------------------
@@ -260,8 +269,9 @@ function get_sets()
         occult_acumen={ name="Taranus's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Store TP"+10',}},
         death ={ name="Taranus's Cape", augments={'MP+60','Mag. Acc+20 /Mag. Dmg.+20','MP+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
         wsd={ name="Taranus's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
-        tp={ name="Taranus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+6','"Store TP"+10','Phys. dmg. taken-10%',}}, -- Need 4 more pots of dye for accuracy. Not sure if worth over Null Shawl.
-        --enmity ="", Stun/Enmity: Macc +30, Mdmg +20, Enmity +10
+        tp={ name="Taranus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}}, -- Null shawl exists
+        enmity ={ name="Taranus's Cape", augments={'Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','Enmity+10',}},
+        -- meva cape to swap into idles MP 60 (thread), meva 10 (dye), eva/meva 20 (dust), meva 15 (resin)
     }
 
     ----------------------------------------------------------------
@@ -333,8 +343,8 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    -- Takes advantage of the AF body bonuses
-    sets.engaged.TP = { -- 1353 accuracy, -0% PDT, -49% DT (-49% PDT, -49% MDT), 25% Haste (25% cap) ~103.66 per WS
+    -- Takes advantage of the AF body bonuses (with Marin Staff +1)
+    sets.engaged.TP = { -- ~100 per WS
         ammo="Amar Cluster",
         head="Null Masque",
         body=jse.AF.body,
@@ -344,14 +354,14 @@ function get_sets()
         neck="Null Loop",
         waist="Null Belt",
         left_ear="Regal Earring",
-        right_ear="Cessance Earring",
+        right_ear="Crep. Earring",
         left_ring="Lehko's Ring",
         right_ring="Defending Ring",
         back="Null Shawl",
     }
 
     -- Sub Dancer Wiz Rod + Maxentius TP (as a treat)
-    sets.engaged["/DNC TP"] = { -- 1392 accuracy, -0% PDT, -49% DT (-49% PDT, -49% MDT), 25% Haste (25% cap) ~73 per WS
+    sets.engaged["/DNC TP"] = { -- ~73 per WS
         ammo="Amar Cluster",
         head="Null Masque",
         body=jse.AF.body,
@@ -361,7 +371,7 @@ function get_sets()
         neck="Null Loop",
         waist="Null Belt",
         left_ear="Regal Earring",
-        right_ear="Cessance Earring",
+        right_ear="Crep. Earring",
         left_ring="Lehko's Ring",
         right_ring="Defending Ring",
         back="Null Shawl",
@@ -460,8 +470,8 @@ function get_sets()
         feet="Battlecast Gaiters",
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist="Oneiros Rope",
-        left_ear="Steelflash Earring",
-        right_ear="Bladeborn Earring",
+        left_ear="Cessance Earring",
+        right_ear="Crep. Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
         back=jse.capes.occult_acumen,
@@ -689,29 +699,58 @@ function get_sets()
         body=jse.relic.body,
     }
 
-    sets.ja["Mana Wall"] = {                                                                                                            -- OVERALL -57% DT, -10% PDT
-        ammo="Staunch Tathlum",                                                                                                         -- -2% DT
-        head=jse.empyrean.head,                                                                                                         -- -10% DT
+    sets.ja["Mana Wall"] = {                                                                                            -- OVERALL -57% DT, -10% PDT
+        ammo="Staunch Tathlum",                                                                                         -- -2% DT
+        head=jse.empyrean.head,                                                                                         -- -10% DT
         body=jse.AF.body,
-        hands=jse.empyrean.hands,                                                                                                       -- -12% DT
-        legs=jse.empyrean.legs,                                                                                                         -- 
-        feet=jse.empyrean.feet,                                                                                                         -- -10% DT
+        hands=jse.empyrean.hands,                                                                                       -- -12% DT
+        legs=jse.empyrean.legs,
+        feet=jse.empyrean.feet,                                                                                         -- -10% DT
         neck="Unmoving Collar +1",
-        waist="Plat. Mog. Belt",                                                                                                        -- -3% DT
-        left_ear="Malignance Earring",                                                                                                  -- Soon replaced but I won't say no to more damage during mana wall
-        right_ear="Ethereal Earring",                                                                                                   -- Damage to MP
-        left_ring="Murky Ring",                                                                                                         -- -10% DT
-        right_ring="Defending Ring",                                                                                                    -- -10% DT
-        back=jse.capes.idle_fc,                                                                                                         -- -10% PDT
+        waist="Plat. Mog. Belt",                                                                                        -- -3% DT
+        left_ear="Malignance Earring",                                                                                  -- Soon replaced but I won't say no to more damage during mana wall
+        right_ear="Ethereal Earring",                                                                                   -- Damage to MP
+        left_ring="Murky Ring",                                                                                         -- -10% DT
+        right_ring="Defending Ring",                                                                                    -- -10% DT
+        back=jse.capes.idle_fc,                                                                                         -- -10% PDT
     }
 
-    sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {  -- OVERALL +23 enmity
-        neck="Unmoving Collar +1",                                  -- +10 enmity
-        left_ear="Cryptic Earring",                                 -- +4 enmity 
-        right_ear="Friomisi Earring",                               -- +2 enmity
-        left_ring="Vengeful Ring",                                  -- +3 enmity TODO: Replace with Eihwaz
-        right_ring="Petrov Ring",                                   -- +4 enmity TODO: Replace with Supershear
+    sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {                                                      -- OVERALL +35 enmity, 27% Haste (cap 25%), 24 FC (12% recast)
+        ammo="Staunch Tathlum",                                                                                         -- -2% DT
+        head="Null Masque",                                                                                             -- -10% DT, 10% Haste
+        --body=jse.empyrean.body,                                                                                       -- 3% Haste (More macc than Agwu's Robe)
+        body="Agwu's Robe",                                                                                             -- 3% Haste, 8 FC
+        hands=jse.empyrean.hands,                                                                                       -- -12% DT, 3% Haste
+        legs=jse.empyrean.legs,                                                                                         -- 5% Haste
+        --feet=jse.empyrean.feet,                                                                                       -- -10% DT, -16 enmity, 3% Haste
+        feet={ name="Merlinic Crackows", augments={'"Fast Cast"+6','CHR+2','Mag. Acc.+8','"Mag.Atk.Bns."+11',}},        -- 3% Haste, 11% FC
+        neck="Unmoving Collar +1",                                                                                      -- +10 enmity
+        waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},                                                     -- 5% FC
+        left_ear="Cryptic Earring",                                                                                     -- +4 enmity 
+        right_ear="Friomisi Earring",                                                                                   -- +2 enmity
+        left_ring="Eihwaz Ring",                                                                                        -- +5 enmity
+        right_ring="Petrov Ring",                                                                                       -- +4 enmity TODO: Replace with Supershear
+        back=jse.capes.enmity                                                                                           -- +10 enmity
     })
+
+    -- sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {  -- OVERALL +35 enmity -35 enmity = 0, 17% Haste (cap 25%)
+    --     ammo="Staunch Tathlum",                                     -- -2% DT
+    --     head=jse.empyrean.head,                                     -- -10 enmity, 6% Haste
+    --     body=jse.AF.body,                                           -- -9 enmity, 3% Haste
+    --     hands=jse.empyrean.hands,                                   -- -12% DT, 3% Haste
+    --     legs=jse.empyrean.legs,                                     -- 5% Haste, 3% Haste
+    --     feet=jse.empyrean.feet,                                     -- -10% DT, -16 enmity
+    --     neck="Unmoving Collar +1",                                  -- +10 enmity
+    --     waist="Plat. Mog. Belt",                                    -- -3% DT
+    --     left_ear="Cryptic Earring",                                 -- +4 enmity 
+    --     right_ear="Friomisi Earring",                               -- +2 enmity
+    --     left_ring="Eihwaz Ring",                                    -- +5 enmity
+    --     right_ring="Petrov Ring",                                   -- +4 enmity TODO: Replace with Supershear
+    --     back=jse.capes.enmity                                       -- +10 enmity
+    -- })
+
+    -- Worth noting that the BLM guide for some reason uses Wicce pieces in the enmity set, but that has huge enmity decreases
+    -- I guess it's for Mana Wall but that seems silly!!!!!! May replace with other high accuracy haste pieces
 
     ----------------------------------------------------------------
     -- WEAPONSKILLS - STAFF

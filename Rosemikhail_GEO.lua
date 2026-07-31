@@ -16,9 +16,14 @@ Potential enhancements:
 - Something that checks the direction of the player in relation to the enemy to tell them what buff they'd have against it
 - Might be worth having a Gishdubar check on Refresh as it can give bonus refresh on self
 
-- Update this to work with WHM stuff potentially + set up GEO WHM macros
+- Update this to work with WHM stuff + set up GEO WHM macros
+    - Update healing etc sets; they are not complete
 
 - Consider a separate Aspir burst set
+
+- Update barspell logic to care about the fact that elemental and status barspells have different resistance calculations
+    - i.e. status ones have a base potency, so I could just cast in conserve or idle
+    - Steal from WHM
 ]]
 
 ----------------------------------------------------------------
@@ -34,7 +39,7 @@ toggle_speed = "Off"
 toggle_tp = "Off" -- This will disable weapon swapping as well
 
 -- Midcast helpers
-match_list  = S{"Cure", "Aspir", "Drain", "Regen"}
+match_list  = S{"Cure", "Curaga", "Aspir", "Drain", "Regen"}
 ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
@@ -263,7 +268,7 @@ function get_sets()
         neck="Null Loop",
         waist="Null Belt", -- Could instead be Grunfeld
         left_ear="Cessance Earring",
-        right_ear="Odnowa Earring +1",
+        right_ear="Crep. Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
         back="Null Shawl",
@@ -510,6 +515,52 @@ function get_sets()
         right_ring="Stikini Ring",
         back=jse.capes.enfeebling_healing_fc,
     }
+
+    sets.midcast["Curaga"] = sets.midcast["Cure"]
+
+    -- This will apply to any non-cure healing magic, like debuff cleanses, unless they have their own set
+    -- TODO: REVIEW THIS SET AS ITS JUST THERE FOR SCH/WHM SUB
+    sets.midcast["Healing Magic"] = set_combine(sets.idle["Normal"], { -- -59% DT, +34% Conserve MP, 33% SIRD, Haste +6%, FC +8%
+        main="Daybreak",                                                                                                            -- Filler
+        sub="Culminus",                                                                                                             -- 10% SIRD 
+        ammo="Staunch Tathlum",                                                                                                     -- -2% DT, 10% SIRD 
+        --head=jse.empyrean.head,                                                                                                     -- -10% DT, Haste +6%
+        --body=jse.empyrean.body,                                                                                                     -- -13% DT, -28 Enmity
+        hands="Nyame Gauntlets",                                                                                                    -- 7% DT
+        --legs=jse.empyrean.legs,                                                                                                     -- 11% DT
+        --feet=jse.empyrean.feet,                                                                                                     -- MEVA I guess
+        neck="Loricate Torque +1",                                                                                                  -- -6% DT, 5% SIRD 
+        waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},                                                                 -- +15% Conserve MP
+        left_ear="Mendi. Earring",                                                                                                  -- +2% Conserve MP, +5% Cure Potency
+        right_ear="Etiolation Earring",                                                                                             -- Resist silence
+        left_ring="Murky Ring",                                                                                                     -- -10% DT, 3% SIRD
+        right_ring="Mephitas's Ring +1",                                                                                            -- -3-7 Enmity TODO: Needs augment for conserve MP
+        back="Fi Follet Cape +1",                                                                                                   -- +5% Conserve MP, 5% SIRD
+    })
+
+    -- Technically this is "enhancing magic", for some godforsaken reason, so we'll just copy Healing Magic for Erase
+    sets.midcast["Erase"] = sets.midcast["Healing Magic"]
+
+    -- TODO: More healing skill - can get more Vanya
+    -- TODO: REVIEW THIS SET AS ITS JUST THERE FOR SCH/WHM SUB
+    sets.midcast["Cursna"] = set_combine(sets.idle["Normal"], {
+        main={ name="Gada", augments={'Indi. eff. dur. +10','Mag. Acc.+13','"Mag.Atk.Bns."+13','DMG:+10',}},                        -- Healing skill
+        sub="Genmei Shield",
+        --ammo=,
+        head={ name="Vanya Hood", augments={'MP+50','"Cure" potency +7%','Enmity-6',}}, -- Replace with healing skill
+        --body=jse.relic.body,
+        --hands=,
+        --legs=jse.AF.legs,                                                                                                           -- Healing skill
+        feet={ name="Vanya Clogs", augments={'MP+50','"Cure" potency +7%','Enmity-6',}}, -- Replace with healing skill              -- Cursna +5%
+        neck="Debilis Medallion",                                                                                                   -- Cursna +15%
+        --waist="Gishdubar Sash",                                                                                                     -- Cursna Received +10%
+        waist="Bishop's Sash",                                                                                                      -- Healing skill
+        --left_ear=,
+        right_ear="Meili Earring",
+        left_ring="Stikini Ring",
+        right_ring="Haoma's Ring",                                                                                                  -- Cursna +15%
+        back="Oretan. Cape +1",                                                                                                     -- Cursna +5%
+    })
 
     ----------------------------------------------------------------
     -- OTHER MIDCAST
