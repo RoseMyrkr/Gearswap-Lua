@@ -747,12 +747,12 @@ function idle()
             equip_set_and_weapon(sets.idle.luopan)
         else
             equip_set_and_weapon(sets.idle[idle_mode.current])
-        end
-    end
 
-    -- Speed overlay
-    if toggle_speed == "On" then
-        equip({feet=jse.AF.feet})
+            -- Speed overlay
+            if toggle_speed == "On" then
+                equip({feet=jse.AF.feet})
+            end
+        end
     end
 end
 

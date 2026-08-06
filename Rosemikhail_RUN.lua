@@ -624,11 +624,11 @@ function idle()
         end
     else
         equip_set_and_weapon(sets.idle[idle_mode.current])
-    end
 
-    -- Speed overlay
-    if toggle_speed == "On" then
-        equip({right_ring="Shneddick Ring",})
+        -- Speed overlay
+        if toggle_speed == "On" then
+            equip({right_ring="Shneddick Ring",})
+        end
     end
 
     -- Runefencer buffs

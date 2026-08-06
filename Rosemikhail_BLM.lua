@@ -957,11 +957,11 @@ function idle()
         if buffactive["Sublimation: Activated"] then
             equip(sets.buff.sublimation)
         end
-    end
 
-    -- Speed overlay
-    if toggle_speed == "On" then
-        equip({right_ring="Shneddick Ring",})
+        -- Speed overlay
+        if toggle_speed == "On" then
+            equip({right_ring="Shneddick Ring",})
+        end
     end
 end
 
