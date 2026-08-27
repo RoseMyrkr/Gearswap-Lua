@@ -24,6 +24,10 @@ Potential enhancements:
 
 - Consider a separate Aspir burst set
 - Consider having two Aquaveil sets, one for myself that uses SIRD, another that maximises duration for AOE casting (check if accession is on)
+
+From Reddit:
+-"If a related day or/and weather is active, Helices will receive the day/weather damage bonus or penalty 100% of the time even without an Elemental Obi. "
+- Your lua probably already accounts for this, but if you made it yourself, make sure you use O.Sash or Skrymir or w/e instead of an Obi for these. 
 ]]
 
 ----------------------------------------------------------------
@@ -105,7 +109,7 @@ build_info_box()
 
 -- Lockstyle
 function update_lockstyle()
-    send_command("wait 5;input /lockstyleset 9") -- SCH Empy
+    send_command("wait 5;input /lockstyleset 22") -- Ebur
 end
 
 function update_macro_book()
@@ -338,10 +342,10 @@ function get_sets()
         --hands=
         legs= "Perdition Slops",
         feet="Battlecast Gaiters",
-        --neck=,
+        --neck=
         waist="Oneiros Rope",
-        left_ear="Crep. Earring",
-        right_ear="Cessance Earring",
+        left_ear="Cessance Earring",
+        right_ear="Crep. Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
         back=jse.capes.occult_acumen,
@@ -774,8 +778,8 @@ function get_sets()
         feet={ name="Psycloth Boots", augments={'MP+50','INT+7','"Conserve MP"+6',}},
         neck="Dualism Collar +1",
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
-        left_ear="Moonshade Earring",
-        right_ear="Nehalennia Earring",
+        left_ear="Nehalennia Earring",
+        right_ear="Moonshade Earring",
         left_ring="Mephitas's Ring",
         right_ring="Mephitas's Ring +1",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},

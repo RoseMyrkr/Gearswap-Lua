@@ -37,6 +37,10 @@ apparently might be able to replace Retribution with Shattersoul
 - potentially add /whm capability i.e. curaga
 
 - finish upgrading AF+4 for accuracy purposes
+
+- Bursting set specifically for Triboulex
+
+-- Add agwu feel to aquaveil whenever it's maxed
 ]]
 
 ----------------------------------------------------------------
@@ -45,7 +49,7 @@ apparently might be able to replace Retribution with Shattersoul
 
 -- Modes and toggles
 nuking_mode = M{"Free Nuke", "Burst", "Occult Acumen"}
-weapon_mode = M{"Marin Staff", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"}
+weapon_mode = M{"Laevateinn", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"} --"Marin Staff",
 engaged_mode = M{}
 idle_mode = M{"Normal", "Refresh"}
 
@@ -150,6 +154,8 @@ function update_macro_book()
         send_command("input /macro book 1;input /macro set 1")
     elseif player.sub_job == "DNC" then
         send_command("input /macro book 7;input /macro set 1")
+    elseif player.sub_job == "SAM" then
+        send_command("input /macro book 9;input /macro set 1")
     end
 end
 
@@ -163,12 +169,20 @@ function get_sets()
     ----------------------------------------------------------------
     
     weapon_sets = {
-        ["Marin Staff"] = {
+        -- ["Marin Staff"] = {
+        --     gear = {
+        --         main={ name="Marin Staff +1", augments={'Path: A',}},
+        --         sub="Enki Strap",
+        --     },
+        --     engaged_sets = {}, -- Use the default
+        --     overrides = {},
+        -- },
+        ["Laevateinn"] = {
             gear = {
-                main={ name="Marin Staff +1", augments={'Path: A',}},
+                main={ name="Laevateinn", augments={'Path: A',}},
                 sub="Enki Strap",
             },
-            engaged_sets = {}, -- Use the default
+            engaged_sets = {"Idle", "TP", "Low Acc TP"},
             overrides = {},
         },
         ["Wizard's Rod"] = {
@@ -244,7 +258,7 @@ function get_sets()
         body="Spae. Coat +4",
         hands="Spae. Gloves +4",
         legs="Spae. Tonban +4",
-        feet="Spae. Sabots +2",
+        feet="Spae. Sabots +2", -- Upgrade these for accuracy reasons
     }
 
     jse.relic = {
@@ -344,20 +358,38 @@ function get_sets()
     ----------------------------------------------------------------
     
     -- Takes advantage of the AF body bonuses (with Marin Staff +1)
+    -- Re-sim these sets after Laev/Gazu Bracelets/Telos Earring
+
     sets.engaged.TP = { -- ~100 per WS
         ammo="Amar Cluster",
         head="Null Masque",
         body=jse.AF.body,
         hands=jse.empyrean.hands,
         legs=jse.AF.legs,
-        feet=jse.empyrean.feet,
+        feet=jse.empyrean.feet, -- Replace with +4 AF feet (maybe, I'll lose DT)
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Regal Earring",
-        right_ear="Crep. Earring",
+        left_ear="Crep. Earring",
+        right_ear="Regal Earring", -- Replace with Telos Earring
         left_ring="Lehko's Ring",
         right_ring="Defending Ring",
         back="Null Shawl",
+    }
+
+    sets.engaged["Low Acc TP"] = { -- ~67 per WS
+        ammo="Amar Cluster",
+        head="Ischkur Turban",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Jhakri Slops +2",
+        feet="Battlecast Gaiters",
+        neck="Loricate Torque +1",
+        waist="Olseni Belt",
+        left_ear="Cessance Earring",
+        right_ear="Alabaster Earring",
+        left_ring="Lehko's Ring",
+        right_ring="Petrov Ring",
+        back=jse.capes.tp,
     }
 
     -- Sub Dancer Wiz Rod + Maxentius TP (as a treat)
@@ -367,11 +399,11 @@ function get_sets()
         body=jse.AF.body,
         hands=jse.empyrean.hands,
         legs="Jhakri Slops +2",
-        feet=jse.empyrean.feet,
+        feet=jse.empyrean.feet, -- Replace with +4 AF feet
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Regal Earring",
-        right_ear="Crep. Earring",
+        left_ear="Crep. Earring",
+        right_ear="Regal Earring", -- Replace with Telos Earring
         left_ring="Lehko's Ring",
         right_ring="Defending Ring",
         back="Null Shawl",
@@ -427,6 +459,8 @@ function get_sets()
 
     -- Assumptions are in general that I will have SCH weather + COR rolls. For bursting, I assume I have GEO bubbles.
 
+    -- I could technically do more damage per individual nuke using some r25 Agwu's, but then I lose out on the Conserve MP + its associated damage boost from the Empyrean gear.
+    -- I could use Empyrean body too, but I value infinite MP more.
     sets.midcast["Free Nuke"] = {
         ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
         head=jse.empyrean.head,
@@ -445,19 +479,35 @@ function get_sets()
 
     -- I can come up with a set that uses Awgu's hands and feet for almost identical damage at R15. It's not really worth until R20/R25.
 
-    sets.midcast["Burst"] = {                                                                                           -- 37% MB, 12% MB II
+    -- sets.midcast["Burst"] = {                                                                                           -- 37% MB, 12% MB II
+    --     ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
+    --     head="Ea Hat +1",                                                                                               -- 7% MB 7% MB II
+    --     body=jse.empyrean.body,                                                                                         -- 5% MB II
+    --     hands=jse.empyrean.hands,                                                                                       -- Replace with r25 Agwu's
+    --     legs=jse.empyrean.legs,                                                                                         -- 15% MB
+    --     feet=jse.empyrean.feet,                                                                                         -- Replace with r25 Agwu's, might even be replaceable at r23 now
+    --     neck={ name="Src. Stole +2", augments={'Path: A',}},
+    --     waist={ name="Acuity Belt +1", augments={'Path: A',}},
+    --     left_ear="Malignance Earring",
+    --     right_ear="Regal Earring",
+    --     left_ring="Freke Ring",
+    --     right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},                                                   -- Replace with Mujin Band
+    --     back=jse.capes.nuking                                                                                           -- 5% MB
+    -- }
+
+    sets.midcast["Burst"] = {                                                                                           -- 51% MB (40% cap), 22% MB II
         ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
-        head="Ea Hat +1",                                                                                               -- 7% MB 7% MB II
+        head="Ea Hat +1",                                                                                               -- 7% MB, 7% MB II
         body=jse.empyrean.body,                                                                                         -- 5% MB II
-        hands=jse.empyrean.hands,
+        hands="Agwu's Gages",                                                                                           -- 8% MB, 5% MB II (R25)
         legs=jse.empyrean.legs,                                                                                         -- 15% MB
-        feet=jse.empyrean.feet,
+        feet="Agwu's Pigaches",                                                                                         -- 6% MB
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
         right_ear="Regal Earring",
         left_ring="Freke Ring",
-        right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+        right_ring="Mujin Band",                                                                                        -- 5% MB II
         back=jse.capes.nuking                                                                                           -- 5% MB
     }
 
@@ -607,12 +657,13 @@ function get_sets()
         neck="Nodens Gorget",                                                                                                       -- +30 Stoneskin
     })
 
-    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 91% SIRD
+    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 96% SIRD
         ammo="Staunch Tathlum",                                                                                                     -- 10% SIRD
         head="Agwu's Cap",                                                                                                          -- 10% SIRD
         body="Ros. Jaseran +1",                                                                                                     -- 25% SIRD
         hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},                                  -- 11% SIRD
         legs="Shedir Seraweels",                                                                                                    -- +1 Aquaveil
+        feet="Agwu's Pigaches",                                                                                                     -- 5% SIRD
         neck="Loricate Torque +1",                                                                                                  -- 5% SIRD
         waist="Rumination Sash",                                                                                                    -- 10% SIRD
         left_ring="Freke Ring",                                                                                                     -- 10% SIRD
@@ -773,24 +824,24 @@ function get_sets()
     }
 
     sets.ws["Rock Crusher"] = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Oshasha's Treatise",
         head=jse.empyrean.head,
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Saevus Pendant +1",
-        waist="Eschan Stone",
-        left_ear="Malignance Earring",
-        right_ear="Friomisi Earring",
-        left_ring="Freke Ring",
-        right_ring="Defending Ring",
-        back=jse.capes.wsd,
+        waist="Eschan Stone", -- Maybe Orpheus's Sash?
+        left_ear="Moonshade Earring",
+        right_ear="Malignance Earring",
+        left_ring="Murky Ring",
+        right_ring="Freke Ring",
+        back=jse.capes.wsd, -- Want STR +MACC/MDMG -10PDT WSD cape
     }
 
     sets.ws["Starburst"] = sets.ws["Rock Crusher"]
 
-    sets.ws["Vidohunir"] = {
+    sets.ws["Vidohunir"] = { -- Potentially resim now that I have agwus
         ammo="Ghastly Tathlum +1",
         head="Pixie Hairpin +1",
         body=jse.empyrean.body,
@@ -798,11 +849,27 @@ function get_sets()
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck={ name="Src. Stole +2", augments={'Path: A',}},
-        waist="Acuity Belt +1",
+        waist="Orpheus's Sash",
         left_ear="Malignance Earring",
         right_ear="Regal Earring",
         left_ring="Murky Ring",
         right_ring="Archon Ring",
+        back=jse.capes.wsd,
+    }
+
+    sets.ws["Retribution"] = {
+        ammo="Oshasha's Treatise",
+        head=jse.empyrean.head,
+        body=jse.AF.body,
+        hands=jse.AF.hands,
+        legs=jse.AF.legs,
+        feet=jse.empyrean.feet,
+        neck="Null Loop",
+        waist="Null Belt",
+        left_ear="Odnowa Earring +1",
+        right_ear="Regal Earring",
+        left_ring="Murky Ring",
+        right_ring="Rufescent Ring",
         back=jse.capes.wsd,
     }
 
@@ -826,70 +893,70 @@ function get_sets()
     -- WEAPONSKILLS - CLUB
     ----------------------------------------------------------------
 
-    sets.ws["Shining Strike"] = {
-        ammo="Ghastly Tathlum +1",
+    sets.ws["Shining Strike"] = {  -- Use Daybreak
+        ammo="Oshasha's Treatise",
         head=jse.empyrean.head,
         body=jse.empyrean.body,
-        hands="Jhakri Cuffs +2",
+        hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
-        neck="Null Loop",
-        waist="Eschan Stone",
-        left_ear="Malignance Earring",
-        right_ear="Friomisi Earring",
+        neck="Saevus Pendant +1",
+        waist="Eschan Stone", -- Maybe Orpheus's Sash?
+        left_ear="Moonshade Earring",
+        right_ear="Malignance Earring",
         left_ring="Murky Ring",
-        right_ring="Defending Ring",
+        right_ring="Freke Ring",
         back=jse.capes.wsd,
     }
     
-    sets.ws["Black Halo"] = {
-        ammo="Amar Cluster",
-        head=jse.empyrean.head,
+    sets.ws["Black Halo"] = {  -- Use Maxentius
+        ammo="Oshasha's Treatise",
+        head="Null Masque",
         body=jse.AF.body,
-        hands=jse.empyrean.hands,
+        hands=jse.AF.hands,
         legs=jse.AF.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Malignance Earring",
-        right_ear="Cessance Earring",
+        left_ear="Moonshade Earring",
+        right_ear="Regal Earring",
         left_ring="Murky Ring",
-        right_ring="Rufescent Ring",
+        right_ring="Defending Ring",
         back="Null Shawl",
     }
 
-    sets.ws["Realmrazer"] = {
+    sets.ws["Realmrazer"] = {  -- Use Maxentius
         ammo="Amar Cluster",
         head=jse.empyrean.head,
         body=jse.AF.body,
-        hands=jse.empyrean.hands,
-        legs=jse.empyrean.legs,
+        hands=jse.AF.hands,
+        legs=jse.AF.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
         waist="Null Belt",
         left_ear="Moonshade Earring",
-        right_ear="Cessance Earring",
+        right_ear="Regal Earring",
         left_ring="Murky Ring",
-        right_ring="Rufescent Ring",
+        right_ring="Defending Ring",
         back="Null Shawl",
     }
     ----------------------------------------------------------------
     -- WEAPONSKILLS - OTHER
     ----------------------------------------------------------------
 
-    sets.ws["Aeolian Edge"] = {
-        ammo="Ghastly Tathlum +1",
+    sets.ws["Aeolian Edge"] = { -- Use Malevolence
+        ammo="Oshasha's Treatise",
         head=jse.empyrean.head,
         body=jse.empyrean.body,
-        hands="Jhakri Cuffs +2",
+        hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Saevus Pendant +1",
-        waist="Acuity Belt +1",
-        left_ear="Malignance Earring",
-        right_ear="Regal Earring",
+        waist="Eschan Stone",
+        left_ear="Moonshade Earring",
+        right_ear="Malignance Earring",
         left_ring="Murky Ring",
-        right_ring="Defending Ring",
+        right_ring="Freke Ring",
         back=jse.capes.wsd,
     }
 
@@ -1297,23 +1364,3 @@ function file_unload(file_name)
     send_command("unbind f11")
     send_command("unbind f12")
 end
-
--- high end triboulex potentially burst set
--- new_set = {
---     main="Marin Staff +1",
---     sub="Enki Strap",
---     ranged="Empty",
---     ammo="Ghastly Tathlum +1",
---     head="Ea Hat +1",
---     neck="Src. Stole +2",
---     ear1="Malignance Earring",
---     ear2="Regal Earring",
---     body="Wicce Coat +3",
---     hands="Agwu's Gages", <-----
---     ring1="Freke Ring",
---     ring2="Metamor. Ring +1",
---     back="Taranus's Cape",
---     waist="Hachirin-no-obi",
---     legs="Wicce Chausses +3",
---     feet="Wicce Sabots +3",
--- }

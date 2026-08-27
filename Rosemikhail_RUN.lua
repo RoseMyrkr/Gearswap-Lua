@@ -44,6 +44,9 @@ Need to check for enmity spells and apply an enmity set
 -- May need a force phalanx set toggle, rather than having it as an idle
 
 -- augment aettir
+
+-- alber strap for enmity set potentially
+-- potentially fulltime utu grip or khonsu for DT + accuracy
 ]]
 
 ----------------------------------------------------------------
@@ -190,6 +193,11 @@ function get_sets()
         legs="Runeist Trousers +3",         -- Vaguely useful in niche circumstances, yolo
         feet="Runeist Bottes +3",           -- I have these for lockstyle more than anything, thank you AF+3 voucher
     }
+
+    --San dOria Feet
+    --Bastok Hands
+    --Windurst Head
+    --Jeuno Legs 
 
     jse.relic = {
         head="Futhark Bandeau +4",          -- Phalanx!!!, PDT
