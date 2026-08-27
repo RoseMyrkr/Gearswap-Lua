@@ -6,6 +6,8 @@ include("Modes.lua")
 ----------------------------------------------------------------
 
 --[[
+-- Missing sub dancer TP set/functionality for the moment and that is okay:)
+
 Kinda just do this as and when:
 - Notification in chat when I'm slept or doomed
 - Update barspell logic to care about the fact that elemental and status barspells have different resistance calculations
@@ -36,12 +38,13 @@ From Reddit:
 
 -- Modes and toggles
 nuking_mode = M{"Free Nuke", "Burst", "Occult Acumen", "Vagary Burst"}
+weapon_mode = M{"Marin Staff", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"}
+engaged_mode = M{}
 idle_mode = M{"Normal", "Refresh"}
-weapon_mode = M{"Marin Staff", "Wizard's Rod", "Maxentius", "Malevolence", "Opashoro"}
 regen_mode = M{"Balanced", "Potency", "Duration"}
 
 toggle_speed = "Off"
-toggle_tp = "Off" -- This will disable weapon swapping as well
+weapon_lock = "Off"
 
 -- Midcast helpers
 match_list = S{"Cure", "Curaga", "Aspir", "Drain"}
@@ -55,18 +58,19 @@ send_command("bind f3 gs c nukemode occultacumen")
 send_command("bind f4 gs c nukemode vagaryburst")
 
 send_command("bind f5 gs c weaponmode")
-send_command("bind f6 gs c idlemode")
-send_command("bind f7 gs c toggletp")
-send_command("bind f8 gs c regenmode")
+send_command("bind f6 gs c engagedmode")
+send_command("bind f7 gs c idlemode")
+send_command("bind f8 gs c lockweapon")
 
 send_command("bind f9 gs c togglespeed")
+send_command("bind f10 gs c regenmode")
 send_command("bind f12 gs c toggletextbox")
 
 -- Help Text
 add_to_chat(123, "F1-F4: Switch nuking mode")
-add_to_chat(123, "F5: Switch weapon set, F6: Cycle idle mode")
-add_to_chat(123, "F7: Toggle TP lock, F8: Switch regen mode")
-add_to_chat(123, "F9: Toggle speed gear")
+add_to_chat(123, "F5: Cycle weapon mode, F6: Cycle engaged mode")
+add_to_chat(123, "F7: Cycle idle mode, F8: Lock weapon")
+add_to_chat(123, "F9: Toggle speed gear, F10: Switch regen mode")
 add_to_chat(123, "F12: Hide information text box")
 
 ----------------------------------------------------------------
@@ -89,19 +93,37 @@ function build_info_box()
     end
 
     local output = string.format(
-        "[F1-F4] Nuking Mode: %s [F5] Wep: %s [F6] Idle: %s [F7] TP Lock: %s [F8] Regen Mode: %s [F9] Speed: %s",
+        "[F1-F4] Nuking Mode: %s [F5] Weapon: %s [F6] Engaged: %s [F7] Idle: %s [F8] Weapon Lock: %s [F9] Speed: %s [F10] Regen Mode: %s",
         nuking_mode.current,
         weapon_mode.current,
+        engaged_mode.current,
         idle_mode.current,
-        format_toggle(toggle_tp),
-        regen_mode.current,
-        format_toggle(toggle_speed)
+        format_toggle(weapon_lock),
+        format_toggle(toggle_speed),
+        regen_mode.current
     )
 
     text_box:text(output)
 end
 
-build_info_box()
+-- We wait until inside get_sets() to build the info box initially, as that is where some weapon set logic is being handled.
+
+function update_engaged_modes(weapon_sets)
+    -- Get the sets (i.e. Idle, TP, etc.) from the currently active weapon mode
+    local weapon = weapon_sets[weapon_mode.current]
+    local weapon_engaged_sets = {}
+    
+    -- If the weapon has engaged sets associated with it, then use those.
+    -- Otherwise, insert our own and assume that we want a non-engaged and a default TP toggle.
+    if #weapon.engaged_sets > 0 then
+        weapon_engaged_sets = weapon.engaged_sets
+    else
+        weapon_engaged_sets = {"Idle", "TP"}
+    end
+
+    add_to_chat(123, string.format("The current weapon has %s engaged sets associated with it.", #weapon.engaged_sets))
+    engaged_mode = M{table.unpack(weapon_engaged_sets)}
+end
 
 ----------------------------------------------------------------
 -- MISC INIT/COMMANDS
@@ -125,6 +147,70 @@ update_macro_book()
 
 -- Individual spells should be added in the following way: sets.precast["Impact"]. This goes for precast and midcast.
 function get_sets()
+    ----------------------------------------------------------------
+    -- WEAPON SETS
+    ----------------------------------------------------------------
+
+    weapon_sets = {
+        ["Marin Staff"] = {
+            gear = {
+                main={ name="Marin Staff +1", augments={'Path: A',}},
+                sub="Enki Strap",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {},
+        },
+        ["Wizard's Rod"] = {
+            gear = {
+                main="Wizard's Rod",
+                sub="Ammurapi Shield",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {
+            },
+        },
+        ["Maxentius"] = {
+            gear = {
+                main="Maxentius",
+                sub="Ammurapi Shield",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {
+            },
+        },
+        ["Daybreak"] = {
+            gear = {
+                 main="Daybreak",
+                sub="Ammurapi Shield",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {},
+        },
+        ["Opashoro"] = {
+            gear = {
+                main="Opashoro",
+                sub="Enki Strap",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {},
+        },
+        ["Khatvanga"] = {
+            gear = {
+                main="Khatvanga",
+                sub="Enki Strap",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {},
+        },
+       
+    }
+
+    -- Soon Malevolence and Ammurapi Shield
+    -- Consider Malignance pole for later.
+
+    update_engaged_modes(weapon_sets)
+    build_info_box()
+
     ----------------------------------------------------------------
     -- GEAR PLACEHOLDERS
     ----------------------------------------------------------------
@@ -170,35 +256,6 @@ function get_sets()
     }
 
     ----------------------------------------------------------------
-    -- WEAPON SETS
-    ----------------------------------------------------------------
-    
-    weapon_sets = {
-        ["Marin Staff"] = {
-            main={ name="Marin Staff +1", augments={'Path: A',}},
-            sub="Enki Strap",
-        },
-        ["Wizard's Rod"] = {
-            main="Wizard's Rod",
-            sub="Ammurapi Shield",
-        },
-        ["Maxentius"] = {
-            main="Maxentius",
-            sub="Ammurapi Shield",
-        },
-        ["Malevolence"] = {
-            main="Malevolence",
-            sub="Ammurapi Shield",
-        },
-        ["Opashoro"] = {
-            main="Opashoro",
-             sub="Enki Strap",
-        },
-    }
-
-    -- Consider Malignance pole for later.
-
-    ----------------------------------------------------------------
     -- GEAR SETS
     ----------------------------------------------------------------
     
@@ -208,7 +265,7 @@ function get_sets()
     sets.idle = {}                  -- Leave this empty
     sets.ja = {}                    -- Leave this empty
     sets.ws = {}                    -- Leave this empty
-    sets.melee = {}                 -- Leave this empty
+    sets.engaged = {}               -- Leave this empty
     sets.buff = {}                  -- Leave this empty
 
     ----------------------------------------------------------------
@@ -251,7 +308,7 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    sets.melee.TP = { -- ~53 per WS
+    sets.engaged.TP = { -- ~53 per WS
         ammo="Amar Cluster",
         head="Null Masque",
         body=jse.empyrean.body,
@@ -704,6 +761,7 @@ function get_sets()
     ----------------------------------------------------------------
     
     -- SIM THESE
+    -- Consider Orpheus's Sash?
     
     sets.ws.default = {
         ammo="Amar Cluster",
@@ -800,20 +858,40 @@ end
 -- HELPER FUNCTIONS 
 ----------------------------------------------------------------
 
+function equip_current_weapon()
+    local current_weapon = weapon_sets[weapon_mode.current]
+    local engaged_override = current_weapon.overrides[engaged_mode.current]
+
+    -- First check if the weapon has any engaged_mode specific permutation
+    -- Otherwise, we'll just use the default gear
+    if engaged_override then
+        equip(engaged_override)
+    else
+        equip(current_weapon.gear)
+    end
+end
+
 function equip_set_and_weapon(set)
     equip(set)
 
     -- This will only add the current weapon set to sets that have neither a main weapon or a sub (like a shield)
     if not set.main and not set.sub then
-        equip(weapon_sets[weapon_mode.current])
-        return
+        equip_current_weapon()
     end
 end
 
 function idle()
-    -- Choose between TP set and regular idle
-    if toggle_tp == "On" and player.status == "Engaged" then
-        equip_set_and_weapon(sets.melee.TP)
+    -- Choose between engaged set and regular idle
+     if player.status == "Engaged" then
+        if engaged_mode.current == "Idle" then
+            equip_set_and_weapon(sets.idle[idle_mode.current])
+
+            if buffactive["Sublimation: Activated"] then
+                equip(sets.buff.sublimation)
+            end
+        else
+            equip_set_and_weapon(sets.engaged[engaged_mode.current])
+        end
     else
         equip_set_and_weapon(sets.idle[idle_mode.current])
 
@@ -1105,27 +1183,56 @@ function self_command(command)
     local main_command = commandArgs[1]
     local sub_command = commandArgs[2]
 
+    -- Not the most ideal code especially with consideration towards occult acumen, probably
     if main_command == "nukemode" then
         if sub_command == "burst" then
+            if nuking_mode.current == "Occult Acumen" then
+                weapon_mode:set(last_weapon_mode)
+            end
             nuking_mode:set("Burst")
+            --idle()
+
         elseif sub_command == "freenuke" then
+            if nuking_mode.current == "Occult Acumen" then
+                weapon_mode:set(last_weapon_mode)
+            end
             nuking_mode:set("Free Nuke")
+            --idle()
+
         elseif sub_command == "occultacumen" then
+            if nuking_mode.current ~= "Occult Acumen" then
+                last_weapon_mode = weapon_mode.current
+            end
+            weapon_mode:set("Khatvanga")
             nuking_mode:set("Occult Acumen")
+            --idle()
+
         elseif sub_command == "vagaryburst" then
+            if nuking_mode.current == "Occult Acumen" then
+                weapon_mode:set(last_weapon_mode)
+            end
             nuking_mode:set("Vagary Burst")
+            --idle()
+
         else
             nuking_mode:cycle()
+            --idle()
         end
-        add_to_chat(123, string.format("Nuking mode set to %s", nuking_mode.current))
 
-    elseif main_command == "regenmode" then
-        regen_mode:cycle()
-        add_to_chat(123, string.format("Regen mode set to %s", regen_mode.current))
+        idle()
+
+        add_to_chat(123, string.format("Nuking mode set to %s", nuking_mode.current))
 
     elseif main_command == "weaponmode" then
         weapon_mode:cycle()
+        last_weapon_mode = weapon_mode.current -- So Occult Acumen doesn't swap us back to an old mode if we switch during it for some reason
         add_to_chat(123, string.format("Weapon mode set to %s", weapon_mode.current))
+        update_engaged_modes(weapon_sets)
+        idle()
+
+    elseif main_command == "engagedmode" then
+        engaged_mode:cycle()
+        add_to_chat(123, string.format("Engaged mode set to %s", engaged_mode.current))
         idle()
 
     elseif main_command == "idlemode" then
@@ -1133,13 +1240,13 @@ function self_command(command)
         add_to_chat(123, string.format("Idle mode set to %s", idle_mode.current))
         idle()
 
-    elseif main_command == "toggletp" then
-        toggle_tp = handle_toggle(toggle_tp, "TP")
+    elseif main_command == "lockweapon" then
+        weapon_lock = handle_toggle(weapon_lock, "Weapon Lock")
 
         idle()
 
-        if toggle_tp == "On" then
-            equip(weapon_sets[weapon_mode.current])
+        if weapon_lock == "On" then
+            equip_current_weapon()
             send_command("gs disable main;gs disable sub;gs disable range")
         else
             send_command("gs enable main;gs enable sub;gs enable range")
@@ -1148,6 +1255,10 @@ function self_command(command)
     elseif main_command == "togglespeed" then
         toggle_speed = handle_toggle(toggle_speed, "Speed")
         idle()
+
+    elseif main_command == "regenmode" then
+        regen_mode:cycle()
+        add_to_chat(123, string.format("Regen mode set to %s", regen_mode.current))
 
     elseif main_command == "toggletextbox" then
         text_box:visible(not text_box:visible())
@@ -1171,6 +1282,6 @@ function file_unload(file_name)
     send_command("unbind f8")
 
     send_command("unbind f9")
-
+    send_command("unbind f10")
     send_command("unbind f12")
 end
