@@ -915,6 +915,8 @@ end
 ----------------------------------------------------------------
 -- GEARSWAP FUNCTIONS
 ----------------------------------------------------------------
+local immanence = false
+
 function precast(spell)
 
     if toggle_speed == "On" then
@@ -984,8 +986,6 @@ function precast(spell)
         return
     end
 end
-
-local immanence = false
 
 -- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
@@ -1151,9 +1151,9 @@ function buff_change(name, gain, buff_details)
 
     -- Part of the "why is ping like this" solution for minimal delays in checking for Immanence
     -- I'm happy to leave this in buff_change, as Immanence wearing is less time sensitive than it being gained + this accounts for any interrupted nukes/helixes
-    if name == "Immanence" and gain == true then
-        add_to_chat(200, "Immanence buff is active.")
-    end
+    -- if name == "Immanence" and gain == true then
+    --     add_to_chat(200, "Immanence buff is active.")
+    -- end
     
     if name == "Immanence" and gain == false then
         immanence = false
