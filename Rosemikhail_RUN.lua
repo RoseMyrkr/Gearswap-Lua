@@ -47,6 +47,17 @@ Need to check for enmity spells and apply an enmity set
 
 -- alber strap for enmity set potentially
 -- potentially fulltime utu grip or khonsu for DT + accuracy
+
+
+-- I have a choice probably - do I lump in enmity JAs into a list and use a generic enmity set? Or do I keep them separate
+    - Probably keep them separate so I can use the various JA improvement bits of gear
+-- Okay so where does that leave spells like flash and foil? Right now they're in a list. Maybe it's better than they are, because then I can select between full enmity, safe enmity or SIRD
+
+
+-- Precast needs to ignore stuff like runes
+
+
+ -- Maybe I should instead do ALLOWED spell types for precast aye? Instead of ignored spell types lmao. Realistically this needs to only be JAs. Remember that they need to survive into midcast.
 ]]
 
 ----------------------------------------------------------------
@@ -54,8 +65,8 @@ Need to check for enmity spells and apply an enmity set
 ----------------------------------------------------------------
 
 -- Modes and toggles
-weapon_mode = M{"Aettir"} -- Update these
-engaged_mode = M{"Physical", "Parrying", "Magical", "TP"}
+weapon_mode = M{"Aettir", "Naegling", "Kaja Chopper", "Kaja Axe"} -- Update these
+engaged_mode = M{"Skilling", "Physical", "Parrying", "Magical", "TP"}
 idle_mode = M{"Normal", "Phalanx"}
 
 toggle_speed = "Off"
@@ -63,8 +74,8 @@ weapon_lock = "Off"
 
 -- Midcast helpers
 match_list = S{"Cure", "Regen"}
-ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
-enmity_spells = S{"Biden Blast"}
+ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar", "Rune", "Ward"}
+enmity_spells = S{"Flash"}
 
 -- Bindings
 send_command("bind f5 gs c weaponmode")
@@ -157,9 +168,9 @@ function get_sets()
         ["Aettir"] = {
             gear = {
                 main="Aettir",
-                sub="Refined Grip +1", -- -3% DT
+                sub="Khonsu", -- Potentially refined grip later
             },
-            engaged_sets = {"Physical", "Parrying", "Magical", "TP"},
+            engaged_sets = {"Skilling", "Physical", "Parrying", "Magical", "TP"},
             overrides = {
                 -- ["Magical"] = {
                 --     main="Aettir",
@@ -170,6 +181,30 @@ function get_sets()
                 --     sub="Utu Grip",
                 -- },
             },
+        },
+        ["Naegling"] = {
+            gear = {
+                main="Naegling",
+                sub=empty,
+            },
+            engaged_sets = {"TP"},
+            overrides = {},
+        },
+        ["Kaja Chopper"] = {
+            gear = {
+                main="Kaja Chopper",
+                sub="Khonsu",
+            },
+            engaged_sets = {"Skilling", "TP"},
+            overrides = {},
+        },
+        ["Kaja Axe"] = {
+            gear = {
+                main="Kaja Axe",
+                sub=empty,
+            },
+            engaged_sets = {"Skilling", "TP"},
+            overrides = {},
         },
     }
 
@@ -292,6 +327,7 @@ function get_sets()
         right_ring="",
         back="",
     }
+
     sets.engaged["Parrying"] = {
         range="",
         ammo="",
@@ -308,6 +344,7 @@ function get_sets()
         right_ring="",
         back="",
     }
+
     sets.engaged["Magical"] = {
         range="",
         ammo="",
@@ -327,20 +364,38 @@ function get_sets()
 
     -- I don't expect that I'll be using this much
     sets.engaged["TP"] = {
-        range="",
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+        range=empty,
+        ammo="Amar Cluster",
+        head="Null Masque",
+        body="Adamantite Armor",
+        hands="Nyame Gauntlets",    -- -7% DT
+        legs="Nyame Flanchard",     -- -8% DT
+        feet="Nyame Sollerets",     -- -7% DT
+        neck="Null Loop",
+        waist="Null Belt",
+        left_ear="Crep. Earring",
+        right_ear="Regal Earring", -- Replace with Telos Earring
+        left_ring="Lehko's Ring",
+        right_ring="Defending Ring",
+        back="Null Shawl",
+    }
+
+    --Temporary set
+    sets.engaged["Skilling"] = {
+        range=empty,
+        ammo="Staunch Tathlum",
+        head="Guide Beret",
+        body=jse.relic.body,
+        hands=jse.AF.hands,
+        legs="Temachtiani Pants",
+        feet="Temachtiani Boots",
+        neck="Elite Royal Collar",
+        waist="Olseni Belt",
+        left_ear="Alabaster Earring",
+        right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}},
+        left_ring="Lehko's Ring",
+        right_ring="Jubilee Ring",
+        back="Reiki Cloak",
     }
 
     -- Not sure if I'll bother having separate max DPS and hybrid TP sets. Maybe just do hybrid?
@@ -363,20 +418,20 @@ function get_sets()
     -- Normal enmity vs safe enmity for fights that have encumbrance
 
     sets.midcast.enmity = {
-        range="",
+        range=empty,
         ammo="",
         head="",
-        body="",
-        hands="",
-        legs="",
+        body="Emet Harness +1",
+        hands=jse.relic.hands,
+        legs=jse.empyrean.legs,
         feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+        neck="Unmoving Collar +1",
+        waist="Rumination Sash",
+        left_ear="Friomisi Earring",
+        right_ear="Cryptic Earring",
+        left_ring="Eihwaz Ring",
+        right_ring="Petrov Ring",
+        back="Reiki Cloak",
 
         -- Will this actually be midcast or precast? JAs and spells are different, after all.
     }
@@ -468,13 +523,11 @@ function get_sets()
 
     -- It appears that you still want the enmity set combined with whatever JAs might be used for that
 
-    sets.ja["Vallation"] = {
-        -- I unno
-    }
+    sets.ja["Valiance"] = set_combine(sets.midcast.enmity, { -- It's totally possible that I should just make the set from scratch but we'll see!
+        body = jse.AF.body,
+    })
 
-    sets.ja["Valliance"] = {
-        -- I unno
-    }
+    sets.ja["Vallation"] = sets.ja["Valiance"]
 
     sets.ja["Battuta"] = {
         -- I unno
@@ -514,20 +567,20 @@ function get_sets()
     -- WEAPONSKILLS 
     ----------------------------------------------------------------
 
-    sets.ws.default = {
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+    sets.ws.default = { -- Obviously needs to be updated
+        ammo="Oshasha's Treatise",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs=jse.empyrean.feet,
+        feet="Nyame Sollerets",
+        neck="Rep. Plat. Medal",
+        waist="Grunfeld Rope",
+        left_ear="Ethereal Earring",
+        right_ear="Cessance Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Rajas Ring",
+        back="Alabaster Mantle",
     }
 
     sets.ws["Dimidiation"] = {
@@ -662,27 +715,40 @@ function precast(spell)
     end
     ]]
 
-    -- Somewhat redundant, but leftover from BLM's other paths
-    local function equip_if_ja_match(spell_name)
-        if sets.ja[spell_name] then
-            equip_set_and_weapon(sets.ja[spell_name])
-            return true
+    add_to_chat(123, string.format("Hello, I am %s, and I love being a %s. My action type is %s!", spell.name, spell.type, spell.action_type))
+
+    -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
+        -- If the weapon skill name matches.
+        if sets.ws[spell.name] then
+            equip_set_and_weapon(sets.ws[spell.name])
+
+            add_to_chat(123, string.format("I found a matching WS set!", spell.name))
+        else
+             -- Unhandled Weapon Skills
+            equip_set_and_weapon(sets.ws.default)
+
+            add_to_chat(123, string.format("Uh oh, I'm an unhandled WS!", spell.name))
         end
-        return false
-    end
-
-    -- If the job ability name matches.
-    if equip_if_ja_match(spell.name) then
-        return
-    end
-
-    -- If the weapon skill name matches.
-    if sets.ws[spell.name] then
-        equip_set_and_weapon(sets.ws[spell.name])
 
         -- Hachirin-no-Obi overlay.
         if S{world.weather_element, world.day_element}:contains(spell.element) and spell.element ~= "None" and spell.name ~= "Myrkr" then
             equip({waist="Hachirin-no-Obi"})
+
+            add_to_chat(123, "OMG the weather matches lets swap the Obi in!")
+        end
+
+        return
+    end
+
+    -- Check every other kind of ability
+    if spell.action_type == "Ability" then
+        if sets.ja[spell.name] then
+            equip_set_and_weapon(sets.ja[spell.name])
+
+            add_to_chat(123, string.format("I found a matching JA set!", spell.name))
+        else
+            add_to_chat(123, string.format("Uh oh, I'm an unhandled ability!", spell.name))
         end
 
         return
@@ -693,23 +759,15 @@ function precast(spell)
         if sets.precast[spell.name] then
             -- If the spell name matches.
             equip_set_and_weapon(sets.precast[spell.name])
+
+            add_to_chat(123, string.format("I fucking love magic man. I'm %s!", spell.name))
         else
             -- General purpose
             equip_set_and_weapon(sets.precast.fast_cast)
+
+            add_to_chat(123, string.format("I fucking love magic man. I am not handled but I'm %s!", spell.name))
         end
 
-        return
-    end
-
-    -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or ignored_spell_types:contains(spell.type) then
-        -- Stay in idle.
-        return
-    end
-
-    -- Unhandled Weapon Skills
-    if spell.action_type == "Ability" then
-        equip_set_and_weapon(sets.ws.default)
         return
     end
 end
@@ -751,6 +809,11 @@ function midcast(spell)
         -- Missing elemental
 
         -- Missing enfeebling
+
+        -- Enmity, maybe reorder this if I need to
+        if not matched and enmity_spells:contains(spell.name) then
+            equip_set_and_weapon(sets.midcast.enmity)
+        end
 
         -- If the spell skill has a relevant set
         if not matched and sets.midcast[spell.skill] then
