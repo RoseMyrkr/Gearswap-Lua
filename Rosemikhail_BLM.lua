@@ -29,11 +29,6 @@ Potential enhancements:
 
 - Consider midcast enmity toggle instead of tying it only to Mana Wall Stun
 
-- /SAM + Mythic AM3 for very funny Vidohunir->Vidohunir->Retribution or Full Swing->Full Swing->Vidohunir
-apparently might be able to replace Retribution with Shattersoul
-
-- Chrysopoeia torque toggle for guaranteeing AM2 (probably keep it on while above 2800 TP?)
-
 - potentially add /whm capability i.e. curaga
 
 - finish upgrading AF+4 for accuracy purposes
@@ -53,6 +48,7 @@ weapon_mode = M{"Laevateinn", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro
 engaged_mode = M{}
 idle_mode = M{"Normal", "Refresh"}
 
+eat_tp = "Off"
 toggle_speed = "Off"
 toggle_af_body = "Off"
 toggle_death = "Off"
@@ -69,6 +65,7 @@ ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2
 send_command("bind f1 gs c nukemode freenuke")
 send_command("bind f2 gs c nukemode burst")
 send_command("bind f3 gs c nukemode occultacumen")
+send_command("bind f4 gs c toggleeattp")
 
 send_command("bind f5 gs c weaponmode")
 send_command("bind f6 gs c engagedmode")
@@ -81,7 +78,7 @@ send_command("bind f11 gs c toggledeath")
 send_command("bind f12 gs c toggletextbox")
 
 -- Help Text
-add_to_chat(123, "F1-F3: Cycle nuking mode")
+add_to_chat(123, "F1-F3: Cycle nuking mode", "F4: Eat TP")
 add_to_chat(123, "F5: Cycle weapon mode, F6: Cycle engaged mode")
 add_to_chat(123, "F7: Cycle idle mode, F8: Lock weapon")
 add_to_chat(123, "F9: Toggle speed gear, F10: Toggle AF body")
@@ -107,8 +104,9 @@ function build_info_box()
     end
 
     local output = string.format(
-        "[F1-F3] Nuking Mode: %s [F5] Weapon: %s [F6] Engaged: %s [F7] Idle: %s [F8] Weapon Lock: %s [F9] Speed: %s [F10] AF Body: %s [F11] Death: %s",
+        "[F1-F3] Nuking Mode: %s [F4] Eat TP: %s [F5] Weapon: %s [F6] Engaged: %s [F7] Idle: %s [F8] Weapon Lock: %s [F9] Speed: %s [F10] AF Body: %s [F11] Death: %s",
         nuking_mode.current,
+        format_toggle(eat_tp),
         weapon_mode.current,
         engaged_mode.current,
         idle_mode.current,
@@ -235,9 +233,10 @@ function get_sets()
             engaged_sets = {}, -- Use the default
             overrides = {},
         },
-        -- Soon Malevolence and Ammurapi Shield
+        
     }
 
+    -- Soon Malevolence and Ammurapi Shield
     -- Consider Malignance pole for later. Though, I don't know how much I care about that when Mythic AM3 + /SAM exists.
 
     update_engaged_modes(weapon_sets)
@@ -514,8 +513,8 @@ function get_sets()
     sets.midcast["Occult Acumen"] = set_combine(sets.midcast["Free Nuke"], {
         ammo="Seraphic Ampulla",
         head="Mallquis Chapeau +2",
-        --body=
-        --hands=
+        body={ name="Merlinic Jubbah", augments={'"Occult Acumen"+11','INT+7','Mag. Acc.+15','"Mag.Atk.Bns."+15',}},
+        hands={ name="Merlinic Dastanas", augments={'Mag. Acc.+19','"Occult Acumen"+11','MND+5',}},
         legs= "Perdition Slops",
         feet="Battlecast Gaiters",
         neck={ name="Src. Stole +2", augments={'Path: A',}},
@@ -1030,6 +1029,11 @@ function idle()
             equip({right_ring="Shneddick Ring",})
         end
     end
+
+    -- Eat TP so that we can use AM2
+    if eat_tp == "On" then 
+        equip({neck="Chrysopoeia Torque",})
+    end
 end
 
 function handle_toggle(toggle, label)
@@ -1206,7 +1210,7 @@ function midcast(spell)
         local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
         local element_matches_weather = world.weather_element == spell.element
 
-        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
+        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" and nuking_mode.current ~= "Occult Acumen" then
             -- Helixes get weather bonuses 100% of the time.
             if not helix_spells:contains(spell.name) then
                 equip({waist="Hachirin-no-Obi"})
@@ -1298,6 +1302,10 @@ function self_command(command)
 
         add_to_chat(123, string.format("Nuking mode set to %s", nuking_mode.current))
 
+    elseif main_command == "toggleeattp" then
+        eat_tp = handle_toggle(eat_tp, "Eat TP")
+        idle()
+
     elseif main_command == "weaponmode" then
         weapon_mode:cycle()
         last_weapon_mode = weapon_mode.current -- So Occult Acumen doesn't swap us back to an old mode if we switch during it for some reason
@@ -1353,6 +1361,7 @@ function file_unload(file_name)
     send_command("unbind f1")
     send_command("unbind f2")
     send_command("unbind f3")
+    send_command("unbind f4")
     
     send_command("unbind f5")
     send_command("unbind f6")

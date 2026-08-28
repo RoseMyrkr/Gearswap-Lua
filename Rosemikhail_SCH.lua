@@ -1105,7 +1105,7 @@ function midcast(spell)
         local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
         local element_matches_weather = world.weather_element == spell.element
 
-        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
+        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" and nuking_mode.current ~= "Occult Acumen" then
             -- Helixes get weather bonuses 100% of the time.
             if not helix_spells:contains(spell.name) then
                 equip({waist="Hachirin-no-Obi"})
