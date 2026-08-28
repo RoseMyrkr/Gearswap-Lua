@@ -549,27 +549,28 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    -- Somewhat redundant, but leftover from BLM's other paths
-    local function equip_if_ja_match(spell_name)
-        if sets.ja[spell_name] then
-            equip_set_and_weapon(sets.ja[spell_name])
-            return true
+    -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
+        -- If the weapon skill name matches.
+        if sets.ws[spell.name] then
+            equip_set_and_weapon(sets.ws[spell.name])
+        else
+             -- Unhandled Weapon Skills
+            equip_set_and_weapon(sets.ws.default)
         end
-        return false
-    end
 
-    -- If the job ability name matches.
-    if equip_if_ja_match(spell.name) then
+        -- Hachirin-no-Obi overlay.
+        if S{world.weather_element, world.day_element}:contains(spell.element) and spell.element ~= "None" and spell.name ~= "Myrkr" then
+            equip({waist="Hachirin-no-Obi"})
+        end
+
         return
     end
 
-    -- If the weapon skill name matches.
-    if sets.ws[spell.name] then
-        equip_set_and_weapon(sets.ws[spell.name])
-
-        -- Hachirin-no-Obi overlay. Do not apply this to Myrkr.
-        if S{world.weather_element, world.day_element}:contains(spell.element) and spell.element ~= "None" and spell.name ~= "Myrkr" then
-            equip({waist="Hachirin-no-Obi"})
+    -- Check every other kind of ability
+    if spell.action_type == "Ability" then
+        if sets.ja[spell.name] then
+            equip_set_and_weapon(sets.ja[spell.name])
         end
 
         return
@@ -585,18 +586,6 @@ function precast(spell)
             equip_set_and_weapon(sets.precast.fast_cast)
         end
 
-        return
-    end
-
-    -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or spell.type == "Scholar" then
-        -- Stay in idle.
-        return
-    end
-
-    -- Unhandled Weapon Skills
-    if spell.action_type == "Ability" then
-        equip_set_and_weapon(sets.ws.default)
         return
     end
 end

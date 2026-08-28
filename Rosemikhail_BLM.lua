@@ -964,7 +964,7 @@ function get_sets()
     ----------------------------------------------------------------
 
     sets.buff.sublimation = {
-        waist="Embla Sash",                                                                                                             -- Sublimation +3
+        waist="Embla Sash", -- Sublimation +3
     }
 end
 
@@ -1051,44 +1051,36 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    local function equip_if_ja_match(spell_name)
-        if sets.ja[spell_name] then
-            equip_set_and_weapon(sets.ja[spell_name])
-            return true
-        end
-        return false
-    end
-
-    -- Death
-    if toggle_death == "On" and spell.name ~= "Myrkr" then -- I want to allow Myrkr, as that has more MP than my precast
-        if spell.type == "JobAbility" then
-            if equip_if_ja_match(spell.name) then
-                -- Stay in Death idle
-                return
-            end
+    -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
+        -- If the weapon skill name matches.
+        if sets.ws[spell.name] then
+            equip_set_and_weapon(sets.ws[spell.name])
+        else
+             -- Unhandled Weapon Skills
+            equip_set_and_weapon(sets.ws.default)
         end
 
-        if spell.action_type == "Magic" then
-            equip_set_and_weapon(sets.precast["Death"])
-        end
-
-        -- Do nothing with weapon skills
-        return
-    end
-
-    -- If the job ability name matches.
-    if equip_if_ja_match(spell.name) then
-        return
-    end
-
-    -- If the weapon skill name matches.
-    if sets.ws[spell.name] then
-        equip_set_and_weapon(sets.ws[spell.name])
-
-        -- Hachirin-no-Obi overlay. Do not apply this to Myrkr.
+        -- Hachirin-no-Obi overlay.
         if S{world.weather_element, world.day_element}:contains(spell.element) and spell.element ~= "None" and spell.name ~= "Myrkr" then
             equip({waist="Hachirin-no-Obi"})
         end
+
+        return
+    end
+
+    -- Check every other kind of ability
+    if spell.action_type == "Ability" then
+        if sets.ja[spell.name] then
+            equip_set_and_weapon(sets.ja[spell.name])
+        end
+
+        return
+    end
+
+    -- Sneaky Death precast
+    if toggle_death == "On" and spell.action_type == "Magic" then
+        equip_set_and_weapon(sets.precast["Death"])
 
         return
     end
@@ -1102,18 +1094,7 @@ function precast(spell)
             -- General purpose
             equip_set_and_weapon(sets.precast.fast_cast)
         end
-        return
-    end
 
-    -- Unhandled Job Abilities
-    if spell.type == "JobAbility" or ignored_spell_types:contains(spell.type) then
-        -- Stay in idle.
-        return
-    end
-
-    -- Unhandled Weapon Skills
-    if spell.action_type == "Ability" then
-        equip_set_and_weapon(sets.ws.default)
         return
     end
 end

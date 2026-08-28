@@ -715,27 +715,19 @@ function precast(spell)
     end
     ]]
 
-    add_to_chat(123, string.format("Hello, I am %s, and I love being a %s. My action type is %s!", spell.name, spell.type, spell.action_type))
-
     -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
     if spell.type == "WeaponSkill" then
         -- If the weapon skill name matches.
         if sets.ws[spell.name] then
             equip_set_and_weapon(sets.ws[spell.name])
-
-            add_to_chat(123, string.format("I found a matching WS set!", spell.name))
         else
              -- Unhandled Weapon Skills
             equip_set_and_weapon(sets.ws.default)
-
-            add_to_chat(123, string.format("Uh oh, I'm an unhandled WS!", spell.name))
         end
 
         -- Hachirin-no-Obi overlay.
         if S{world.weather_element, world.day_element}:contains(spell.element) and spell.element ~= "None" and spell.name ~= "Myrkr" then
             equip({waist="Hachirin-no-Obi"})
-
-            add_to_chat(123, "OMG the weather matches lets swap the Obi in!")
         end
 
         return
@@ -745,10 +737,6 @@ function precast(spell)
     if spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
-
-            add_to_chat(123, string.format("I found a matching JA set!", spell.name))
-        else
-            add_to_chat(123, string.format("Uh oh, I'm an unhandled ability!", spell.name))
         end
 
         return
@@ -759,13 +747,9 @@ function precast(spell)
         if sets.precast[spell.name] then
             -- If the spell name matches.
             equip_set_and_weapon(sets.precast[spell.name])
-
-            add_to_chat(123, string.format("I fucking love magic man. I'm %s!", spell.name))
         else
             -- General purpose
             equip_set_and_weapon(sets.precast.fast_cast)
-
-            add_to_chat(123, string.format("I fucking love magic man. I am not handled but I'm %s!", spell.name))
         end
 
         return
