@@ -1,3 +1,3 @@
 Tasks
-- Upgrade GEO weapon and engaged handling
+- Upgrade GEO and PUP weapon and engaged handling
 - Shared functionality include
