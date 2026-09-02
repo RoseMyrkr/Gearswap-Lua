@@ -40,7 +40,6 @@ toggle_tp = "Off" -- This will disable weapon swapping as well
 
 -- Midcast helpers
 match_list  = S{"Cure", "Curaga", "Aspir", "Drain", "Regen"}
-ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")

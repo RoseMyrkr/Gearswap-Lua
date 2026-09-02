@@ -49,7 +49,6 @@ weapon_lock = "Off"
 -- Midcast helpers
 match_list = S{"Cure", "Curaga", "Aspir", "Drain"}
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix", "Geohelix II", "Hydrohelix II", "Anemohelix II", "Pyrohelix II", "Cryohelix II", "Ionohelix II", "Noctohelix II", "Luminohelix II",}
-ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")

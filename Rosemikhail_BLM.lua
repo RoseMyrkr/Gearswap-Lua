@@ -17,8 +17,6 @@ Potential enhancements:
 
 - Potentially build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
 
-- Casting overrides
-
 - Probably want to rework the death functionality to allow for occult acumen casting - it'll murder my mp, but the point is to get as much TP as possible to regain mp
 
 - Barspell stuff maybe?
@@ -59,7 +57,6 @@ match_list = S{"Cure", "Aspir", "Drain", "Regen"}
 elemental_debuffs = S{'Burn','Frost','Choke','Rasp','Shock','Drown'}
 cumulative_spells = S{'Stoneja','Waterja','Aeroja','Firaja','Blizzaja','Thundaja', 'Comet'}
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix"}
-ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")

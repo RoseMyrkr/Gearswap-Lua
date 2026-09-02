@@ -42,6 +42,7 @@ Need to check for enmity spells and apply an enmity set
 -- upgrade loricate torque and all of the other unm items
 
 -- May need a force phalanx set toggle, rather than having it as an idle
+    - Maybe for when I'm engaged...? I'd maybe prefer to just wait until after though, otherwise I'm gonna DIE
 
 -- augment aettir
 
@@ -52,12 +53,6 @@ Need to check for enmity spells and apply an enmity set
 -- I have a choice probably - do I lump in enmity JAs into a list and use a generic enmity set? Or do I keep them separate
     - Probably keep them separate so I can use the various JA improvement bits of gear
 -- Okay so where does that leave spells like flash and foil? Right now they're in a list. Maybe it's better than they are, because then I can select between full enmity, safe enmity or SIRD
-
-
--- Precast needs to ignore stuff like runes
-
-
- -- Maybe I should instead do ALLOWED spell types for precast aye? Instead of ignored spell types lmao. Realistically this needs to only be JAs. Remember that they need to survive into midcast.
 ]]
 
 ----------------------------------------------------------------
@@ -74,7 +69,6 @@ weapon_lock = "Off"
 
 -- Midcast helpers
 match_list = S{"Cure", "Regen"}
-ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar", "Rune", "Ward"}
 enmity_spells = S{"Flash"}
 
 -- Bindings

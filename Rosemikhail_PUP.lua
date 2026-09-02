@@ -22,11 +22,6 @@ weapon_mode = M{"Midnights"}
 toggle_speed = "Off"
 toggle_tp = "Off" -- This will disable weapon swapping as well
 
--- Midcast helpers
-ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
-
--- Nothing as of yet
-
 -- Bindings
 send_command("bind f5 gs c weaponmode")
 send_command("bind f6 gs c idlemode")

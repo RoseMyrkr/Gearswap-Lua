@@ -39,7 +39,6 @@ match_list = S{"Cure", "Curaga", "Regen"} -- Maybe add Aspir and Drain here if I
 debuff_cleansers = S{"Stona", "Poisona", "Silena", "Viruna", "Paralyna", "Blindna", "Cursna", "Erase", "Esuna", "Sacrifice"}
 elemental_barspells = S{"Barfire", "Barblizzard", "Baraero", "Barstone", "Barthunder", "Barwater", "Barfira", "Barblizzara", "Baraera", "Barstonra", "Barthundra", "Barwatera",}
 status_barspells = S{"Baramnesia","Barvirus", "Barparalyze", "Barsilence", "Barpetrify", "Barpoison", "Barblind", "Barsleep", "Baramnesra","Barvira", "Barparalyzra", "Barsilencera", "Barpetra", "Barpoisonra", "Barblindra", "Barsleepra"}
-ignored_spell_types = S{"Samba", "Waltz", "Jig", "Step", "Flourish1", "Flourish2", "Scholar"}
 
 -- Bindings
 send_command("bind f5 gs c weaponmode")
