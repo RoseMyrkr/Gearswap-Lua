@@ -6,53 +6,31 @@ include("Modes.lua")
 ----------------------------------------------------------------
 
 --[[
+- FC set or FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
+    - Buff check in precast
 
-SWIPE AND LUNGE DAMAGE JA Hachirin-no-obi check specific to RUN:
-There are 3 terms taken into account for the Obi.
-    First Weather, Second Weather, Matching Day.
-    If 2/3 terms match the element of your Rune(s), Hachirin-no-Obi will be better.
+STRETCH
+- Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
+- Right now, activating Embolden will switch me to my Phalanx set in idle. I might want to handle this different for something like Protect because the Evasionist's Cape exist.
+    - Maybe add a toggle for this? Phalanx Embolden vs standard Embolden
+- Enmity mode (enmity vs safe enmity)
+- SIRD sets alternative + toggle
+- Regen idle when it comes to it (Sortie...)
+- Parrying set when it comes to it
+- Magic set when it comes to it
+- SOME BLU magic IS subject to weather effects
+- Swipe/Lunch JA magic burst damage
+    - If I have double weather OR single weather + matching day, Hachirin-no-Obi is better than Osash
+- Consider resist death things
+- If I want to have higher MEVA, Nyame is maybe better than Adamantite
 
-May need a cry for help if I'm paralysed/sleeping/doomed.
+ALL JOBS
+- Doomed Overlay/set
+- Doomed/Sleep cry
 
-Force SIRD set toggle would be handy - right now it's just the fallback casting set for any spells that fall through the cracks instead of switching to "idle" like I do on other luas.
-- Certain abilities will want "enmity SIRD" sets - this includes Flash, Foil, Stun (/DRK) and /BLU enmity spells
-- If SIRD toggle on, then check enmity spell list - if contains spell.name, equip enmity sird, otherwise, regular sird
+TO DO:
+Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 
-DOOMED SET
-
-Need to check for enmity spells and apply an enmity set
-- do enmity JAs need this?
-
-
-
--- Maybe consider resist death set / toggle overlay or whatever?
-
--- Idle embolden overlay
-    -- Also needs to be in my buff_change
-    -- Current functionality should apply embolden gear when I gain the buff and remove it when I don't
-
-- Update barspell logic to care about the fact that elemental and status barspells have different resistance calculations
-    - i.e. status ones have a base potency, so I could just cast in conserve or idle
-    - Steal from WHM
-
-- See if hachirin no obi logic works with blu magic or if it even needs to
-
--- Possibly have a "casting mode" for SIRD vs effect
-
--- upgrade loricate torque and all of the other unm items
-
--- May need a force phalanx set toggle, rather than having it as an idle
-    - Maybe for when I'm engaged...? I'd maybe prefer to just wait until after though, otherwise I'm gonna DIE
-
--- augment aettir
-
--- alber strap for enmity set potentially
--- potentially fulltime utu grip or khonsu for DT + accuracy
-
-
--- I have a choice probably - do I lump in enmity JAs into a list and use a generic enmity set? Or do I keep them separate
-    - Probably keep them separate so I can use the various JA improvement bits of gear
--- Okay so where does that leave spells like flash and foil? Right now they're in a list. Maybe it's better than they are, because then I can select between full enmity, safe enmity or SIRD
 ]]
 
 ----------------------------------------------------------------
@@ -61,15 +39,15 @@ Need to check for enmity spells and apply an enmity set
 
 -- Modes and toggles
 weapon_mode = M{"Aettir", "Naegling", "Kaja Chopper", "Kaja Axe"} -- Update these
-engaged_mode = M{"Skilling", "Physical", "Parrying", "Magical", "TP"}
-idle_mode = M{"Normal", "Phalanx"}
+engaged_mode = M{"Physical", "TP"}
+idle_mode = M{"Normal"}
 
 toggle_speed = "Off"
 weapon_lock = "Off"
 
 -- Midcast helpers
 match_list = S{"Cure", "Regen"}
-enmity_spells = S{"Flash"}
+enmity_spells = S{"Foil", "Flash", "Sheep Song", "Stinking Gas", "Jettatura", "Geist Wall", "Blank Gaze", "Chaotic Eye", "Soporific", "Cold Wave", "Frightful Roar", "Bomb Toss", "Cursed Sphere"}
 
 -- Bindings
 send_command("bind f5 gs c weaponmode")
@@ -142,7 +120,7 @@ end
 
 -- Lockstyle
 function update_lockstyle()
-    send_command("wait 5;input /lockstyleset 35") -- River
+    send_command("wait 5;input /lockstyleset 22") -- Ebur
 end
 
 function update_macro_book()
@@ -164,7 +142,7 @@ function get_sets()
                 main="Aettir",
                 sub="Khonsu", -- Potentially refined grip later
             },
-            engaged_sets = {"Skilling", "Physical", "Parrying", "Magical", "TP"},
+            engaged_sets = {"Physical", "TP"},
             overrides = {
                 -- ["Magical"] = {
                 --     main="Aettir",
@@ -181,7 +159,7 @@ function get_sets()
                 main="Naegling",
                 sub=empty,
             },
-            engaged_sets = {"TP"},
+            engaged_sets = {"Physical", "TP"},
             overrides = {},
         },
         ["Kaja Chopper"] = {
@@ -189,7 +167,7 @@ function get_sets()
                 main="Kaja Chopper",
                 sub="Khonsu",
             },
-            engaged_sets = {"Skilling", "TP"},
+            engaged_sets = {"Physical", "TP"},
             overrides = {},
         },
         ["Kaja Axe"] = {
@@ -197,7 +175,7 @@ function get_sets()
                 main="Kaja Axe",
                 sub=empty,
             },
-            engaged_sets = {"Skilling", "TP"},
+            engaged_sets = {"Physical", "TP"},
             overrides = {},
         },
     }
@@ -223,11 +201,6 @@ function get_sets()
         feet="Runeist Bottes +3",           -- I have these for lockstyle more than anything, thank you AF+3 voucher
     }
 
-    --San dOria Feet
-    --Bastok Hands
-    --Windurst Head
-    --Jeuno Legs 
-
     jse.relic = {
         head="Futhark Bandeau +4",          -- Phalanx!!!, PDT
         body="Futhark Coat +1",             -- Elemental Sforzo, Liement
@@ -245,7 +218,14 @@ function get_sets()
     }
 
     jse.capes = {
-        --idle="",
+        enmity={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Damage taken-5%',}},
+        parry={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Parrying rate+5%',}},
+        fast_cast={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+        SIRD={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}},
+        --VIT+30, DEF+50 supertank
+        -- dimidiation
+        -- savage blade
+        -- resolution
     }
 
     ----------------------------------------------------------------
@@ -260,6 +240,7 @@ function get_sets()
     sets.ws = {}                    -- Leave this empty
     sets.engaged = {}               -- Leave this empty
     sets.buff = {}                  -- Leave this empty
+    sets.override = {}              -- Leave this empty
 
     ----------------------------------------------------------------
     -- IDLE MODES
@@ -283,22 +264,6 @@ function get_sets()
         back="Null Shawl",
     }
 
-    sets.idle["Phalanx"] = {
-        ammo="Staunch Tathlum",         -- -2% DT, Resistance, 10% SIRD
-        head=jse.relic.head,
-        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
-        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
-        legs={ name="Herculean Trousers", augments={'INT+2','Pet: Haste+1','Phalanx +3','Mag. Acc.+10 "Mag.Atk.Bns."+10',}},
-        feet={ name="Herculean Boots", augments={'Rng.Atk.+25','Crit. hit damage +1%','Phalanx +2','Accuracy+11 Attack+11','Mag. Acc.+11 "Mag.Atk.Bns."+11',}},
-        neck="Loricate Torque +1",      -- -6 DT
-        waist="Plat. Mog. Belt",        -- -3% DT
-        left_ear="", -- Tuisto Earring
-        right_ear="", -- Alabaster Earring
-        left_ring="", -- Gelatinous Ring +1
-        right_ring="", -- Moonbeam/light Ring
-        back="", --Moonbeam/light Cape
-    }
-
     ----------------------------------------------------------------
     -- ENGAGED
     ----------------------------------------------------------------
@@ -306,40 +271,6 @@ function get_sets()
     -- May be worth keeping a RUN +1 earring for Regen received
 
     sets.engaged["Physical"] = {
-        range="",
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-    }
-
-    sets.engaged["Parrying"] = {
-        range="",
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-    }
-
-    sets.engaged["Magical"] = {
         range="",
         ammo="",
         head="",
@@ -374,44 +305,24 @@ function get_sets()
         back="Null Shawl",
     }
 
-    --Temporary set
-    sets.engaged["Skilling"] = {
-        range=empty,
-        ammo="Staunch Tathlum",
-        head="Guide Beret",
-        body=jse.relic.body,
-        hands=jse.AF.hands,
-        legs="Temachtiani Pants",
-        feet="Temachtiani Boots",
-        neck="Elite Royal Collar",
-        waist="Olseni Belt",
-        left_ear="Alabaster Earring",
-        right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}},
-        left_ring="Lehko's Ring",
-        right_ring="Jubilee Ring",
-        back="Reiki Cloak",
-    }
-
     -- Not sure if I'll bother having separate max DPS and hybrid TP sets. Maybe just do hybrid?
 
     ----------------------------------------------------------------
     -- PRECAST
     ----------------------------------------------------------------
-
+    
+    -- Platinum moogle belt is apparently good but needs to be a priority swap to come on first
     sets.precast.fast_cast = set_combine(sets.idle["Normal"], {
     })
 
-    -- With Inspiration, we could potentially have very easy fast cast
-    -- Maybe have a check to decide between shitty fast cast vs inspiration fast cast
+    sets.precast.fast_cast_inspiration = set_combine(sets.idle["Normal"], {
+    })
 
     ----------------------------------------------------------------
     -- ENMITY
     ----------------------------------------------------------------
-    
-    -- Potentially need an enmity mode
-    -- Normal enmity vs safe enmity for fights that have encumbrance
 
-    sets.midcast.enmity = {
+    sets.midcast.enmity = { -- All of the JA enmity actions inherit from this set
         range=empty,
         ammo="",
         head="",
@@ -426,38 +337,17 @@ function get_sets()
         left_ring="Eihwaz Ring",
         right_ring="Petrov Ring",
         back="Reiki Cloak",
-
-        -- Will this actually be midcast or precast? JAs and spells are different, after all.
     }
 
-    sets.midcast.enmity_safe = {
-        range="",
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-
-        -- Will this actually be midcast or precast? JAs and spells are different, after all.
-    }
-
-    sets.midcast["Foil"] = {
-        -- Equip Futhark Trousers here
-        -- Possibly inherit from enmity in general?
-    }
+    sets.midcast["Foil"] = set_combine(sets.midcast.enmity, {
+        legs=jse.relic.legs,
+    })
 
     ----------------------------------------------------------------
     -- MAGIC
     ----------------------------------------------------------------
     
+    -- Fill with duration. I guess just fill with idle/defensive pieces otherwise?
     sets.midcast["Enhancing Magic"] = { -- I assume I can just make this an enhancing duration set, which will be necessary for things like Protect, Shell and spikes
         ammo="",
         head="",
@@ -474,9 +364,13 @@ function get_sets()
         back="",
     }
 
-    sets.midcast["Enfeebling Magic"] = {}
+    -- This is not the most elegant solution but we need barspell to be checked separately in midcast
+    -- Aims are 501 skill + fill with duration
+    sets.midcast.barspell = {} -- Enhancing skill
+    sets.midcast["Aquaveil"] = sets.midcast.barspell
+    sets.midcast["Temper"] = sets.midcast.barspell
 
-    sets.midcast["Phalanx"] = {
+    sets.midcast["Phalanx"] = {  -- This is for self-casting
         ammo="",
         head=jse.relic.head,
         body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
@@ -490,72 +384,72 @@ function get_sets()
         left_ring="",
         right_ring="",
         back="",
-    } -- This is for self-casting
+    }
 
     sets.midcast["Regen"] = {}
 
-    -- Could potentially have a check to see if it's me or someone else I'm casting this on.
     sets.midcast["Refresh"] = {}
-
-    sets.midcast["Aquaveil"] = {} -- We want 500 enhancing magic skill.
-
-    sets.midcast.barspell = {} -- We want 500 enhancing magic skill.
-
-    sets.midcast["Temper"] = {} -- We want 500 enhancing magic skill.
 
     sets.midcast["Stoneskin"] = {} -- Not sure how close we can get to 500 but there are specific pieces I want here.
 
     sets.midcast["Cure"] = {}
 
-    sets.midcast.SIRD = {} -- General SIRD set for when I'm struggling to cast spells
+    sets.midcast.SIRD = sets.idle["Normal"] -- This needs to become something proper
 
-    sets.midcast.SIRD_enmity = {} -- For my enmity spells when I'm struggling to cast them
+    sets.midcast["Enfeebling Magic"] = {}
 
     ----------------------------------------------------------------
     -- JOB ABILITIES 
     ----------------------------------------------------------------
 
-    -- It appears that you still want the enmity set combined with whatever JAs might be used for that
-
-    sets.ja["Valiance"] = set_combine(sets.midcast.enmity, { -- It's totally possible that I should just make the set from scratch but we'll see!
-        body = jse.AF.body,
+    sets.ja["Valiance"] = set_combine(sets.midcast.enmity, {
+        body=jse.AF.body,
+        -- Needs ambuscade cape
     })
 
     sets.ja["Vallation"] = sets.ja["Valiance"]
 
-    sets.ja["Battuta"] = {
-        -- I unno
-    }
+    sets.ja["Liement"] = set_combine(sets.midcast.enmity, {
+        body=jse.relic.body,
+    })
 
-    sets.ja["Rayke"] = {
-        -- I unno
-    }
+    sets.ja["Battuta"] = set_combine(sets.midcast.enmity, {
+        head=jse.relic.head,
+    })
 
-    sets.ja["Gambit"] = {
-        -- I unno
-    }
+    sets.ja["Rayke"] = set_combine(sets.midcast.enmity, {
+        feet=jse.relic.feet,
+    })
 
-    sets.ja["Swordplay"] = {
-        -- I unno
-    }
+    sets.ja["Gambit"] = set_combine(sets.midcast.enmity, {
+        hands=jse.AF.hands,
+    })
 
-    sets.ja["Elemental Sforzo"] = {
-        -- I unno
-    }
+    sets.ja["Swordplay"] = set_combine(sets.midcast.enmity, {
+        hands=jse.relic.hands,
+    })
 
-    sets.ja["Liement"] = {
-        -- I unno
-    }
+    sets.ja["One for All"] = sets.midcast.enmity -- Affected by max HP
 
-    sets.ja["Vivacious Pulse"] = {
-        -- I unno
-    }
+    sets.ja["Elemental Sforzo"] = set_combine(sets.midcast.enmity, {
+        body=jse.relic.body,
+    })
 
-    sets.ja["Swipe"] = {
-        -- I unno
-    }
+    sets.ja["Odyllic Subterfuge"] = sets.midcast.enmity
 
-    sets.ja["Lunge"] = sets.ja["Swipe"]
+    sets.ja["Pflug"] = sets.midcast.enmity
+
+    -- Shove so much skill up my ass
+    sets.ja["Vivacious Pulse"] = set_combine(sets.midcast.enmity, {
+        -- I unno
+    })
+
+    -- TODO LATER
+    -- sets.ja["Swipe"] = set_combine(sets.midcast.enmity, {
+    --     -- I unno
+    -- })
+
+    -- sets.ja["Lunge"] = sets.ja["Swipe"]
 
     ----------------------------------------------------------------
     -- WEAPONSKILLS 
@@ -640,6 +534,26 @@ function get_sets()
         right_ring="",
         back="",
     }
+
+    ----------------------------------------------------------------
+    -- OVERRIDE 
+    ----------------------------------------------------------------
+
+    sets.override["Phalanx"] = {
+        ammo="Staunch Tathlum",         -- -2% DT, Resistance, 10% SIRD
+        head=jse.relic.head,
+        --body=
+        --hands=
+        --legs=
+        --feet=
+        neck="Loricate Torque +1",      -- -6 DT
+        waist="Plat. Mog. Belt",        -- -3% DT
+        left_ear="", -- Tuisto Earring
+        right_ear="", -- Alabaster Earring
+        left_ring="", -- Gelatinous Ring +1
+        right_ring="", -- Moonbeam/light Ring
+        back="", --Moonbeam/light Cape
+    }
 end
 
 ----------------------------------------------------------------
@@ -669,6 +583,11 @@ function equip_set_and_weapon(set)
 end
 
 function idle()
+    if buffactive["Embolden"] then
+        equip_set_and_weapon(sets.override["Phalanx"])
+        return;
+    end
+
     -- I don't *think* I need to care about Sublimation on Runefencer?
     -- Choose between engaged set and regular idle
     if player.status == "Engaged" then
@@ -684,11 +603,6 @@ function idle()
         if toggle_speed == "On" then
             equip({right_ring="Shneddick Ring",})
         end
-    end
-
-    -- Runefencer buffs
-    if buffactive["Embolden"] then
-        equip({""}) -- TODO: Evasionist's cape
     end
 end
 
@@ -753,7 +667,6 @@ end
 -- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
-        -- If we ever use spells on PUP, steal stuff from other jobs.
         local matched = false
 
         -- If the spell matches one of the match_list spells.
@@ -765,28 +678,16 @@ function midcast(spell)
             end
         end
 
-        -- If the spell is any Regen spell - More essential if we had regen modes, but we don't.
-        -- Regen is now within the match list
-        -- if not matched and spell.name:match("Regen") then
-        --     equip_set_and_weapon(sets.midcast["Regen"])
-        --     matched = true
-        -- end
-
         -- If the spell name EXACTLY matches.
         if not matched and sets.midcast[spell.name] then
             equip_set_and_weapon(sets.midcast[spell.name])
             matched = true
         end
 
-        -- TODO: Update this
         if not matched and spell.name:match("^Bar") then
             equip_set_and_weapon(sets.midcast.barspell)
             matched = true
         end
-
-        -- Missing elemental
-
-        -- Missing enfeebling
 
         -- Enmity, maybe reorder this if I need to
         if not matched and enmity_spells:contains(spell.name) then
@@ -801,7 +702,7 @@ function midcast(spell)
 
         -- Any other spell (trusts?)
         if not matched then
-            equip_set_and_weapon(sets.midcast.SIRD)
+            idle()
         end
 
         -- Weather and day overlays
