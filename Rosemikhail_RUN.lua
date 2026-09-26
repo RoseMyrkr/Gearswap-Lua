@@ -6,6 +6,10 @@ include("Modes.lua")
 ----------------------------------------------------------------
 
 --[[
+
+- Finish a base enmity set
+- Finish a base engaged set (and extend with parrying/magical if I can)
+
 - FC set or FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
     - Buff check in precast
 
