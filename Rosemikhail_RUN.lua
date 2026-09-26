@@ -371,19 +371,19 @@ function get_sets()
     sets.midcast["Temper"] = sets.midcast.barspell
 
     sets.midcast["Phalanx"] = {  -- This is for self-casting
-        ammo="",
+        ammo="Staunch Tathlum",
         head=jse.relic.head,
         body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
         hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
-        legs={ name="Herculean Trousers", augments={'INT+2','Pet: Haste+1','Phalanx +3','Mag. Acc.+10 "Mag.Atk.Bns."+10',}},
-        feet={ name="Herculean Boots", augments={'Rng.Atk.+25','Crit. hit damage +1%','Phalanx +2','Accuracy+11 Attack+11','Mag. Acc.+11 "Mag.Atk.Bns."+11',}},
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}},
+        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}},
+        neck="Incanter's Torque",
+        waist="Olympus Sash",
+        left_ear="Andoaa Earring",
+        right_ear="Mimir Earring",
+        left_ring="Stikini Ring",
+        right_ring="Stikini Ring",
+        back="Moonbeam Cape", -- Replace with Merciful Cape
     }
 
     sets.midcast["Regen"] = {}
@@ -539,20 +539,20 @@ function get_sets()
     -- OVERRIDE 
     ----------------------------------------------------------------
 
-    sets.override["Phalanx"] = {
-        ammo="Staunch Tathlum",         -- -2% DT, Resistance, 10% SIRD
+    sets.override["Phalanx"] = { -- PDT + DT = 45, Phalanx 26
+        ammo="Staunch Tathlum",
         head=jse.relic.head,
-        --body=
-        --hands=
-        --legs=
-        --feet=
-        neck="Loricate Torque +1",      -- -6 DT
-        waist="Plat. Mog. Belt",        -- -3% DT
-        left_ear="", -- Tuisto Earring
-        right_ear="", -- Alabaster Earring
-        left_ring="", -- Gelatinous Ring +1
-        right_ring="", -- Moonbeam/light Ring
-        back="", --Moonbeam/light Cape
+        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
+        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
+        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}},
+        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}},
+        neck="Loricate Torque +1",
+        waist="Plat. Mog. Belt",
+        left_ear="Odnowa Earring +1",
+        right_ear="Alabaster Earring",
+        left_ring="Gelatinous Ring +1",
+        right_ring="Moonbeam Ring",
+        back="Moonbeam Cape",
     }
 end
 
