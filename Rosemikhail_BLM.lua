@@ -34,6 +34,11 @@ Potential enhancements:
 - Bursting set specifically for Triboulex
 
 -- Add agwu feel to aquaveil whenever it's maxed
+
+-- Automagically fill in the weapon modes based on the weapon sets
+
+- For elemental weaponskills, if I have double weather OR single weather + matching day, Hachirin-no-Obi is likely better than Osash
+- This is such a tiny optimisation that it can come later
 ]]
 
 ----------------------------------------------------------------
@@ -763,7 +768,7 @@ function get_sets()
     }
 
     sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {                                                      -- OVERALL +35 enmity, 27% Haste (cap 25%), 24 FC (12% recast)
-        ammo="Staunch Tathlum",                                                                                         -- -2% DT
+        ammo="Staunch Tathlum",                                                                                         -- -2% DT TODO: Replace with Sapience Orb
         head="Null Masque",                                                                                             -- -10% DT, 10% Haste
         --body=jse.empyrean.body,                                                                                       -- 3% Haste (More macc than Agwu's Robe)
         body="Agwu's Robe",                                                                                             -- 3% Haste, 8 FC

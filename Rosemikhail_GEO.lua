@@ -40,6 +40,8 @@ toggle_tp = "Off" -- This will disable weapon swapping as well
 
 -- Midcast helpers
 match_list  = S{"Cure", "Curaga", "Aspir", "Drain", "Regen"}
+elemental_barspells = S{"Barfire", "Barblizzard", "Baraero", "Barstone", "Barthunder", "Barwater", "Barfira", "Barblizzara", "Baraera", "Barstonra", "Barthundra", "Barwatera",}
+status_barspells = S{"Baramnesia","Barvirus", "Barparalyze", "Barsilence", "Barpetrify", "Barpoison", "Barblind", "Barsleep", "Baramnesra","Barvira", "Barparalyzra", "Barsilencera", "Barpetra", "Barpoisonra", "Barblindra", "Barsleepra"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")
@@ -488,8 +490,13 @@ function get_sets()
         back="Fi Follet Cape +1",                                                                                                   -- 5% SIRD
     })
 
-    sets.midcast.barspell = set_combine(sets.midcast["Enhancing Magic"], {
+    sets.midcast.elemental_barspell = set_combine(sets.midcast["Enhancing Magic"], {
         legs="Shedir Seraweels",
+    })
+
+    sets.midcast.status_barspell = set_combine(sets.midcast["Enhancing Magic"], {
+        -- I guess at some point I could use the Sroda Necklace, wait wtf, its cheap! but there's none on the market!
+        -- TODO: I could switch this over to a bunch of conserve gear
     })
 
     ----------------------------------------------------------------
@@ -846,6 +853,16 @@ function midcast(spell)
         -- If the spell name EXACTLY matches.
         if not matched and sets.midcast[spell.name] then
             equip_set_and_weapon(sets.midcast[spell.name])
+            matched = true
+        end
+
+        -- If the spell is a barspell
+        if not matched and spell.name:match("^Bar") then
+            if elemental_barspells:contains(spell.name) then
+                equip_set_and_weapon(sets.midcast.elemental_barspell)
+            elseif status_barspells:contains(spell.name) then
+                equip_set_and_weapon(sets.midcast.status_barspell)
+            end
             matched = true
         end
 

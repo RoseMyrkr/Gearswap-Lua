@@ -10,9 +10,6 @@ include("Modes.lua")
 
 Kinda just do this as and when:
 - Notification in chat when I'm slept or doomed
-- Update barspell logic to care about the fact that elemental and status barspells have different resistance calculations
-    - i.e. status ones have a base potency, so I could just cast in conserve or idle
-    - Steal from WHM
 
 Potential enhancements:
 - Save certain toggles and sets between reloads
@@ -30,6 +27,8 @@ Potential enhancements:
 From Reddit:
 -"If a related day or/and weather is active, Helices will receive the day/weather damage bonus or penalty 100% of the time even without an Elemental Obi. "
 - Your lua probably already accounts for this, but if you made it yourself, make sure you use O.Sash or Skrymir or w/e instead of an Obi for these. 
+
+-- Consider a maximum SIRD cure/healing set
 ]]
 
 ----------------------------------------------------------------
@@ -49,6 +48,8 @@ weapon_lock = "Off"
 -- Midcast helpers
 match_list = S{"Cure", "Curaga", "Aspir", "Drain"}
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix", "Geohelix II", "Hydrohelix II", "Anemohelix II", "Pyrohelix II", "Cryohelix II", "Ionohelix II", "Noctohelix II", "Luminohelix II",}
+elemental_barspells = S{"Barfire", "Barblizzard", "Baraero", "Barstone", "Barthunder", "Barwater", "Barfira", "Barblizzara", "Baraera", "Barstonra", "Barthundra", "Barwatera",}
+status_barspells = S{"Baramnesia","Barvirus", "Barparalyze", "Barsilence", "Barpetrify", "Barpoison", "Barblind", "Barsleep", "Baramnesra","Barvira", "Barparalyzra", "Barsilencera", "Barpetra", "Barpoisonra", "Barblindra", "Barsleepra"}
 
 -- Bindings
 send_command("bind f1 gs c nukemode freenuke")
@@ -613,8 +614,13 @@ function get_sets()
         back="Fi Follet Cape +1",                                                                                                   -- 5% SIRD
     })
 
-    sets.midcast.barspell = set_combine(sets.midcast["Enhancing Magic"], {
+    sets.midcast.elemental_barspell = set_combine(sets.midcast["Enhancing Magic"], {
         legs="Shedir Seraweels",
+    })
+
+    sets.midcast.status_barspell = set_combine(sets.midcast["Enhancing Magic"], {
+        -- I guess at some point I could use the Sroda Necklace, wait wtf, its cheap! but there's none on the market!
+        -- TODO: I could switch this over to a bunch of conserve gear
     })
 
     ----------------------------------------------------------------
@@ -980,7 +986,6 @@ function midcast(spell)
         local matched = false
 
         -- To avoid any delay in knowing that Immanence is up (I am going to STRANGLE FFXI - it won't immediately register that the buff is active, so I can't check that)
-        -- Redunancy check just in case
         if spell.name == "Immanence" then
             immanence = true
             return
@@ -1016,7 +1021,11 @@ function midcast(spell)
 
         -- If the spell is a barspell
         if not matched and spell.name:match("^Bar") then
-            equip_set_and_weapon(sets.midcast.barspell)
+            if elemental_barspells:contains(spell.name) then
+                equip_set_and_weapon(sets.midcast.elemental_barspell)
+            elseif status_barspells:contains(spell.name) then
+                equip_set_and_weapon(sets.midcast.status_barspell)
+            end
             matched = true
         end
 
@@ -1163,6 +1172,8 @@ function sub_job_change(new,old)
     update_lockstyle()
     update_macro_book()
 end
+
+local last_weapon_mode = ""
 
 function self_command(command)
     -- Lowercase and split
