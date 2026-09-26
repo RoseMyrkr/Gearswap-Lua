@@ -9,6 +9,8 @@ include("Modes.lua")
 - FC set or FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
     - Buff check in precast
 
+- Add priorities to everything
+
 STRETCH
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
 - Right now, activating Embolden will switch me to my Phalanx set in idle. I might want to handle this different for something like Protect because the Evasionist's Cape exist.
@@ -245,22 +247,21 @@ function get_sets()
     ----------------------------------------------------------------
     -- IDLE MODES
     ----------------------------------------------------------------
-    
-    -- May be worth keeping a RUN +1 earring for Regen received
 
-    sets.idle["Normal"] = { -- Used not only when running around but also for unengaged tanking
-        ammo="Staunch Tathlum",     -- -2% DT, Resistance
-        head="Null Masque",         -- -10% DT, 2 regain, 1 refresh
-        body="Nyame Mail",          -- -9% DT  -- Consider Empyrean body for enmity retention, Consider AF body for refresh, Adamantite (if I ever get it) for more hp
-        hands="Nyame Gauntlets",    -- -7% DT
-        legs="Nyame Flanchard",     -- -8% DT
-        feet="Nyame Sollerets",     -- -7% DT
-        neck="Loricate Torque +1",  -- -6 DT
-        waist="", -- Engraved Belt
-        left_ear="", -- Tuisto Earring
-        right_ear="", -- Odnowa Earring +1
-        left_ring="", -- Gelatinous Ring +1
-        right_ring="", -- Moonlight Ring or Warden's Ring
+    -- Used not only when running around but also for unengaged tanking
+    sets.idle["Normal"] = { -- 71% DT, 2% MDT, 8% PDT
+        ammo="Staunch Tathlum", -- 2% DT
+        head="Null Masque", -- 10% DT Regen +3 Refresh +1 Regain +2
+        body="Adamantite Armor", -- 20% DT
+        hands="Nyame Gauntlets", --  7% DT
+        legs="Nyame Flanchard", -- 8% DT
+        feet="Nyame Sollerets", -- 7% DT
+        neck="Loricate Torque +1", -- 6% DT
+        waist="Plat. Mog. Belt", -- 3% DT +10% HP
+        left_ear="Odnowa Earring +1", -- 3% DT, 2% MDT
+        right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- Replace with Tuisto, 4% DT, Regen Received +11
+        left_ring="Gelatinous Ring +1", -- 7% PDT
+        right_ring="Moonbeam Ring", -- 4% DT
         back="Null Shawl",
     }
 
