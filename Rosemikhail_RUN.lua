@@ -9,6 +9,7 @@ include("Modes.lua")
 
 - Finish a base enmity set
 - Finish a base engaged set (and extend with parrying/magical if I can)
+- Finish base weapon skill sets (probably Nyame innit)
 
 - FC set or FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
     - Buff check in precast
@@ -329,19 +330,19 @@ function get_sets()
 
     sets.midcast.enmity = { -- All of the JA enmity actions inherit from this set
         range=empty,
-        ammo="",
-        head="",
+        ammo="",                        -- Aqreqaq Bomblet
+        head="",                        -- Halitus Helm
         body="Emet Harness +1",
-        hands=jse.relic.hands,
+        hands=jse.relic.hands,          -- Replace with Kurys Gloves
         legs=jse.empyrean.legs,
-        feet="",
-        neck="Unmoving Collar +1",
-        waist="Rumination Sash",
-        left_ear="Friomisi Earring",
+        feet="",                        -- Empyrean legs
+        neck="Unmoving Collar +1",      -- Replace with Moonlight Necklace when I'm rich
+        waist="Rumination Sash",        -- Replace with Kasiri Belt
+        left_ear="Friomisi Earring",    -- Replace with Trux Earring
         right_ear="Cryptic Earring",
         left_ring="Eihwaz Ring",
-        right_ring="Petrov Ring",
-        back="Reiki Cloak",
+        right_ring="Petrov Ring",       -- Replace with Supershear Ring
+        back=jse.capes.enmity,
     }
 
     sets.midcast["Foil"] = set_combine(sets.midcast.enmity, {
