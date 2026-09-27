@@ -6,15 +6,18 @@ include("Modes.lua")
 ----------------------------------------------------------------
 
 --[[
-
+TO DO:
+- Defeat the final Legion NMs for a title to get another Rare Enemy+ vorseal rank
+- Defeat Tumult Curator UNM for a title to get another Rare Enemy+ vorseal rank
 - Finish a base enmity set
+    - Get either Rabid Visor (Vagary) or Halitus Helm (Warder of Justice)
 - Finish a base engaged set (and extend with parrying/magical if I can)
+- Finish base TP set
 - Finish base weapon skill sets (probably Nyame innit)
-
 - FC set or FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
     - Buff check in precast
-
 - Add priorities to everything
+- Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 
 STRETCH
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
@@ -34,9 +37,6 @@ STRETCH
 ALL JOBS
 - Doomed Overlay/set
 - Doomed/Sleep cry
-
-TO DO:
-Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 
 ]]
 
@@ -328,21 +328,22 @@ function get_sets()
     -- ENMITY
     ----------------------------------------------------------------
 
-    sets.midcast.enmity = { -- All of the JA enmity actions inherit from this set
+     -- All of the JA enmity actions inherit from this set
+    sets.midcast.enmity = {             -- 62 Enmity, 25% PDT
         range=empty,
-        ammo="",                        -- Aqreqaq Bomblet
+        ammo="Aqreqaq Bomblet",         -- 2 Enmity
         head="",                        -- Halitus Helm
-        body="Emet Harness +1",
-        hands=jse.relic.hands,          -- Replace with Kurys Gloves
-        legs=jse.empyrean.legs,
-        feet="",                        -- Empyrean legs
-        neck="Unmoving Collar +1",      -- Replace with Moonlight Necklace when I'm rich
-        waist="Rumination Sash",        -- Replace with Kasiri Belt
-        left_ear="Friomisi Earring",    -- Replace with Trux Earring
-        right_ear="Cryptic Earring",
-        left_ring="Eihwaz Ring",
-        right_ring="Petrov Ring",       -- Replace with Supershear Ring
-        back=jse.capes.enmity,
+        body="Emet Harness +1",         -- 6% PDT
+        hands="Kurys Gloves",           -- 9 Enmity, 2% DT
+        legs=jse.empyrean.legs,         -- 12 Enmity, 12% DT
+        feet="",                        -- Empyrean
+        neck="Unmoving Collar +1",      -- 10 Enmity, Replace with Moonlight Necklace when I'm rich
+        waist="Kasiri Belt",            -- 3 Enmity
+        left_ear="Friomisi Earring",    -- 2 Enmity, Replace with Trux Earring
+        right_ear="Cryptic Earring",    -- 5 Enmity
+        left_ring="Eihwaz Ring",        -- 5 Enmity
+        right_ring="Petrov Ring",       -- 4 Enmity, Replace with Supershear Ring
+        back=jse.capes.enmity,          -- 10 Enmity, 5% DT
     }
 
     sets.midcast["Foil"] = set_combine(sets.midcast.enmity, {
