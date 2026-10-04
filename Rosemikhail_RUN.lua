@@ -329,20 +329,20 @@ function get_sets()
     ----------------------------------------------------------------
 
      -- All of the JA enmity actions inherit from this set
-    sets.midcast.enmity = {             -- 62 Enmity, 25% PDT
+    sets.midcast.enmity = {             -- 84 Enmity, 25% PDT
         range=empty,
         ammo="Aqreqaq Bomblet",         -- 2 Enmity
-        head="",                        -- Halitus Helm
-        body="Emet Harness +1",         -- 6% PDT
+        head="Halitus Helm",            -- 8 Enmity
+        body="Emet Harness +1",         -- 10 Enmity, 6% PDT
         hands="Kurys Gloves",           -- 9 Enmity, 2% DT
-        legs=jse.empyrean.legs,         -- 12 Enmity, 12% DT
-        feet="",                        -- Empyrean
+        legs=jse.empyrean.legs,         -- 13 Enmity, 12% DT
+        feet="",                        -- Empyrean (8 Enmity, 11% DT)
         neck="Unmoving Collar +1",      -- 10 Enmity, Replace with Moonlight Necklace when I'm rich
         waist="Kasiri Belt",            -- 3 Enmity
-        left_ear="Friomisi Earring",    -- 2 Enmity, Replace with Trux Earring
+        left_ear="Trux Earring",        -- 5 Enmity
         right_ear="Cryptic Earring",    -- 5 Enmity
         left_ring="Eihwaz Ring",        -- 5 Enmity
-        right_ring="Petrov Ring",       -- 4 Enmity, Replace with Supershear Ring
+        right_ring="Petrov Ring",       -- 4 Enmity, Replace with Supershear Ring (5 Enmity)
         back=jse.capes.enmity,          -- 10 Enmity, 5% DT
     }
 
