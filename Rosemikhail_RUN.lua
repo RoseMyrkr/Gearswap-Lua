@@ -253,6 +253,8 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
+    -- May be worth keeping a RUN +1 earring for Regen received
+
     -- Used not only when running around but also for unengaged tanking
     sets.idle["Normal"] = { -- 71% DT, 2% MDT, 8% PDT
         ammo="Staunch Tathlum", -- 2% DT
@@ -276,7 +278,7 @@ function get_sets()
 
     -- May be worth keeping a RUN +1 earring for Regen received
 
-    sets.engaged["Physical"] = {
+    sets.engaged["Physical"] = set_combine(sets.idle["Normal"], {
         range="",
         ammo="",
         head="",
@@ -291,7 +293,7 @@ function get_sets()
         left_ring="",
         right_ring="",
         back="",
-    }
+    })
 
     -- I don't expect that I'll be using this much
     sets.engaged["TP"] = {
@@ -329,7 +331,7 @@ function get_sets()
     ----------------------------------------------------------------
 
      -- All of the JA enmity actions inherit from this set
-    sets.midcast.enmity = {             -- 84 Enmity, 25% PDT
+    sets.midcast.enmity = {             -- 85 Enmity, 25% PDT
         range=empty,
         ammo="Aqreqaq Bomblet",         -- 2 Enmity
         head="Halitus Helm",            -- 8 Enmity
@@ -342,7 +344,7 @@ function get_sets()
         left_ear="Trux Earring",        -- 5 Enmity
         right_ear="Cryptic Earring",    -- 5 Enmity
         left_ring="Eihwaz Ring",        -- 5 Enmity
-        right_ring="Petrov Ring",       -- 4 Enmity, Replace with Supershear Ring (5 Enmity)
+        right_ring="Supershear Ring",   -- 5 Enmity
         back=jse.capes.enmity,          -- 10 Enmity, 5% DT
     }
 

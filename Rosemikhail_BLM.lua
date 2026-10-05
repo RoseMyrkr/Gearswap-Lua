@@ -767,7 +767,7 @@ function get_sets()
         back=jse.capes.idle_fc,                                                                                         -- -10% PDT
     }
 
-    sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {                                                      -- OVERALL +35 enmity, 27% Haste (cap 25%), 24 FC (12% recast)
+    sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {                                                      -- OVERALL +36 enmity, 27% Haste (cap 25%), 24 FC (12% recast)
         ammo="Staunch Tathlum",                                                                                         -- -2% DT TODO: Replace with Sapience Orb
         head="Null Masque",                                                                                             -- -10% DT, 10% Haste
         --body=jse.empyrean.body,                                                                                       -- 3% Haste (More macc than Agwu's Robe)
@@ -781,7 +781,7 @@ function get_sets()
         left_ear="Cryptic Earring",                                                                                     -- +4 enmity 
         right_ear="Friomisi Earring",                                                                                   -- +2 enmity
         left_ring="Eihwaz Ring",                                                                                        -- +5 enmity
-        right_ring="Petrov Ring",                                                                                       -- +4 enmity TODO: Replace with Supershear
+        right_ring="Supershear Ring",                                                                                   -- +5 enmity
         back=jse.capes.enmity                                                                                           -- +10 enmity
     })
 
