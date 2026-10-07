@@ -20,7 +20,6 @@ TO DO:
 STRETCH
 - Enmity mode (enmity vs safe enmity)
 - Regen idle when it comes to it (Sortie...)
-- Magic set when it comes to it
 - SOME BLU magic IS subject to weather effects
 - Swipe/Lunch JA magic burst damage
     - If I have double weather OR single weather + matching day, Hachirin-no-Obi is better than Osash
@@ -29,6 +28,8 @@ STRETCH
 ALL JOBS
 - Doomed Overlay/set
 - Doomed/Sleep cry
+
+-- When I have a bunch more gear, re-sim TP and WS sets
 
 ]]
 
@@ -371,6 +372,20 @@ function get_sets()
 
     -- Platinum moogle belt is apparently good but needs to be a priority swap to come on first
     sets.precast.fast_cast = set_combine(sets.idle["Normal"], {
+        range=empty,
+        --ammo="", -- Sapience Orb
+        head=jse.AF.head,                                                                           -- 14% FC
+        --body="", -- Empyrean Body
+        --hands="", -- Leyline Gloves
+        legs="Agwu's Slops",                                                                        -- 7% FC
+        feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}},       -- 8% FC
+        neck="Voltsurge Torque",                                                                    -- 4% FC
+        waist="Plat. Mog. Belt",
+        left_ear="Odnowa Earring +1",
+        right_ear="Loquacious Earring",                                                             -- 2% FC
+        left_ring="Gelatinous Ring +1",                                                        
+        right_ring="Kishar Ring",                                                                   -- 4% FC
+        back=jse.capes.fast_cast,                                                                   -- 10% FC
     })
 
     sets.precast.fast_cast_inspiration = set_combine(sets.idle["Normal"], {

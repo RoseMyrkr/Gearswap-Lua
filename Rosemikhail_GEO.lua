@@ -7,6 +7,7 @@ include("Modes.lua")
 
 --[[
 Potential enhancements:
+- Apparently the pet JAs (like Radial Arcana) may require pet midcast rather than precast
 - Save certain toggles and sets between reloads
 - Potentially make an override to force the PDT idle set regardless of whether I have a bubble out.
 - Steal Aquaveil stuff from SCH
