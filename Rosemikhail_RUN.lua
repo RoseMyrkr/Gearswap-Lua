@@ -7,14 +7,12 @@ include("Modes.lua")
 
 --[[
 TO DO:
-- Finish base TP set
-- Finish base weapon skill sets (probably Nyame innit)
-- FC set or FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
+- FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
     - Buff check in precast
 - Add priorities to everything
 - Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
-- SIRD set + force toggle
+- SIRD set + force toggle? or just a toggle for enmity - may default to SIRD if nothing is defined for that spell?
 - Parrying set when I have access to SU3
 
 STRETCH
@@ -260,7 +258,7 @@ function get_sets()
         feet="Nyame Sollerets",             -- 7% DT
         neck="Loricate Torque +1",          -- 6% DT
         waist="Plat. Mog. Belt",            -- 3% DT +10% HP, Replace with Engraved Belt
-        left_ear="Odnowa Earring +1",      -- 3% DT, 2% MDT
+        left_ear="Odnowa Earring +1",       -- 3% DT, 2% MDT
         right_ear="Tuisto Earring",
         left_ring="Gelatinous Ring +1",     -- 7% PDT
         right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
@@ -628,8 +626,8 @@ function get_sets()
     -- WEAPONSKILLS 
     ----------------------------------------------------------------
 
-    -- This needs DT gear but will do for now
-    sets.ws.default = { -- Obviously needs to be updated
+    -- None of these have DT yet but I can figure that out later
+    sets.ws.default = {
         ranged=empty,
         ammo="Knobkierrie",
         head="Nyame Helm",
@@ -641,77 +639,80 @@ function get_sets()
         waist="Kentarch Belt +1",
         left_ear="Odnowa Earring +1",
         right_ear="Sherida Earring",
-        left_ring="Petrov Ring",
-        right_ring="Rufescent Ring",
+        left_ring="Rufescent Ring",
+        right_ring="Petrov Ring",
         back="Alabaster Mantle",
     }
 
-    -- Spitballing.
-    -- sets.ws["Requiescat"] = {
-    --     ranged=empty,
-    --     ammo="Knobkierrie",
-    --     head="Nyame Helm",
-    --     body="Nyame Mail",
-    --     hands="Nyame Gauntlets",
-    --     legs="Nyame Flanchard",
-    --     feet="Nyame Sollerets",
-    --     neck="Null Loop",
-    --     waist="Rumination Sash",
-    --     left_ear="Moonshade Earring",
-    --     right_ear="Sherida Earring",
-    --     left_ring="Metamor. Ring +1",
-    --     right_ring="Rufescent Ring",
-    --     back="Alabaster Mantle",
-    -- }
-
-    sets.ws["Dimidiation"] = set_combine(sets.ws.default, {
-        -- ammo="",
-        -- head="",
-        -- body="",
-        -- hands="",
-        -- legs="",
-        -- feet="",
-        -- neck="",
-        -- waist="",
-        -- left_ear="",
-        -- right_ear="",
-        -- left_ring="",
-        -- right_ring="",
-        -- back="",
+    sets.ws["Resolution"] = set_combine(sets.ws.default, {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.relic.head,
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear="Sherida Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Petrov Ring",
+        back="Alabaster Mantle",
     })
 
-    sets.ws["Resolution"] = set_combine(sets.ws.default, {
-        -- ammo="",
-        -- head="",
-        -- body="",
-        -- hands="",
-        -- legs="",
-        -- feet="",
-        -- neck="",
-        -- waist="",
-        -- left_ear="",
-        -- right_ear="",
-        -- left_ring="",
-        -- right_ring="",
-        -- back="",
+    sets.ws["Hard Slash"] = set_combine(sets.ws.default, {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.relic.head,
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear="Sherida Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Petrov Ring",
+        back="Null Shawl",
     })
 
     sets.ws["Herculean Slash"] = set_combine(sets.ws.default, {
-        -- ammo="",
-        -- head="",
-        -- body="",
-        -- hands="",
-        -- legs="",
-        -- feet="",
-        -- neck="",
-        -- waist="",
-        -- left_ear="",
-        -- right_ear="",
-        -- left_ring="",
-        -- right_ring="",
-        -- back="",
+        ranged=empty,
+        ammo="Knobkierrie",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Agwu's Gages",
+        legs="Nyame Flanchard",
+        feet="Agwu's Pigaches",
+        neck="Sibyl Scarf",
+        waist="Orpheus's Sash",
+        left_ear="Friomisi Earring",
+        right_ear="Ishvara Earring",
+        left_ring="Gelatinous Ring +1",
+        right_ring="Petrov Ring",
+        back="Alabaster Mantle",
     })
 
+    sets.ws["Dimidiation"] = set_combine(sets.ws.default, {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Kentarch Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear="Sherida Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Petrov Ring",
+        back="Alabaster Mantle",
+    })
+
+    -- Can't sim sword WS at the moment due to an issue with the Kastra sim
     sets.ws["Savage Blade"] = set_combine(sets.ws.default, {
         -- ammo="",
         -- head="",
@@ -727,6 +728,24 @@ function get_sets()
         -- right_ring="",
         -- back="",
     })
+
+    -- Spitballing. I don't know because I can't use the sim :)
+    sets.ws["Requiescat"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Rumination Sash",
+        left_ear="Moonshade Earring",
+        right_ear="Sherida Earring",
+        left_ring="Metamor. Ring +1",
+        right_ring="Rufescent Ring",
+        back="Alabaster Mantle",
+    }
 
     ----------------------------------------------------------------
     -- BUFF 
