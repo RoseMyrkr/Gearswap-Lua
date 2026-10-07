@@ -341,20 +341,21 @@ function get_sets()
     }
 
     -- I don't expect that I'll be using this much
+    -- This needs work. Just a temporary thing.
     sets.engaged["TP"] = {
         range=empty,
         ammo="Amar Cluster",
-        head="Null Masque",
-        body="Adamantite Armor",
-        hands="Nyame Gauntlets",    -- -7% DT
-        legs="Nyame Flanchard",     -- -8% DT
-        feet="Nyame Sollerets",     -- -7% DT
+        head="Ischkur Turban",
+        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
+        hands="Nyame Gauntlets",
+        legs="Aya. Cosciales +2",
+        feet="Nyame Sollerets",
         neck="Null Loop",
-        waist="Null Belt",
-        left_ear="Crep. Earring",
-        right_ear="Regal Earring", -- Replace with Telos Earring
-        left_ring="Lehko's Ring",
-        right_ring="Defending Ring",
+        waist="Kentarch Belt +1",
+        left_ear="Alabaster Earring",
+        right_ear="Sherida Earring",
+        left_ring="Murky Ring",
+        right_ring="Petrov Ring",
         back="Null Shawl",
     }
 
@@ -532,7 +533,7 @@ function get_sets()
         -- feet="",
         -- neck="",
         -- waist="",
-        -- left_ear="",
+        left_ear="Hakasz Earring", -- 5% SIRD
         -- right_ear="",
         -- left_ring="",
         -- right_ring="",
@@ -612,85 +613,105 @@ function get_sets()
     -- WEAPONSKILLS 
     ----------------------------------------------------------------
 
+    -- This needs DT gear but will do for now
     sets.ws.default = { -- Obviously needs to be updated
-        ammo="Oshasha's Treatise",
+        ranged=empty,
+        ammo="Knobkierrie",
         head="Nyame Helm",
         body="Nyame Mail",
         hands="Nyame Gauntlets",
-        legs=jse.empyrean.feet,
+        legs="Nyame Flanchard",
         feet="Nyame Sollerets",
-        neck="Rep. Plat. Medal",
-        waist="Grunfeld Rope",
-        left_ear="Ethereal Earring",
-        right_ear="Cessance Earring",
-        left_ring="Rufescent Ring",
-        right_ring="Rajas Ring",
+        neck="Null Loop",
+        waist="Kentarch Belt +1",
+        left_ear="Odnowa Earring +1",
+        right_ear="Sherida Earring",
+        left_ring="Petrov Ring",
+        right_ring="Rufescent Ring",
         back="Alabaster Mantle",
     }
 
-    sets.ws["Dimidiation"] = {
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-    }
+    -- Spitballing.
+    -- sets.ws["Requiescat"] = {
+    --     ranged=empty,
+    --     ammo="Knobkierrie",
+    --     head="Nyame Helm",
+    --     body="Nyame Mail",
+    --     hands="Nyame Gauntlets",
+    --     legs="Nyame Flanchard",
+    --     feet="Nyame Sollerets",
+    --     neck="Null Loop",
+    --     waist="Rumination Sash",
+    --     left_ear="Moonshade Earring",
+    --     right_ear="Sherida Earring",
+    --     left_ring="Metamor. Ring +1",
+    --     right_ring="Rufescent Ring",
+    --     back="Alabaster Mantle",
+    -- }
 
-    sets.ws["Resolution"] = {
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-    }
+    sets.ws["Dimidiation"] = set_combine(sets.ws.default, {
+        -- ammo="",
+        -- head="",
+        -- body="",
+        -- hands="",
+        -- legs="",
+        -- feet="",
+        -- neck="",
+        -- waist="",
+        -- left_ear="",
+        -- right_ear="",
+        -- left_ring="",
+        -- right_ring="",
+        -- back="",
+    })
 
-    sets.ws["Herculean Slash"] = {
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-    }
+    sets.ws["Resolution"] = set_combine(sets.ws.default, {
+        -- ammo="",
+        -- head="",
+        -- body="",
+        -- hands="",
+        -- legs="",
+        -- feet="",
+        -- neck="",
+        -- waist="",
+        -- left_ear="",
+        -- right_ear="",
+        -- left_ring="",
+        -- right_ring="",
+        -- back="",
+    })
 
-    sets.ws["Savage Blade"] = {
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-    }
+    sets.ws["Herculean Slash"] = set_combine(sets.ws.default, {
+        -- ammo="",
+        -- head="",
+        -- body="",
+        -- hands="",
+        -- legs="",
+        -- feet="",
+        -- neck="",
+        -- waist="",
+        -- left_ear="",
+        -- right_ear="",
+        -- left_ring="",
+        -- right_ring="",
+        -- back="",
+    })
+
+    sets.ws["Savage Blade"] = set_combine(sets.ws.default, {
+        -- ammo="",
+        -- head="",
+        -- body="",
+        -- hands="",
+        -- legs="",
+        -- feet="",
+        -- neck="",
+        -- waist="",
+        -- left_ear="",
+        -- right_ear="",
+        -- left_ring="",
+        -- right_ring="",
+        -- back="",
+    })
 
     ----------------------------------------------------------------
     -- BUFF 
