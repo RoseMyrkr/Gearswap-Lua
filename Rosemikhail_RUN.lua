@@ -340,25 +340,25 @@ function get_sets()
     }
 
     -- I don't expect that I'll be using this much
-    -- This needs work. Just a temporary thing.
+    -- This probably needs work.
     sets.engaged["TP"] = {
         range=empty,
-        ammo="Amar Cluster",
-        head="Ischkur Turban",
-        body="Nyame Mail",
+        ammo="Coiste Bodhar", -- No RP at the moment...
+        head="Null Masque",
+        body="Ayanmo Corazza +2",
         hands="Nyame Gauntlets",
         legs=jse.empyrean.legs,
-        feet="Nyame Sollerets",
+        feet="Carmine Greaves +1",
         neck="Null Loop",
-        waist="Sailfi Belt +1",
+        waist="Kentarch Belt +1",
         left_ear="Cessance Earring",
         right_ear="Sherida Earring",
-        left_ring="Murky Ring",
-        right_ring="Lehko's Ring",
+        left_ring="Moonbeam Ring",
+        right_ring="Moonbeam Ring",
         back="Null Shawl",
     }
 
-    -- Not sure if I'll bother having separate max DPS and hybrid TP sets. Maybe just do hybrid?
+    -- Not sure if I'll bother having a separate max TP set. Hybrid seems cozier.
 
     ----------------------------------------------------------------
     -- PRECAST
