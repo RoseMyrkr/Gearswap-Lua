@@ -548,7 +548,7 @@ function get_sets()
         -- feet="",
         -- neck="",
         -- waist="",
-        left_ear="Hakasz Earring", -- 5% SIRD
+        left_ear="Halasz Earring", -- 5% SIRD
         -- right_ear="",
         -- left_ring="",
         -- right_ring="",
