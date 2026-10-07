@@ -345,16 +345,16 @@ function get_sets()
         range=empty,
         ammo="Amar Cluster",
         head="Ischkur Turban",
-        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
+        body="Nyame Mail",
         hands="Nyame Gauntlets",
-        legs="Aya. Cosciales +2",
+        legs=jse.empyrean.legs,
         feet="Nyame Sollerets",
         neck="Null Loop",
-        waist="Kentarch Belt +1",
-        left_ear="Alabaster Earring",
+        waist="Sailfi Belt +1",
+        left_ear="Cessance Earring",
         right_ear="Sherida Earring",
         left_ring="Murky Ring",
-        right_ring="Petrov Ring",
+        right_ring="Lehko's Ring",
         back="Null Shawl",
     }
 
@@ -371,10 +371,10 @@ function get_sets()
     -- Platinum moogle belt is apparently good but needs to be a priority swap to come on first
     sets.precast.fast_cast = set_combine(sets.idle["Normal"], {
         range=empty,
-        --ammo="", -- Sapience Orb
+        ammo="Staunch Tathlum", -- Sapience Orb
         head=jse.AF.head,                                                                           -- 14% FC
-        --body="", -- Empyrean Body
-        --hands="", -- Leyline Gloves
+        body="Adamantite Armor", -- Empyrean Body
+        hands="Nyame Gauntlets", -- Leyline Gloves
         legs="Agwu's Slops",                                                                        -- 7% FC
         feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}},       -- 8% FC
         neck="Voltsurge Torque",                                                                    -- 4% FC
@@ -644,7 +644,7 @@ function get_sets()
         back="Alabaster Mantle",
     }
 
-    sets.ws["Resolution"] = set_combine(sets.ws.default, {
+    sets.ws["Resolution"] = {
         ranged=empty,
         ammo="Knobkierrie",
         head=jse.relic.head,
@@ -659,9 +659,9 @@ function get_sets()
         left_ring="Rufescent Ring",
         right_ring="Petrov Ring",
         back="Alabaster Mantle",
-    })
+    }
 
-    sets.ws["Hard Slash"] = set_combine(sets.ws.default, {
+    sets.ws["Hard Slash"] = {
         ranged=empty,
         ammo="Knobkierrie",
         head=jse.relic.head,
@@ -676,9 +676,26 @@ function get_sets()
         left_ring="Rufescent Ring",
         right_ring="Petrov Ring",
         back="Null Shawl",
-    })
+    }
 
-    sets.ws["Herculean Slash"] = set_combine(sets.ws.default, {
+    sets.ws["Shockwave"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Sailfi Belt +1",
+        left_ear="Cessance Earring",
+        right_ear="Sherida Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Petrov Ring",
+        back="Null Shawl",
+    }
+
+    sets.ws["Herculean Slash"] = {
         ranged=empty,
         ammo="Knobkierrie",
         head="Nyame Helm",
@@ -693,9 +710,9 @@ function get_sets()
         left_ring="Gelatinous Ring +1",
         right_ring="Petrov Ring",
         back="Alabaster Mantle",
-    })
+    }
 
-    sets.ws["Dimidiation"] = set_combine(sets.ws.default, {
+    sets.ws["Dimidiation"] = {
         ranged=empty,
         ammo="Knobkierrie",
         head="Nyame Helm",
@@ -710,7 +727,7 @@ function get_sets()
         left_ring="Rufescent Ring",
         right_ring="Petrov Ring",
         back="Alabaster Mantle",
-    })
+    }
 
     -- Can't sim sword WS at the moment due to an issue with the Kastra sim
     sets.ws["Savage Blade"] = set_combine(sets.ws.default, {
