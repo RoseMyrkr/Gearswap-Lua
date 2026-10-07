@@ -1260,14 +1260,12 @@ function self_command(command)
                 weapon_mode:set(last_weapon_mode)
             end
             nuking_mode:set("Burst")
-            --idle()
 
         elseif sub_command == "freenuke" then
             if nuking_mode.current == "Occult Acumen" then
                 weapon_mode:set(last_weapon_mode)
             end
             nuking_mode:set("Free Nuke")
-            --idle()
 
         elseif sub_command == "occultacumen" then
             if nuking_mode.current ~= "Occult Acumen" then
@@ -1275,10 +1273,8 @@ function self_command(command)
             end
             weapon_mode:set("Khatvanga")
             nuking_mode:set("Occult Acumen")
-            --idle()
         else
             nuking_mode:cycle()
-            --idle()
         end
 
         idle()

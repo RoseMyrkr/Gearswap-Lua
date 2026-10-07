@@ -7,32 +7,24 @@ include("Modes.lua")
 
 --[[
 TO DO:
-- Defeat the final Legion NMs for a title to get another Rare Enemy+ vorseal rank
-- Defeat Tumult Curator UNM for a title to get another Rare Enemy+ vorseal rank
-- Finish a base enmity set
-    - Get either Rabid Visor (Vagary) or Halitus Helm (Warder of Justice)
-- Finish a base engaged set (and extend with parrying/magical if I can)
 - Finish base TP set
 - Finish base weapon skill sets (probably Nyame innit)
 - FC set or FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
     - Buff check in precast
 - Add priorities to everything
 - Pick up /BLU and get a fuck ton of spells. See Dumo guide.
+- Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
+- SIRD set + force toggle
+- Parrying set when I have access to SU3
 
 STRETCH
-- Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
-- Right now, activating Embolden will switch me to my Phalanx set in idle. I might want to handle this different for something like Protect because the Evasionist's Cape exist.
-    - Maybe add a toggle for this? Phalanx Embolden vs standard Embolden
 - Enmity mode (enmity vs safe enmity)
-- SIRD sets alternative + toggle
 - Regen idle when it comes to it (Sortie...)
-- Parrying set when it comes to it
 - Magic set when it comes to it
 - SOME BLU magic IS subject to weather effects
 - Swipe/Lunch JA magic burst damage
     - If I have double weather OR single weather + matching day, Hachirin-no-Obi is better than Osash
 - Consider resist death things
-- If I want to have higher MEVA, Nyame is maybe better than Adamantite
 
 ALL JOBS
 - Doomed Overlay/set
@@ -46,8 +38,8 @@ ALL JOBS
 
 -- Modes and toggles
 weapon_mode = M{"Aettir", "Naegling", "Kaja Chopper", "Kaja Axe"} -- Update these
-engaged_mode = M{"Physical", "TP"}
-idle_mode = M{"Normal"}
+engaged_mode = M{"Physical", "Magical", "TP"}
+idle_mode = M{"Normal", "Buffs", "Phalanx"}
 
 toggle_speed = "Off"
 weapon_lock = "Off"
@@ -57,9 +49,13 @@ match_list = S{"Cure", "Regen"}
 enmity_spells = S{"Foil", "Flash", "Sheep Song", "Stinking Gas", "Jettatura", "Geist Wall", "Blank Gaze", "Chaotic Eye", "Soporific", "Cold Wave", "Frightful Roar", "Bomb Toss", "Cursed Sphere"}
 
 -- Bindings
+send_command("bind f1 gs c idlemode normal")
+send_command("bind f2 gs c idlemode buffs")
+send_command("bind f3 gs c idlemode phalanx")
+
 send_command("bind f5 gs c weaponmode")
 send_command("bind f6 gs c engagedmode")
-send_command("bind f7 gs c idlemode")
+
 send_command("bind f8 gs c lockweapon")
 
 send_command("bind f9 gs c togglespeed")
@@ -91,10 +87,10 @@ function build_info_box()
     end
 
     local output = string.format(
-        "[F5] Weapon: %s [F6] Engaged: %s [F7] Idle: %s [F8] Weapon Lock: %s [F9] Speed: %s",
+        "[F1-F3] Idle: %s [F5] Weapon: %s [F6] Engaged: %s [F8] Weapon Lock: %s [F9] Speed: %s",
+        idle_mode.current,
         weapon_mode.current,
         engaged_mode.current,
-        idle_mode.current,
         format_toggle(weapon_lock),
         format_toggle(toggle_speed)
     )
@@ -131,7 +127,7 @@ function update_lockstyle()
 end
 
 function update_macro_book()
-    send_command("input /macro book 5;input /macro set 1")
+    send_command("input /macro book 10;input /macro set 1")
 end
 
 update_lockstyle()
@@ -149,12 +145,12 @@ function get_sets()
                 main="Aettir",
                 sub="Khonsu", -- Potentially refined grip later
             },
-            engaged_sets = {"Physical", "TP"},
+            engaged_sets = {"Physical", "Magical", "TP"},
             overrides = {
-                -- ["Magical"] = {
-                --     main="Aettir",
-                --     sub="Irenic Strap +1",
-                -- },
+                ["Magical"] = {
+                    main="Aettir",
+                    sub="Irenic Strap +1",
+                },
                 -- ["TP"] = {
                 --     main="Aettir",
                 --     sub="Utu Grip",
@@ -253,47 +249,96 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
-    -- May be worth keeping a RUN +1 earring for Regen received
-
-    -- Used not only when running around but also for unengaged tanking
-    sets.idle["Normal"] = { -- 71% DT, 2% MDT, 8% PDT
-        ammo="Staunch Tathlum", -- 2% DT
-        head="Null Masque", -- 10% DT Regen +3 Refresh +1 Regain +2
-        body="Adamantite Armor", -- 20% DT
-        hands="Nyame Gauntlets", --  7% DT
-        legs="Nyame Flanchard", -- 8% DT
-        feet="Nyame Sollerets", -- 7% DT
-        neck="Loricate Torque +1", -- 6% DT
-        waist="Plat. Mog. Belt", -- 3% DT +10% HP
-        left_ear="Odnowa Earring +1", -- 3% DT, 2% MDT
-        right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- Replace with Tuisto, 4% DT, Regen Received +11
-        left_ring="Gelatinous Ring +1", -- 7% PDT
-        right_ring="Moonbeam Ring", -- 4% DT
+    sets.idle["Normal"] = {                 -- 71% DT, 2% MDT, 7% PDT
+        range=empty,
+        ammo="Staunch Tathlum",             -- 2% DT
+        head="Null Masque",                 -- 10% DT Regen +3 Refresh +1 Regain +2
+        body="Adamantite Armor",            -- 20% DT
+        hands="Nyame Gauntlets",            -- 7% DT
+        legs="Nyame Flanchard",             -- 8% DT
+        feet="Nyame Sollerets",             -- 7% DT
+        neck="Loricate Torque +1",          -- 6% DT
+        waist="Plat. Mog. Belt",            -- 3% DT +10% HP, Replace with Engraved Belt
+        left_ear="Odnowa Earring +1",      -- 3% DT, 2% MDT
+        right_ear="Tuisto Earring",
+        left_ring="Gelatinous Ring +1",     -- 7% PDT
+        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
         back="Null Shawl",
+    }
+
+    sets.idle["Buffs"] = {                  -- 68 DT, 7% PDT
+        range=empty,
+        ammo="Staunch Tathlum",             -- 2% DT
+        head="Null Masque",                 -- 10% DT Regen +3 Refresh +1 Regain +2
+        body="Adamantite Armor",            -- 20% DT
+        hands="Nyame Gauntlets",            -- 7% DT
+        legs="Nyame Flanchard",             -- 8% DT
+        feet="Nyame Sollerets",             -- 7% DT
+        neck="Loricate Torque +1",          -- 6% DT
+        waist="Gishdubar Sash",
+        left_ear="Brachyura Earring",
+        right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}},
+        left_ring="Gelatinous Ring +1",     -- 7% PDT
+        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
+        back=jse.capes.parry,
+    }
+
+    sets.idle["Phalanx"] = {
+        ammo="Staunch Tathlum",
+        head=jse.relic.head,
+        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
+        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
+        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}},
+        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}},
+        neck="Loricate Torque +1",
+        waist="Plat. Mog. Belt",
+        left_ear="Odnowa Earring +1",
+        right_ear="Alabaster Earring",
+        left_ring="Gelatinous Ring +1",
+        right_ring="Moonbeam Ring",
+        back="Moonbeam Cape",
     }
 
     ----------------------------------------------------------------
     -- ENGAGED
     ----------------------------------------------------------------
 
-    -- May be worth keeping a RUN +1 earring for Regen received
+    -- Set for if I can't force the enemies into a cone
+    -- Default set for now until I get SU3
+    sets.engaged["Physical"] = {            -- 76% DT, 2% MDT, 7% PDT
+        range=empty,
+        ammo="Staunch Tathlum",             -- 2% DT
+        head="Null Masque",                 -- 10% DT Regen +3 Refresh +1 Regain +2, Replace with Empyrean +3
+        body="Adamantite Armor",            -- 20% DT, Replace with Empyrean +3
+        hands="Nyame Gauntlets",            -- 7% DT, Replace with Empyrean +3
+        legs=jse.empyrean.legs,             -- 13% DT
+        feet="Nyame Sollerets",             -- 7% DT, Replace with Empyrean +3
+        neck="Loricate Torque +1",          -- 6% DT
+        waist="Plat. Mog. Belt",            -- 3% DT +10% HP, Replace with Engraved Belt
+        left_ear="Odnowa Earring +1",      -- 3% DT, 2% MDT
+        right_ear="Tuisto Earring",
+        left_ring="Gelatinous Ring +1",     -- 7% PDT
+        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
+        back=jse.capes.parry,
+    }
 
-    sets.engaged["Physical"] = set_combine(sets.idle["Normal"], {
-        range="",
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
-    })
+    -- If DT needs are met, Warders Charm +1. If not, JSE neck +1/2.
+    sets.engaged["Magical"] = {            -- 56% DT, 2% MDT, 7% PDT
+        range=empty,
+        ammo="Staunch Tathlum",             -- 2% DT
+        head="Nyame Helm",                  -- 7% DT, Replace with Empyrean +3
+        body="Nyame Mail",                  -- 9% DT, Replace with Empyrean +3, Consider swapping in Adamantite Armor
+        hands="Nyame Gauntlets",            -- 7% DT, Replace with Empyrean +3
+        legs=jse.empyrean.legs,             -- 13% DT
+        feet="Nyame Sollerets",             -- 7% DT, Replace with Empyrean +3
+        neck="Warder's Charm +1",
+        waist="Plat. Mog. Belt",            -- 3% DT +10% HP, Replace with Engraved Belt
+        left_ear="Odnowa Earring +1",       -- 3% DT, 2% MDT
+        right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT
+        left_ring="Gelatinous Ring +1",     -- 7% PDT, Replace with Shadow Ring
+        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
+        back=jse.capes.parry,
+    }
 
     -- I don't expect that I'll be using this much
     sets.engaged["TP"] = {
@@ -319,6 +364,10 @@ function get_sets()
     -- PRECAST
     ----------------------------------------------------------------
     
+    -- I am at 40% FC under Inspiration from 4/5 Merits
+    -- Relic legs give +2% for every merit. Extra 8%.
+    -- Potentially switch to 5/5 ?
+
     -- Platinum moogle belt is apparently good but needs to be a priority swap to come on first
     sets.precast.fast_cast = set_combine(sets.idle["Normal"], {
     })
@@ -375,7 +424,22 @@ function get_sets()
 
     -- This is not the most elegant solution but we need barspell to be checked separately in midcast
     -- Aims are 501 skill + fill with duration
-    sets.midcast.barspell = {} -- Enhancing skill
+    sets.midcast.barspell = { -- Enhancing skill
+        ammo="",
+        head="",
+        body="",
+        hands="",
+        legs="",
+        feet="",
+        neck="",
+        waist="",
+        left_ear="",
+        right_ear="",
+        left_ring="",
+        right_ring="",
+        back="",
+    }
+
     sets.midcast["Aquaveil"] = sets.midcast.barspell
     sets.midcast["Temper"] = sets.midcast.barspell
 
@@ -395,17 +459,101 @@ function get_sets()
         back="Moonbeam Cape", -- Replace with Merciful Cape
     }
 
-    sets.midcast["Regen"] = {}
+    sets.midcast["Regen"] = {
+        ammo="",
+        head="",
+        body="",
+        hands="",
+        legs="",
+        feet="",
+        neck="",
+        waist="",
+        left_ear="",
+        right_ear="",
+        left_ring="",
+        right_ring="",
+        back="",
+    }
 
-    sets.midcast["Refresh"] = {}
+    sets.midcast["Refresh"] = {
+        ammo="",
+        head="",
+        body="",
+        hands="",
+        legs="",
+        feet="",
+        neck="",
+        waist="",
+        left_ear="",
+        right_ear="",
+        left_ring="",
+        right_ring="",
+        back="",
+    }
 
-    sets.midcast["Stoneskin"] = {} -- Not sure how close we can get to 500 but there are specific pieces I want here.
+    sets.midcast["Stoneskin"] = { -- Not sure how close we can get to 500 but there are specific pieces I want here.
+        ammo="",
+        head="",
+        body="",
+        hands="",
+        legs="",
+        feet="",
+        neck="",
+        waist="",
+        left_ear="",
+        right_ear="",
+        left_ring="",
+        right_ring="",
+        back="",
+    }
 
-    sets.midcast["Cure"] = {}
+    sets.midcast["Cure"] = {
+        ammo="",
+        head="",
+        body="",
+        hands="",
+        legs="",
+        feet="",
+        neck="",
+        waist="",
+        left_ear="",
+        right_ear="",
+        left_ring="",
+        right_ring="",
+        back="",
+    }
 
-    sets.midcast.SIRD = sets.idle["Normal"] -- This needs to become something proper
+    sets.midcast.SIRD = set_combine(sets.idle["Normal"], { -- This needs to become something proper
+        -- ammo="",
+        -- head="",
+        -- body="",
+        -- hands="",
+        -- legs="",
+        -- feet="",
+        -- neck="",
+        -- waist="",
+        -- left_ear="",
+        -- right_ear="",
+        -- left_ring="",
+        -- right_ring="",
+        -- back="",
+    })
 
-    sets.midcast["Enfeebling Magic"] = {}
+    sets.midcast["Enfeebling Magic"] = {
+        ammo="",
+        head="",
+        body="",
+        hands="",
+        legs="",
+        feet="",
+        neck="",
+        waist="",
+        left_ear="",
+        right_ear="",
+        left_ring="",
+        right_ring="",
+        back="",
+    }
 
     ----------------------------------------------------------------
     -- JOB ABILITIES 
@@ -512,7 +660,7 @@ function get_sets()
         back="",
     }
 
-    sets.ws["Fimbulvetre"] = {
+    sets.ws["Herculean Slash"] = {
         ammo="",
         head="",
         body="",
@@ -545,7 +693,7 @@ function get_sets()
     }
 
     ----------------------------------------------------------------
-    -- OVERRIDE 
+    -- BUFF 
     ----------------------------------------------------------------
 
     sets.override["Phalanx"] = { -- PDT + DT = 45, Phalanx 26
@@ -562,6 +710,10 @@ function get_sets()
         left_ring="Gelatinous Ring +1",
         right_ring="Moonbeam Ring",
         back="Moonbeam Cape",
+    }
+
+    sets.buff.embolden = {
+        back={ name="Evasionist's Cape", augments={'Enmity+4','"Embolden"+15','"Dbl.Atk."+1',}},
     }
 end
 
@@ -592,11 +744,6 @@ function equip_set_and_weapon(set)
 end
 
 function idle()
-    if buffactive["Embolden"] then
-        equip_set_and_weapon(sets.override["Phalanx"])
-        return;
-    end
-
     -- I don't *think* I need to care about Sublimation on Runefencer?
     -- Choose between engaged set and regular idle
     if player.status == "Engaged" then
@@ -612,6 +759,12 @@ function idle()
         if toggle_speed == "On" then
             equip({right_ring="Shneddick Ring",})
         end
+    end
+
+    -- Embolden overlay
+    if buffactive["Embolden"] then
+        equip_set_and_weapon(sets.buff.embolden)
+        return;
     end
 end
 
@@ -728,6 +881,12 @@ function midcast(spell)
         if is_cure and element_matches_weather then
             equip({main="Chatoyant Staff", sub="Khonsu",})
         end
+
+        -- Embolden overlay (for self-casting)
+        if buffactive["Embolden"] and spell.skill == "Enhancing Magic" then
+            equip_set_and_weapon(sets.buff.embolden)
+            return;
+        end
     end
 end
 
@@ -760,7 +919,22 @@ function self_command(command)
     local main_command = commandArgs[1]
     local sub_command = commandArgs[2]
 
-    if main_command == "weaponmode" then
+    if main_command == "idlemode" then
+        if sub_command == "normal" then
+            idle_mode:set("Normal")
+        elseif sub_command == "buffs" then
+            idle_mode:set("Buffs")
+        elseif sub_command == "phalanx" then
+            idle_mode:set("Phalanx")
+        else
+            idle_mode:cycle()
+        end
+
+        idle()
+
+        add_to_chat(123, string.format("Idle mode set to %s", idle_mode.current))
+
+    elseif main_command == "weaponmode" then
         weapon_mode:cycle()
         add_to_chat(123, string.format("Weapon mode set to %s", weapon_mode.current))
         update_engaged_modes(weapon_sets)
@@ -769,11 +943,6 @@ function self_command(command)
     elseif main_command == "engagedmode" then
         engaged_mode:cycle()
         add_to_chat(123, string.format("Engaged mode set to %s", engaged_mode.current))
-        idle()
-
-    elseif main_command == "idlemode" then
-        idle_mode:cycle()
-        add_to_chat(123, string.format("Idle mode set to %s", idle_mode.current))
         idle()
 
     elseif main_command == "lockweapon" then
@@ -805,7 +974,7 @@ end
 function file_unload(file_name)
     send_command("unbind f5")
     send_command("unbind f6")
-    send_command("unbind f7")
+
     send_command("unbind f8")
 
     send_command("unbind f9")
