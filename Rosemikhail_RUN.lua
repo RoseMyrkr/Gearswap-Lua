@@ -24,8 +24,7 @@ STRETCH
 - Consider resist death things
 
 ALL JOBS
-- Doomed Overlay/set
-- Doomed/Sleep cry
+- Sleep cry
 
 -- When I have a bunch more gear, re-sim TP and WS sets
 
@@ -242,7 +241,6 @@ function get_sets()
     sets.ws = {}                    -- Leave this empty
     sets.engaged = {}               -- Leave this empty
     sets.buff = {}                  -- Leave this empty
-    sets.override = {}              -- Leave this empty
 
     ----------------------------------------------------------------
     -- IDLE MODES
@@ -768,24 +766,16 @@ function get_sets()
     -- BUFF 
     ----------------------------------------------------------------
 
-    sets.override["Phalanx"] = { -- PDT + DT = 45, Phalanx 26
-        ammo="Staunch Tathlum",
-        head=jse.relic.head,
-        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
-        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
-        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}},
-        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}},
-        neck="Loricate Torque +1",
-        waist="Plat. Mog. Belt",
-        left_ear="Odnowa Earring +1",
-        right_ear="Alabaster Earring",
-        left_ring="Gelatinous Ring +1",
-        right_ring="Moonbeam Ring",
-        back="Moonbeam Cape",
-    }
-
     sets.buff.embolden = {
         back={ name="Evasionist's Cape", augments={'Enmity+4','"Embolden"+15','"Dbl.Atk."+1',}},
+    }
+
+    -- Consider separating into Holy Water on self vs Cursna received sets because if I cast Cursna on myself I may want to use Menelaus's Ring
+    sets.buff.doom = {
+        neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
+        waist="Gishdubar Sash", -- 10% Cursna
+        --left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
+        --right_ring="Blenmot's Ring +1", -- 10% Holy Water
     }
 end
 
@@ -835,8 +825,12 @@ function idle()
 
     -- Embolden overlay
     if buffactive["Embolden"] then
-        equip_set_and_weapon(sets.buff.embolden)
+        equip(sets.buff.embolden)
         return;
+    end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
     end
 end
 
@@ -960,6 +954,10 @@ function midcast(spell)
             return;
         end
     end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
+    end
 end
 
 function aftercast(spell)
@@ -971,6 +969,17 @@ function buff_change(name, gain, buff_details)
         if name == "Embolden" then
             idle()
         end
+    end
+
+    -- I don't care if we're midaction. Doom needs immediate action.
+    if name == "doom" then
+        if gain == true then
+            send_command("input /p Doom.")
+        elseif gain == false and player.status ~= "Dead" and player.status ~= "Engaged Dead" then
+            send_command("input /p Doom is removed.")
+        end
+
+        idle()
     end
 end
 

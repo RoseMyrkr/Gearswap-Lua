@@ -296,6 +296,18 @@ function get_sets()
         right_ring="Lehko's Ring",
         back="Null Shawl",
     }
+
+    ----------------------------------------------------------------
+    -- BUFF
+    ----------------------------------------------------------------
+
+    -- Consider separating into Holy Water on self vs Cursna received sets because if I cast Cursna on myself I may want to use Menelaus's Ring
+    sets.buff.doom = {
+        neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
+        waist="Gishdubar Sash", -- 10% Cursna
+        --left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
+        --right_ring="Blenmot's Ring +1", -- 10% Holy Water
+    }
 end
 
 ----------------------------------------------------------------
@@ -323,6 +335,10 @@ function idle()
         if toggle_speed == "On" then
             equip({right_ring="Shneddick Ring",})
         end
+    end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
     end
 end
 
@@ -400,10 +416,27 @@ function midcast(spell)
             idle()
         end
     end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
+    end
 end
 
 function aftercast(spell)
     idle()
+end
+
+function buff_change(name, gain, buff_details)
+    -- I don't care if we're midaction. Doom needs immediate action.
+    if name == "doom" then
+        if gain == true then
+            send_command("input /p Doom.")
+        elseif gain == false and player.status ~= "Dead" and player.status ~= "Engaged Dead" then
+            send_command("input /p Doom is removed.")
+        end
+
+        idle()
+    end
 end
 
 function status_change(new, old)

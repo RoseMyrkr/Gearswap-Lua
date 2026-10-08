@@ -12,8 +12,6 @@ Potential enhancements:
 - Add stun set loaded with recast/macc/DT
 - Allow dispelga and impact during mana wall and death
 - Toggle for Mana Wall set
-- Doomed set
-- Notification in chat when I'm slept or doomed
 
 - Potentially build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
 
@@ -33,12 +31,13 @@ Potential enhancements:
 
 - Bursting set specifically for Triboulex
 
--- Add agwu feel to aquaveil whenever it's maxed
-
 -- Automagically fill in the weapon modes based on the weapon sets
 
 - For elemental weaponskills, if I have double weather OR single weather + matching day, Hachirin-no-Obi is likely better than Osash
 - This is such a tiny optimisation that it can come later
+
+- Consider switching to if/elses again for code simplicity even if it is a bit uggo
+    - Add the doom check into precast as well if this happens. It isn't in there because 1. it's fast 2. annoying
 ]]
 
 ----------------------------------------------------------------
@@ -968,6 +967,14 @@ function get_sets()
     sets.buff.sublimation = {
         waist="Embla Sash", -- Sublimation +3
     }
+
+    -- Consider separating into Holy Water on self vs Cursna received sets because if I cast Cursna on myself I may want to use Menelaus's Ring
+    sets.buff.doom = {
+        neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
+        waist="Gishdubar Sash", -- 10% Cursna
+        --left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
+        --right_ring="Blenmot's Ring +1", -- 10% Holy Water
+    }
 end
 
 ----------------------------------------------------------------
@@ -1035,6 +1042,10 @@ function idle()
     -- Eat TP so that we can use AM2
     if eat_tp == "On" then 
         equip({neck="Chrysopoeia Torque",})
+    end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
     end
 end
 
@@ -1204,6 +1215,10 @@ function midcast(spell)
             equip({main="Chatoyant Staff", sub="Khonsu",})
         end
     end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
+    end
 end
 
 function aftercast(spell)
@@ -1233,6 +1248,17 @@ function buff_change(name, gain, buff_details)
         if not midaction() then
             idle()
         end
+    end
+
+    -- I don't care if we're midaction. Doom needs immediate action.
+    if name == "doom" then
+        if gain == true then
+            send_command("input /p Doom.")
+        elseif gain == false and player.status ~= "Dead" and player.status ~= "Engaged Dead" then
+            send_command("input /p Doom is removed.")
+        end
+
+        idle()
     end
 end
 

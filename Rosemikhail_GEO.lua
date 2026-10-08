@@ -11,8 +11,7 @@ Potential enhancements:
 - Save certain toggles and sets between reloads
 - Potentially make an override to force the PDT idle set regardless of whether I have a bubble out.
 - Steal Aquaveil stuff from SCH
-- Doomed set
-- Notification in chat when I'm slept or doomed
+- Notification in chat when I'm slept
 - Potentially build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
 - Something that checks the direction of the player in relation to the enemy to tell them what buff they'd have against it
 - Might be worth having a Gishdubar check on Refresh as it can give bonus refresh on self
@@ -25,6 +24,8 @@ Potential enhancements:
 - Update barspell logic to care about the fact that elemental and status barspells have different resistance calculations
     - i.e. status ones have a base potency, so I could just cast in conserve or idle
     - Steal from WHM
+
+- Potentially add sublimation/other SCH stuff down the line if I need to
 ]]
 
 ----------------------------------------------------------------
@@ -730,6 +731,18 @@ function get_sets()
     }
 
     sets.ws["Flash Nova"] = sets.ws["Seraph Strike"] -- 1000
+
+    ----------------------------------------------------------------
+    -- BUFF
+    ----------------------------------------------------------------
+
+    -- Consider separating into Holy Water on self vs Cursna received sets because if I cast Cursna on myself I may want to use Menelaus's Ring
+    sets.buff.doom = {
+        neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
+        waist="Gishdubar Sash", -- 10% Cursna
+        --left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
+        --right_ring="Blenmot's Ring +1", -- 10% Holy Water
+    }
 end
 
 ----------------------------------------------------------------
@@ -760,6 +773,10 @@ function idle()
                 equip({feet=jse.AF.feet})
             end
         end
+    end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
     end
 end
 
@@ -899,6 +916,10 @@ function midcast(spell)
             equip({main="Chatoyant Staff", sub="Khonsu",})
         end
     end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
+    end
 end
 
 function aftercast(spell)
@@ -908,6 +929,19 @@ function aftercast(spell)
     end
 
     idle()
+end
+
+function buff_change(name, gain, buff_details)
+    -- I don't care if we're midaction. Doom needs immediate action.
+    if name == "doom" then
+        if gain == true then
+            send_command("input /p Doom.")
+        elseif gain == false and player.status ~= "Dead" and player.status ~= "Engaged Dead" then
+            send_command("input /p Doom is removed.")
+        end
+
+        idle()
+    end
 end
 
 function pet_change(pet,gain)

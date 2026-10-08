@@ -9,7 +9,7 @@ include("Modes.lua")
 -- Missing sub dancer TP set/functionality for the moment and that is okay:)
 
 Kinda just do this as and when:
-- Notification in chat when I'm slept or doomed
+- Notification in chat when I'm slept
 
 Potential enhancements:
 - Save certain toggles and sets between reloads
@@ -857,6 +857,14 @@ function get_sets()
         body=jse.relic.body,                                                                                                            -- Sublimation +5
         waist="Embla Sash",                                                                                                             -- Sublimation +3
     }
+
+    -- Consider separating into Holy Water on self vs Cursna received sets because if I cast Cursna on myself I may want to use Menelaus's Ring
+    sets.buff.doom = {
+        neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
+        waist="Gishdubar Sash", -- 10% Cursna
+        --left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
+        --right_ring="Blenmot's Ring +1", -- 10% Holy Water
+    }
 end
 
 ----------------------------------------------------------------
@@ -908,6 +916,10 @@ function idle()
         if toggle_speed == "On" then
             equip({right_ring="Shneddick Ring",})
         end
+    end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
     end
 end
 
@@ -1127,6 +1139,10 @@ function midcast(spell)
             equip({head=jse.relic.head, waist="Null Belt"})
         end
     end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
+    end
 end
 
 function aftercast(spell)
@@ -1144,12 +1160,6 @@ function buff_change(name, gain, buff_details)
     if not midaction() and name == "Sublimation: Activated" then
         idle()
     end
-
-    -- Part of the "why is ping like this" solution for minimal delays in checking for Immanence
-    -- I'm happy to leave this in buff_change, as Immanence wearing is less time sensitive than it being gained + this accounts for any interrupted nukes/helixes
-    -- if name == "Immanence" and gain == true then
-    --     add_to_chat(200, "Immanence buff is active.")
-    -- end
     
     if name == "Immanence" and gain == false then
         immanence = false
@@ -1161,6 +1171,17 @@ function buff_change(name, gain, buff_details)
         if not midaction() then
             idle()
         end
+    end
+
+    -- I don't care if we're midaction. Doom needs immediate action.
+    if name == "doom" then
+        if gain == true then
+            send_command("input /p Doom.")
+        elseif gain == false and player.status ~= "Dead" and player.status ~= "Engaged Dead" then
+            send_command("input /p Doom is removed.")
+        end
+
+        idle()
     end
 end
 
