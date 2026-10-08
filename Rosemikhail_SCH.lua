@@ -862,7 +862,7 @@ function get_sets()
     sets.buff.doom = {
         neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
         waist="Gishdubar Sash", -- 10% Cursna
-        --left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
+        left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
         --right_ring="Blenmot's Ring +1", -- 10% Holy Water
     }
 end
@@ -1176,9 +1176,11 @@ function buff_change(name, gain, buff_details)
     -- I don't care if we're midaction. Doom needs immediate action.
     if name == "doom" then
         if gain == true then
-            send_command("input /p Doom.")
+            add_to_chat(123, "Doom.")
+            --send_command("input /p Doom.")
         elseif gain == false and player.status ~= "Dead" and player.status ~= "Engaged Dead" then
-            send_command("input /p Doom is removed.")
+            add_to_chat(123, "Doom is removed.")
+            --send_command("input /p Doom is removed.")
         end
 
         idle()
