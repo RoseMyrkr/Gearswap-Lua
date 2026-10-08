@@ -14,6 +14,7 @@ TO DO:
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
 - SIRD set + force toggle? or just a toggle for enmity - may default to SIRD if nothing is defined for that spell?
 - Parrying set when I have access to SU3
+-- Potentially healing magic sets i.e. Cursna
 
 STRETCH
 - Enmity mode (enmity vs safe enmity)
@@ -27,7 +28,6 @@ ALL JOBS
 - Sleep cry
 
 -- When I have a bunch more gear, re-sim TP and WS sets
-
 ]]
 
 ----------------------------------------------------------------

@@ -422,7 +422,7 @@ function get_sets()
         waist="Bishop's Sash",                                                                                                          -- Healing skill
         left_ear="Meili Earring",
         right_ear={ name="Ebers Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Damage taken-3%',}},   -- Healing skill
-        left_ring="Stikini Ring",
+        left_ring="Menelaus's Ring",                                                                                                    -- Cursna +20%
         right_ring="Haoma's Ring",                                                                                                      -- Cursna +15%
         back=jse.capes.casting_idle,                                                                                                    -- Cursna +25%
     })

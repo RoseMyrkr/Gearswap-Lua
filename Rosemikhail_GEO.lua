@@ -565,7 +565,7 @@ function get_sets()
         waist="Bishop's Sash",                                                                                                      -- Healing skill
         --left_ear=,
         right_ear="Meili Earring",
-        left_ring="Stikini Ring",
+        left_ring="Menelaus's Ring",                                                                                                -- Cursna +20%
         right_ring="Haoma's Ring",                                                                                                  -- Cursna +15%
         back="Oretan. Cape +1",                                                                                                     -- Cursna +5%
     })
