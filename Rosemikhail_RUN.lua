@@ -371,7 +371,7 @@ function get_sets()
     -- Platinum moogle belt is apparently good but needs to be a priority swap to come on first
     sets.precast.fast_cast = set_combine(sets.idle["Normal"], {
         range=empty,
-        ammo="Staunch Tathlum", -- Sapience Orb
+        ammo="Sapience Orb",                                                                        -- 2% FC
         head=jse.AF.head,                                                                           -- 14% FC
         body="Adamantite Armor", -- Empyrean Body
         hands="Nyame Gauntlets", -- Leyline Gloves

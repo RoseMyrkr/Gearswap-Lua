@@ -767,8 +767,8 @@ function get_sets()
         back=jse.capes.idle_fc,                                                                                         -- -10% PDT
     }
 
-    sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {                                                      -- OVERALL +36 enmity, 27% Haste (cap 25%), 24 FC (12% recast)
-        ammo="Staunch Tathlum",                                                                                         -- -2% DT TODO: Replace with Sapience Orb
+    sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {                                                      -- OVERALL +38 enmity, 27% Haste (cap 25%), 24 FC (12% recast)
+        ammo="Sapience Orb",                                                                                            -- +2 enmity
         head="Null Masque",                                                                                             -- -10% DT, 10% Haste
         --body=jse.empyrean.body,                                                                                       -- 3% Haste (More macc than Agwu's Robe)
         body="Agwu's Robe",                                                                                             -- 3% Haste, 8 FC
