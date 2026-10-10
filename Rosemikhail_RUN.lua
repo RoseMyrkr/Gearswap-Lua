@@ -14,7 +14,7 @@ TO DO:
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
 - SIRD set + force toggle? or just a toggle for enmity - may default to SIRD if nothing is defined for that spell?
 - Parrying set when I have access to SU3
--- Potentially healing magic sets i.e. Cursna
+- Potentially healing magic sets i.e. Cursna
 
 STRETCH
 - Enmity mode (enmity vs safe enmity)
@@ -23,6 +23,7 @@ STRETCH
 - Swipe/Lunch JA magic burst damage
     - If I have double weather OR single weather + matching day, Hachirin-no-Obi is better than Osash
 - Consider resist death things
+-- I don't *think* I need to care about Sublimation on Runefencer?
 
 ALL JOBS
 - Sleep cry
@@ -44,7 +45,22 @@ weapon_lock = "Off"
 
 -- Midcast helpers
 match_list = S{"Cure", "Regen"}
-enmity_spells = S{"Foil", "Flash", "Sheep Song", "Stinking Gas", "Jettatura", "Geist Wall", "Blank Gaze", "Chaotic Eye", "Soporific", "Cold Wave", "Frightful Roar", "Bomb Toss", "Cursed Sphere"}
+enmity_spells = S{
+    "Foil",
+    "Flash",
+    "Sheep Song",
+    "Stinking Gas",
+    "Jettatura",
+    "Geist Wall",
+    "Blank Gaze",
+    "Chaotic Eye",
+    "Soporific",
+    "Cold Wave",
+    "Frightful Roar",
+    "Bomb Toss",
+    "Cursed Sphere",
+    "Stun",
+    "Poisonga"}
 
 -- Bindings
 send_command("bind f1 gs c idlemode normal")
@@ -125,7 +141,13 @@ function update_lockstyle()
 end
 
 function update_macro_book()
-    send_command("input /macro book 10;input /macro set 1")
+    if player.sub_job == "SCH" then
+        send_command("input /macro book 10;input /macro set 1")
+    elseif player.sub_job == "DRK" then
+        send_command("input /macro book 11;input /macro set 1")
+    elseif player.sub_job == "BLU" then
+        send_command("input /macro book 12;input /macro set 1")
+    end
 end
 
 update_lockstyle()
@@ -609,7 +631,7 @@ function get_sets()
     sets.ja["Pflug"] = sets.midcast.enmity
 
     -- Shove so much skill up my ass
-    sets.ja["Vivacious Pulse"] = set_combine(sets.midcast.enmity, {
+    sets.ja["Vivacious Pulse"] = set_combine(sets.midcast.enmity, { -- Probably Empyrean head just for the -na capability
         -- I unno
     })
 
@@ -636,6 +658,23 @@ function get_sets()
         neck="Null Loop",
         waist="Kentarch Belt +1",
         left_ear="Odnowa Earring +1",
+        right_ear="Sherida Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Petrov Ring",
+        back="Alabaster Mantle",
+    }
+
+    sets.ws["Dimidiation"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Kentarch Belt +1",
+        left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
         left_ring="Rufescent Ring",
         right_ring="Petrov Ring",
@@ -676,23 +715,6 @@ function get_sets()
         back="Null Shawl",
     }
 
-    sets.ws["Shockwave"] = {
-        ranged=empty,
-        ammo="Knobkierrie",
-        head="Nyame Helm",
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
-        legs=jse.empyrean.legs,
-        feet="Nyame Sollerets",
-        neck="Null Loop",
-        waist="Sailfi Belt +1",
-        left_ear="Cessance Earring",
-        right_ear="Sherida Earring",
-        left_ring="Rufescent Ring",
-        right_ring="Petrov Ring",
-        back="Null Shawl",
-    }
-
     sets.ws["Herculean Slash"] = {
         ranged=empty,
         ammo="Knobkierrie",
@@ -710,21 +732,21 @@ function get_sets()
         back="Alabaster Mantle",
     }
 
-    sets.ws["Dimidiation"] = {
+    sets.ws["Shockwave"] = {
         ranged=empty,
         ammo="Knobkierrie",
         head="Nyame Helm",
         body="Nyame Mail",
         hands="Nyame Gauntlets",
-        legs="Nyame Flanchard",
+        legs=jse.empyrean.legs,
         feet="Nyame Sollerets",
         neck="Null Loop",
-        waist="Kentarch Belt +1",
-        left_ear="Moonshade Earring",
+        waist="Sailfi Belt +1",
+        left_ear="Cessance Earring",
         right_ear="Sherida Earring",
         left_ring="Rufescent Ring",
         right_ring="Petrov Ring",
-        back="Alabaster Mantle",
+        back="Null Shawl",
     }
 
     -- Can't sim sword WS at the moment due to an issue with the Kastra sim
@@ -806,7 +828,6 @@ function equip_set_and_weapon(set)
 end
 
 function idle()
-    -- I don't *think* I need to care about Sublimation on Runefencer?
     -- Choose between engaged set and regular idle
     if player.status == "Engaged" then
         if engaged_mode.current == "Idle" then
