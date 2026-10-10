@@ -367,12 +367,12 @@ function get_sets()
     -- Potentially switch to 5/5 ?
 
     -- Platinum moogle belt is apparently good but needs to be a priority swap to come on first
-    sets.precast.fast_cast = set_combine(sets.idle["Normal"], {
+    sets.precast.fast_cast = set_combine(sets.idle["Normal"], {                                     -- 58% FC
         range=empty,
         ammo="Sapience Orb",                                                                        -- 2% FC
         head=jse.AF.head,                                                                           -- 14% FC
         body="Adamantite Armor", -- Empyrean Body
-        hands="Nyame Gauntlets", -- Leyline Gloves
+        hands={ name="Leyline Gloves", augments={'Accuracy+12','Mag. Acc.+14','"Mag.Atk.Bns."+15','"Fast Cast"+2',}},   -- 7% FC (Can do more SR to get slightly better)
         legs="Agwu's Slops",                                                                        -- 7% FC
         feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}},       -- 8% FC
         neck="Voltsurge Torque",                                                                    -- 4% FC

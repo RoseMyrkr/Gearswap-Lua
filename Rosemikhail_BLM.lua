@@ -39,7 +39,10 @@ Potential enhancements:
 - Consider switching to if/elses again for code simplicity even if it is a bit uggo
     - Add the doom check into precast as well if this happens. It isn't in there because 1. it's fast 2. annoying
 
-- Separate doomed and holy water sets
+- Probably need to make the doomed set idle only for the sake of being able to cast cursna/use holy water on myself and not make it a problem
+    - Or check if the target is myself for cursna
+
+- Account for elemental celerity in FC for the sake of MP swaps : )
 ]]
 
 ----------------------------------------------------------------
