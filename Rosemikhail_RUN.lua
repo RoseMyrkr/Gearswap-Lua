@@ -10,6 +10,7 @@ TO DO:
 - FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
     - Buff check in precast
 - Add priorities to everything
+    - JSE gear, particularly after upgrading stuff - just add to the variables
 - Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
 - SIRD set + force toggle? or just a toggle for enmity - may default to SIRD if nothing is defined for that spell?
@@ -241,10 +242,10 @@ function get_sets()
     }
 
     jse.capes = {
-        enmity={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Damage taken-5%',}},
-        parry={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Parrying rate+5%',}},
-        fast_cast={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}},
-        SIRD={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}},
+        enmity={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Damage taken-5%',}, priority=80},
+        parry={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Parrying rate+5%',}, priority=80},
+        fast_cast={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}, priority=80},
+        SIRD={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}, priority=80},
         --VIT+30, DEF+50 supertank
         -- dimidiation
         -- savage blade
@@ -268,54 +269,54 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
-    sets.idle["Normal"] = {                 -- 71% DT, 2% MDT, 7% PDT
+    sets.idle["Normal"] = {                                         -- 71% DT, 2% MDT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",             -- 2% DT
-        head="Null Masque",                 -- 10% DT Regen +3 Refresh +1 Regain +2
-        body="Adamantite Armor",            -- 20% DT
-        hands="Nyame Gauntlets",            -- 7% DT
-        legs="Nyame Flanchard",             -- 8% DT
-        feet="Nyame Sollerets",             -- 7% DT
-        neck="Loricate Torque +1",          -- 6% DT
-        waist="Plat. Mog. Belt",            -- 3% DT +10% HP, Replace with Engraved Belt
-        left_ear="Odnowa Earring +1",       -- 3% DT, 2% MDT
-        right_ear="Tuisto Earring",
-        left_ring="Gelatinous Ring +1",     -- 7% PDT
-        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
+        ammo="Staunch Tathlum",                                     -- 2% DT
+        head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2
+        body={name="Adamantite Armor", priority=182},               -- 20% DT
+        hands={name="Nyame Gauntlets", priority=91},                -- 7% DT
+        legs={name="Nyame Flanchard", priority=114},                -- 8% DT
+        feet={name="Nyame Sollerets", priority=68},                 -- 7% DT
+        neck="Loricate Torque +1",                                  -- 6% DT
+        waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
+        right_ear={name="Tuisto Earring", priority=150},
+        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
+        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
         back="Null Shawl",
     }
 
-    sets.idle["Buffs"] = {                  -- 68 DT, 7% PDT
+    sets.idle["Buffs"] = {                                          -- 68 DT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",             -- 2% DT
-        head="Null Masque",                 -- 10% DT Regen +3 Refresh +1 Regain +2
-        body="Adamantite Armor",            -- 20% DT
-        hands="Nyame Gauntlets",            -- 7% DT
-        legs="Nyame Flanchard",             -- 8% DT
-        feet="Nyame Sollerets",             -- 7% DT
-        neck="Loricate Torque +1",          -- 6% DT
+        ammo="Staunch Tathlum",                                     -- 2% DT
+        head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2
+        body={name="Adamantite Armor", priority=182},               -- 20% DT
+        hands={name="Nyame Gauntlets", priority=91},                -- 7% DT
+        legs={name="Nyame Flanchard", priority=114},                -- 8% DT
+        feet={name="Nyame Sollerets", priority=68},                 -- 7% DT
+        neck="Loricate Torque +1",                                  -- 6% DT
         waist="Gishdubar Sash",
         left_ear="Brachyura Earring",
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}},
-        left_ring="Gelatinous Ring +1",     -- 7% PDT
-        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
-        back=jse.capes.parry,
+        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
+        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
+        back=jse.capes.parry
     }
 
     sets.idle["Phalanx"] = {
         ammo="Staunch Tathlum",
         head=jse.relic.head,
-        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
-        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
-        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}},
-        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}},
+        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}, priority=61},
+        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}, priority=20},
+        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}, priority=38},
+        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}, priority=9},
         neck="Loricate Torque +1",
-        waist="Plat. Mog. Belt",
-        left_ear="Odnowa Earring +1",
-        right_ear="Alabaster Earring",
-        left_ring="Gelatinous Ring +1",
-        right_ring="Moonbeam Ring",
-        back="Moonbeam Cape",
+        waist={name="Plat. Mog. Belt", priority=1000},
+        left_ear={name="Odnowa Earring +1", priority=110},
+        right_ear={name="Alabaster Earring", priority=100},
+        left_ring={name="Gelatinous Ring +1", priority=135},
+        right_ring={name="Moonbeam Ring", priority=100},
+        back={name="Moonbeam Cape", priority=250},
     }
 
     ----------------------------------------------------------------
@@ -324,38 +325,38 @@ function get_sets()
 
     -- Set for if I can't force the enemies into a cone
     -- Default set for now until I get SU3
-    sets.engaged["Physical"] = {            -- 76% DT, 2% MDT, 7% PDT
+    sets.engaged["Physical"] = {                                    -- 76% DT, 2% MDT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",             -- 2% DT
-        head="Null Masque",                 -- 10% DT Regen +3 Refresh +1 Regain +2, Replace with Empyrean +3
-        body="Adamantite Armor",            -- 20% DT, Replace with Empyrean +3
-        hands="Nyame Gauntlets",            -- 7% DT, Replace with Empyrean +3
-        legs=jse.empyrean.legs,             -- 13% DT
-        feet="Nyame Sollerets",             -- 7% DT, Replace with Empyrean +3
-        neck="Loricate Torque +1",          -- 6% DT
-        waist="Plat. Mog. Belt",            -- 3% DT +10% HP, Replace with Engraved Belt
-        left_ear="Odnowa Earring +1",      -- 3% DT, 2% MDT
-        right_ear="Tuisto Earring",
-        left_ring="Gelatinous Ring +1",     -- 7% PDT
-        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
+        ammo="Staunch Tathlum",                                     -- 2% DT
+        head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2, Replace with Empyrean +3
+        body={name="Adamantite Armor", priority=182},               -- 20% DT, Replace with Empyrean +3
+        hands={name="Nyame Gauntlets", priority=91},                -- 7% DT, Replace with Empyrean +3
+        legs=jse.empyrean.legs,                                     -- 13% DT
+        feet={name="Nyame Sollerets", priority=68},                 -- 7% DT, Replace with Empyrean +3
+        neck="Loricate Torque +1",                                  -- 6% DT
+        waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
+        right_ear={name="Tuisto Earring", priority=150},
+        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
+        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
         back=jse.capes.parry,
     }
 
     -- If DT needs are met, Warders Charm +1. If not, JSE neck +1/2.
-    sets.engaged["Magical"] = {            -- 56% DT, 2% MDT, 7% PDT
+    sets.engaged["Magical"] = {                                 -- 56% DT, 2% MDT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",             -- 2% DT
-        head="Nyame Helm",                  -- 7% DT, Replace with Empyrean +3
-        body="Nyame Mail",                  -- 9% DT, Replace with Empyrean +3, Consider swapping in Adamantite Armor
-        hands="Nyame Gauntlets",            -- 7% DT, Replace with Empyrean +3
-        legs=jse.empyrean.legs,             -- 13% DT
-        feet="Nyame Sollerets",             -- 7% DT, Replace with Empyrean +3
+        ammo="Staunch Tathlum",                                 -- 2% DT
+        head={name="Nyame Helm", priority=91},                  -- 7% DT, Replace with Empyrean +3
+        body={name="Nyame Mail", priority=136},                 -- 9% DT, Replace with Empyrean +3, Consider swapping in Adamantite Armor
+        hands={name="Nyame Gauntlets", priority=91},            -- 7% DT, Replace with Empyrean +3
+        legs=jse.empyrean.legs,                                 -- 13% DT
+        feet={name="Nyame Sollerets", priority=68},             -- 7% DT, Replace with Empyrean +3
         neck="Warder's Charm +1",
-        waist="Plat. Mog. Belt",            -- 3% DT +10% HP, Replace with Engraved Belt
-        left_ear="Odnowa Earring +1",       -- 3% DT, 2% MDT
+        waist={name="Plat. Mog. Belt", priority=1000},          -- 3% DT +10% HP, Replace with Engraved Belt
+        left_ear={name="Odnowa Earring +1", priority=110},      -- 3% DT, 2% MDT
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT
-        left_ring="Gelatinous Ring +1",     -- 7% PDT, Replace with Shadow Ring
-        right_ring="Moonbeam Ring",         -- 4% DT, Replace with Moonlight Ring eventually
+        left_ring={name="Gelatinous Ring +1", priority=135},    -- 7% PDT, Replace with Shadow Ring
+        right_ring={name="Moonbeam Ring", priority=100},        -- 4% DT, Replace with Moonlight Ring eventually
         back=jse.capes.parry,
     }
 
@@ -364,17 +365,17 @@ function get_sets()
     sets.engaged["TP"] = {
         range=empty,
         ammo="Coiste Bodhar", -- No RP at the moment...
-        head="Null Masque",
-        body="Ayanmo Corazza +2",
-        hands="Nyame Gauntlets",
+        head={name="Null Masque", priority=100},
+        body={name="Ayanmo Corazza +2", priority=57},
+        hands={name="Nyame Gauntlets", priority=91},
         legs=jse.empyrean.legs,
-        feet="Carmine Greaves +1",
-        neck="Null Loop",
+        feet={name="Carmine Greaves +1", priority=95},
+        neck={name="Null Loop", priority=50},
         waist="Kentarch Belt +1",
         left_ear="Cessance Earring",
         right_ear="Sherida Earring",
-        left_ring="Moonbeam Ring",
-        right_ring="Moonbeam Ring",
+        left_ring={name="Moonbeam Ring", priority=100, bag="wardrobe5"},
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},
         back="Null Shawl",
     }
 
@@ -388,22 +389,21 @@ function get_sets()
     -- Relic legs give +2% for every merit. Extra 8%.
     -- Potentially switch to 5/5 ?
 
-    -- Platinum moogle belt is apparently good but needs to be a priority swap to come on first
-    sets.precast.fast_cast = set_combine(sets.idle["Normal"], {                                     -- 58% FC
+    sets.precast.fast_cast = set_combine(sets.idle["Normal"], {                                                                     -- 58% FC
         range=empty,
-        ammo="Sapience Orb",                                                                        -- 2% FC
-        head=jse.AF.head,                                                                           -- 14% FC
-        body="Adamantite Armor", -- Empyrean Body
-        hands={ name="Leyline Gloves", augments={'Accuracy+12','Mag. Acc.+14','"Mag.Atk.Bns."+15','"Fast Cast"+2',}},   -- 7% FC (Can do more SR to get slightly better)
-        legs="Agwu's Slops",                                                                        -- 7% FC
-        feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}},       -- 8% FC
-        neck="Voltsurge Torque",                                                                    -- 4% FC
-        waist="Plat. Mog. Belt",
-        left_ear="Odnowa Earring +1",
-        right_ear="Loquacious Earring",                                                             -- 2% FC
-        left_ring="Gelatinous Ring +1",                                                        
-        right_ring="Kishar Ring",                                                                   -- 4% FC
-        back=jse.capes.fast_cast,                                                                   -- 10% FC
+        ammo="Sapience Orb",                                                                                                        -- 2% FC
+        head=jse.AF.head,                                                                                                           -- 14% FC
+        body={name="Adamantite Armor", priority=182}, -- Empyrean Body
+        hands={ name="Leyline Gloves", augments={'Accuracy+12','Mag. Acc.+14','"Mag.Atk.Bns."+15','"Fast Cast"+2',}, priority=25},  -- 7% FC (Can do more SR to get slightly better)
+        legs={name="Agwu's Slops", priority=50},                                                                                    -- 7% FC
+        feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}, priority=95},                          -- 8% FC
+        neck="Voltsurge Torque",                                                                                                    -- 4% FC
+        waist={name="Plat. Mog. Belt", priority=1000},
+        left_ear={name="Odnowa Earring +1", priority=110},
+        right_ear="Loquacious Earring",                                                                                             -- 2% FC
+        left_ring={name="Gelatinous Ring +1", priority=135},
+        right_ring="Kishar Ring",                                                                                                   -- 4% FC
+        back=jse.capes.fast_cast,                                                                                                   -- 10% FC
     })
 
     sets.precast.fast_cast_inspiration = set_combine(sets.idle["Normal"], {
@@ -414,22 +414,22 @@ function get_sets()
     ----------------------------------------------------------------
 
      -- All of the JA enmity actions inherit from this set
-    sets.midcast.enmity = {             -- 85 Enmity, 25% PDT
+    sets.midcast.enmity = set_combine(sets.idle["Normal"], {             -- 85 Enmity, 25% PDT
         range=empty,
-        ammo="Aqreqaq Bomblet",         -- 2 Enmity
-        head="Halitus Helm",            -- 8 Enmity
-        body="Emet Harness +1",         -- 10 Enmity, 6% PDT
-        hands="Kurys Gloves",           -- 9 Enmity, 2% DT
-        legs=jse.empyrean.legs,         -- 13 Enmity, 12% DT
-        feet="",                        -- Empyrean (8 Enmity, 11% DT)
-        neck="Unmoving Collar +1",      -- 10 Enmity, Replace with Moonlight Necklace when I'm rich
-        waist="Kasiri Belt",            -- 3 Enmity
-        left_ear="Trux Earring",        -- 5 Enmity
-        right_ear="Cryptic Earring",    -- 5 Enmity
-        left_ring="Eihwaz Ring",        -- 5 Enmity
-        right_ring="Supershear Ring",   -- 5 Enmity
-        back=jse.capes.enmity,          -- 10 Enmity, 5% DT
-    }
+        ammo={name="Aqreqaq Bomblet", priority=20},         -- 2 Enmity
+        head={name="Halitus Helm", priority=88},            -- 8 Enmity
+        body={name="Emet Harness +1", priority=61},         -- 10 Enmity, 6% PDT
+        hands={name="Kurys Gloves", priority=25},           -- 9 Enmity, 2% DT
+        legs=jse.empyrean.legs,                             -- 13 Enmity, 12% DT
+        --feet="",                                          -- Empyrean (8 Enmity, 11% DT)
+        neck={name="Unmoving Collar +1", priority=200},     -- 10 Enmity, Replace with Moonlight Necklace when I'm rich
+        waist={name="Kasiri Belt", priority=30},            -- 3 Enmity
+        left_ear="Trux Earring",                            -- 5 Enmity
+        right_ear={name="Cryptic Earring", priority=40},    -- 5 Enmity
+        left_ring={name="Eihwaz Ring", priority=70},        -- 5 Enmity
+        right_ring={name="Supershear Ring", priority=30},   -- 5 Enmity
+        back=jse.capes.enmity,                              -- 10 Enmity, 5% DT
+    })
 
     sets.midcast["Foil"] = set_combine(sets.midcast.enmity, {
         legs=jse.relic.legs,
@@ -480,17 +480,17 @@ function get_sets()
     sets.midcast["Phalanx"] = {  -- This is for self-casting
         ammo="Staunch Tathlum",
         head=jse.relic.head,
-        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}},
-        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}},
-        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}},
-        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}},
+        body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}, priority=61},
+        hands={ name="Herculean Gloves", augments={'CHR+8','Accuracy+26','Phalanx +5','Mag. Acc.+16 "Mag.Atk.Bns."+16',}, priority=20},
+        legs={ name="Herculean Trousers", augments={'Weapon skill damage +1%','Pet: Attack+13 Pet: Rng.Atk.+13','Phalanx +4','Accuracy+20 Attack+20',}, priority=38},
+        feet={ name="Herculean Boots", augments={'"Rapid Shot"+4','"Fast Cast"+3','Phalanx +5','Accuracy+1 Attack+1',}, priority=9},
         neck="Incanter's Torque",
         waist="Olympus Sash",
         left_ear="Andoaa Earring",
         right_ear="Mimir Earring",
         left_ring="Stikini Ring",
         right_ring="Stikini Ring",
-        back="Moonbeam Cape", -- Replace with Merciful Cape
+        back={name="Moonbeam Cape", priority=250}, -- Replace with Merciful Cape
     }
 
     sets.midcast["Regen"] = {
@@ -650,14 +650,14 @@ function get_sets()
     sets.ws.default = {
         ranged=empty,
         ammo="Knobkierrie",
-        head="Nyame Helm",
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
-        legs="Nyame Flanchard",
-        feet="Nyame Sollerets",
-        neck="Null Loop",
+        head={name="Nyame Helm", priority=91},
+        body={name="Nyame Mail", priority=136},
+        hands={name="Nyame Gauntlets", priority=91},
+        legs={name="Nyame Flanchard", priority=114},
+        feet={name="Nyame Sollerets", priority=68},
+        neck={name="Null Loop", priority=50},
         waist="Kentarch Belt +1",
-        left_ear="Odnowa Earring +1",
+        left_ear={name="Odnowa Earring +1", priority=110},
         right_ear="Sherida Earring",
         left_ring="Rufescent Ring",
         right_ring="Petrov Ring",
@@ -667,12 +667,12 @@ function get_sets()
     sets.ws["Dimidiation"] = {
         ranged=empty,
         ammo="Knobkierrie",
-        head="Nyame Helm",
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
-        legs="Nyame Flanchard",
-        feet="Nyame Sollerets",
-        neck="Null Loop",
+        head={name="Nyame Helm", priority=91},
+        body={name="Nyame Mail", priority=136},
+        hands={name="Nyame Gauntlets", priority=91},
+        legs={name="Nyame Flanchard", priority=114},
+        feet={name="Nyame Sollerets", priority=68},
+        neck={name="Null Loop", priority=50},
         waist="Kentarch Belt +1",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
@@ -685,11 +685,11 @@ function get_sets()
         ranged=empty,
         ammo="Knobkierrie",
         head=jse.relic.head,
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
+        body={name="Nyame Mail", priority=136},
+        hands={name="Nyame Gauntlets", priority=91},
         legs=jse.empyrean.legs,
-        feet="Nyame Sollerets",
-        neck="Null Loop",
+        feet={name="Nyame Sollerets", priority=68},
+        neck={name="Null Loop", priority=50},
         waist="Sailfi Belt +1",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
@@ -702,11 +702,11 @@ function get_sets()
         ranged=empty,
         ammo="Knobkierrie",
         head=jse.relic.head,
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
+        body={name="Nyame Mail", priority=136},
+        hands={name="Nyame Gauntlets", priority=91},
         legs=jse.empyrean.legs,
-        feet="Nyame Sollerets",
-        neck="Null Loop",
+        feet={name="Nyame Sollerets", priority=68},
+        neck={name="Null Loop", priority=50},
         waist="Sailfi Belt +1",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
@@ -718,16 +718,16 @@ function get_sets()
     sets.ws["Herculean Slash"] = {
         ranged=empty,
         ammo="Knobkierrie",
-        head="Nyame Helm",
-        body="Nyame Mail",
-        hands="Agwu's Gages",
-        legs="Nyame Flanchard",
-        feet="Agwu's Pigaches",
+        head={name="Nyame Helm", priority=91},
+        body={name="Nyame Mail", priority=136},
+        hands={name="Agwu's Gages", priority=38},
+        legs={name="Nyame Flanchard", priority=114},
+        feet={name="Agwu's Pigaches", priority=27},
         neck="Sibyl Scarf",
         waist="Orpheus's Sash",
         left_ear="Friomisi Earring",
         right_ear="Ishvara Earring",
-        left_ring="Gelatinous Ring +1",
+        left_ring={name="Gelatinous Ring +1", priority=135},
         right_ring="Petrov Ring",
         back="Alabaster Mantle",
     }
@@ -735,12 +735,12 @@ function get_sets()
     sets.ws["Shockwave"] = {
         ranged=empty,
         ammo="Knobkierrie",
-        head="Nyame Helm",
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
+        head={name="Nyame Helm", priority=91},
+        body={name="Nyame Mail", priority=136},
+        hands={name="Nyame Gauntlets", priority=91},
         legs=jse.empyrean.legs,
-        feet="Nyame Sollerets",
-        neck="Null Loop",
+        feet={name="Nyame Sollerets", priority=68},
+        neck={name="Null Loop", priority=50},
         waist="Sailfi Belt +1",
         left_ear="Cessance Earring",
         right_ear="Sherida Earring",
@@ -770,12 +770,12 @@ function get_sets()
     sets.ws["Requiescat"] = {
         ranged=empty,
         ammo="Knobkierrie",
-        head="Nyame Helm",
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
-        legs="Nyame Flanchard",
-        feet="Nyame Sollerets",
-        neck="Null Loop",
+        head={name="Nyame Helm", priority=91},
+        body={name="Nyame Mail", priority=136},
+        hands={name="Nyame Gauntlets", priority=91},
+        legs={name="Nyame Flanchard", priority=114},
+        feet={name="Nyame Sollerets", priority=68},
+        neck={name="Null Loop", priority=50},
         waist="Rumination Sash",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
