@@ -7,7 +7,7 @@ include("Modes.lua")
 
 --[[
 TO DO:
-- FC set with Vallation/Valiance up (Inspiration). With 4 merits, I get 40% FC.
+- FC set with Vallation/Valiance up (Inspiration).
     - Buff check in precast
 - Add priorities to everything
     - JSE gear, particularly after upgrading stuff - just add to the variables
@@ -23,6 +23,7 @@ STRETCH
 - SOME BLU magic IS subject to weather effects
 - Swipe/Lunch JA magic burst damage
     - If I have double weather OR single weather + matching day, Hachirin-no-Obi is better than Osash
+    - Need a check for Tenebrae or Lux (I don't have the weatherspoon ring though)
 - Consider resist death things
 -- I don't *think* I need to care about Sublimation on Runefencer?
 
@@ -183,7 +184,7 @@ function get_sets()
                 main="Naegling",
                 sub=empty,
             },
-            engaged_sets = {"Physical", "TP"},
+            engaged_sets = {"Physical", "Magical", "TP"},
             overrides = {},
         },
         ["Kaja Chopper"] = {
@@ -191,7 +192,7 @@ function get_sets()
                 main="Kaja Chopper",
                 sub="Khonsu",
             },
-            engaged_sets = {"Physical", "TP"},
+            engaged_sets = {"Physical", "Magical", "TP"},
             overrides = {},
         },
         ["Kaja Axe"] = {
@@ -199,7 +200,7 @@ function get_sets()
                 main="Kaja Axe",
                 sub=empty,
             },
-            engaged_sets = {"Physical", "TP"},
+            engaged_sets = {"Physical", "Magical", "TP"},
             overrides = {},
         },
     }
@@ -385,11 +386,10 @@ function get_sets()
     -- PRECAST
     ----------------------------------------------------------------
     
-    -- I am at 40% FC under Inspiration from 4/5 Merits
-    -- Relic legs give +2% for every merit. Extra 8%.
-    -- Potentially switch to 5/5 ?
+    -- I am at 50% FC under Inspiration from 5/5 Merits
+    -- Relic legs give +2% for every merit. Extra 10%.
 
-    sets.precast.fast_cast = set_combine(sets.idle["Normal"], {                                                                     -- 58% FC
+    sets.precast.fast_cast = {                                                                                                      -- 58% FC
         range=empty,
         ammo="Sapience Orb",                                                                                                        -- 2% FC
         head=jse.AF.head,                                                                                                           -- 14% FC
@@ -404,7 +404,7 @@ function get_sets()
         left_ring={name="Gelatinous Ring +1", priority=135},
         right_ring="Kishar Ring",                                                                                                   -- 4% FC
         back=jse.capes.fast_cast,                                                                                                   -- 10% FC
-    })
+    }
 
     sets.precast.fast_cast_inspiration = set_combine(sets.idle["Normal"], {
     })
@@ -635,12 +635,24 @@ function get_sets()
         -- I unno
     })
 
-    -- TODO LATER
-    -- sets.ja["Swipe"] = set_combine(sets.midcast.enmity, {
-    --     -- I unno
-    -- })
+    -- This seems very low HP lol
+    sets.ja["Swipe"] = {
+        ammo="Pemphredo Tathlum",
+        head="Agwu's Cap",
+        body="Agwu's Robe",
+        hands="Agwu's Gages",
+        legs="Agwu's Slops",
+        feet="Agwu's Pigaches",
+        neck="Sibyl Scarf",
+        waist="Orpheus's Sash",
+        left_ear="Friomisi Earring",
+        right_ear="Moldavite Earring",
+        left_ring="Metamor. Ring +1",
+        right_ring="Gelatinous Ring +1",
+        back={ name="Evasionist's Cape", augments={'Enmity+4','"Embolden"+15','"Dbl.Atk."+1',}},
+    }
 
-    -- sets.ja["Lunge"] = sets.ja["Swipe"]
+    sets.ja["Lunge"] = sets.ja["Swipe"]
 
     ----------------------------------------------------------------
     -- WEAPONSKILLS 
