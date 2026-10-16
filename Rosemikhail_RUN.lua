@@ -219,11 +219,11 @@ function get_sets()
     jse.capes = {}                 -- Leave this empty
 
     jse.AF = {
-        head="Runeist Bandeau +3",          -- FC, Regen
-        body="Runeist Coat +3",             -- Valliance/Vallation, "FC"?, Refresh swap? -- Not as good as Nyame for MEVA
-        hands="Runeist Mitons +3",          -- Gambit, Enhancing Magic Skill
-        legs="Runeist Trousers +3",         -- Vaguely useful in niche circumstances, yolo
-        feet="Runeist Bottes +3",           -- I have these for lockstyle more than anything, thank you AF+3 voucher
+        head={name="Runeist Bandeau +3", priority=109},         -- FC, Regen
+        body={name="Runeist Coat +3", priority=218},            -- Valliance/Vallation, "FC"?, Refresh swap? -- Not as good as Nyame for MEVA
+        hands={name="Runeist Mitons +3", priority=85},          -- Gambit, Enhancing Magic Skill
+        legs={name="Runeist Trousers +3", priority=80},         -- Vaguely useful in niche circumstances, yolo
+        feet={name="Runeist Bottes +3", priority=74},           -- I have these for lockstyle more than anything, thank you AF+3 voucher
     }
 
     jse.relic = {
@@ -235,11 +235,11 @@ function get_sets()
     }
 
     jse.empyrean = {
-        head="Erilaz Galea +3",             -- SIRD, Vivacious Pulse, Refresh, Enhancing duration
-        body="Erilaz Surcoat +3",           -- Potentially good for early gear if I have the DT, enmity retention, otherwise Nyame
-        hands="Erilaz Gauntlets +2",        -- GS skill :), DT, Resistance to status ailments - use when +3
-        legs="Erilaz Leg Guards +3",        -- Passive parry bonus, DT, Enmity
-        --feet="",                          -- Enmity, eva/meva, resistances, 
+        head={name="Erilaz Galea +3", priority=111},            -- SIRD, Vivacious Pulse, Refresh, Enhancing duration
+        body={name="Erilaz Surcoat +3", priority=143},          -- Potentially good for early gear if I have the DT, enmity retention, otherwise Nyame
+        hands={name="Erilaz Gauntlets +3", priority=59},        -- GS skill :), DT, Resistance to status ailments - use when +3
+        legs={name="Erilaz Leg Guards +3", priority=100},       -- Passive parry bonus, DT, Enmity
+        feet={name="Erilaz Greaves +3", priority=48},           -- Enmity, eva/meva, resistances, 
     }
 
     jse.capes = {
@@ -414,14 +414,14 @@ function get_sets()
     ----------------------------------------------------------------
 
      -- All of the JA enmity actions inherit from this set
-    sets.midcast.enmity = set_combine(sets.idle["Normal"], {             -- 85 Enmity, 25% PDT
+    sets.midcast.enmity = set_combine(sets.idle["Normal"], {             -- 93 Enmity, 36% PDT
         range=empty,
         ammo={name="Aqreqaq Bomblet", priority=20},         -- 2 Enmity
         head={name="Halitus Helm", priority=88},            -- 8 Enmity
         body={name="Emet Harness +1", priority=61},         -- 10 Enmity, 6% PDT
         hands={name="Kurys Gloves", priority=25},           -- 9 Enmity, 2% DT
         legs=jse.empyrean.legs,                             -- 13 Enmity, 12% DT
-        --feet="",                                          -- Empyrean (8 Enmity, 11% DT)
+        feet=jse.empyrean.feet,                             -- 8 Enmity, 11% DT
         neck={name="Unmoving Collar +1", priority=200},     -- 10 Enmity, Replace with Moonlight Necklace when I'm rich
         waist={name="Kasiri Belt", priority=30},            -- 3 Enmity
         left_ear="Trux Earring",                            -- 5 Enmity
@@ -952,7 +952,9 @@ function midcast(spell)
 
         -- Enmity, maybe reorder this if I need to
         if not matched and enmity_spells:contains(spell.name) then
+            add_to_chat(123, "Definitely an enmity spell!")
             equip_set_and_weapon(sets.midcast.enmity)
+            matched = true
         end
 
         -- If the spell skill has a relevant set
