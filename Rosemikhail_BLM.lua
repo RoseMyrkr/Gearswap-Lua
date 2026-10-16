@@ -43,6 +43,7 @@ Potential enhancements:
     - Or check if the target is myself for cursna
 
 - Account for elemental celerity in FC for the sake of MP swaps : )
+    - As an aside, perhaps have two separate sets
 ]]
 
 ----------------------------------------------------------------

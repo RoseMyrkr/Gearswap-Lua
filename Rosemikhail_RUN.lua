@@ -230,14 +230,14 @@ function get_sets()
         head="Futhark Bandeau +4",          -- Phalanx!!!, PDT
         body="Futhark Coat +1",             -- Elemental Sforzo, Liement
         hands="Futhark Mitons +1",          -- Maybe not as important, but used for Sleight of Sword
-        legs="Futhark Trousers +1",         -- Enhancing duration, Enhancing FC, additionally 50% FC when used with Vallation/Alliance via Inspiration merit trait
+        legs="Futhark Trousers +2",         -- Enhancing duration, Enhancing FC, additionally 50% FC when used with Vallation/Alliance via Inspiration merit trait
         feet="Futhark Boots +1",            -- Rayke, maybe not useful for much else
     }
 
     jse.empyrean = {
-        --head="",                          -- SIRD, Vivacious Pulse, Refresh, Enhancing duration
-        --body="",                          -- Potentially good for early gear if I have the DT, enmity retention, otherwise Nyame
-        --hands="",                         -- GS skill :), DT, Resistance to status ailments - use when +3
+        head="Erilaz Galea +3",             -- SIRD, Vivacious Pulse, Refresh, Enhancing duration
+        body="Erilaz Surcoat +3",           -- Potentially good for early gear if I have the DT, enmity retention, otherwise Nyame
+        hands="Erilaz Gauntlets +2",        -- GS skill :), DT, Resistance to status ailments - use when +3
         legs="Erilaz Leg Guards +3",        -- Passive parry bonus, DT, Enmity
         --feet="",                          -- Enmity, eva/meva, resistances, 
     }
@@ -445,7 +445,7 @@ function get_sets()
         head="",
         body="",
         hands="",
-        legs="",
+        legs=jse.relic.legs,
         feet="",
         neck="",
         waist="",
@@ -542,19 +542,19 @@ function get_sets()
     }
 
     sets.midcast["Cure"] = {
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+        ammo="Sapience Orb",
+        head={name="Null Masque", priority=100},
+        body={name="Adamantite Armor", priority=182},
+        hands={name="Nyame Gauntlets", priority=91},
+        legs=jse.empyrean.legs,
+        feet=jse.empyrean.feet,
+        neck="Loricate Torque +1",                          -- Change to Sacro Gorget
+        waist="Sroda Belt",                                 -- 35% cure potency
+        left_ear="Mendi. Earring",                          -- 5% cure potency
+        right_ear={name="Cryptic Earring", priority=40},
+        left_ring={name="Moonbeam Ring", priority=100},
+        right_ring={name="Supershear Ring", priority=30},
+        back=jse.capes.enmity,
     }
 
     sets.midcast.SIRD = set_combine(sets.idle["Normal"], { -- This needs to become something proper
