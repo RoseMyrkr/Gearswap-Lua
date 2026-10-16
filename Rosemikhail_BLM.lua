@@ -1341,13 +1341,12 @@ function self_command(command)
     elseif main_command == "lockweapon" then
         weapon_lock = handle_toggle(weapon_lock, "Weapon Lock")
 
-        idle()
-
         if weapon_lock == "On" then
             equip_current_weapon()
             send_command("gs disable main;gs disable sub;gs disable range")
         else
             send_command("gs enable main;gs enable sub;gs enable range")
+            equip_current_weapon()
         end
 
     elseif main_command == "togglespeed" then
