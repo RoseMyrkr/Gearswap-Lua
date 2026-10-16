@@ -655,9 +655,21 @@ function get_sets()
     sets.ja["Pflug"] = sets.midcast.enmity
 
     -- Shove so much skill up my ass
-    sets.ja["Vivacious Pulse"] = set_combine(sets.midcast.enmity, { -- Probably Empyrean head just for the -na capability
-        -- I unno
-    })
+    sets.ja["Vivacious Pulse"] = { -- Probably Empyrean head just for the -na capability
+        ammo="Staunch Tathlum",
+        head=jse.empyrean.head,
+        body={name="Adamantite Armor", priority=182},
+        hands={name="Nyame Gauntlets", priority=91}, -- Replace with Regal Gauntlets
+        legs=jse.AF.legs,
+        feet="Nyame Sollerets",
+        neck="Incanter's Torque",
+        waist={name="Plat. Mog. Belt", priority=1000},
+        left_ear={name="Odnowa Earring +1", priority=110}, -- Replace with Beatific Earring
+        right_ear={name="Tuisto Earring", priority=150}, -- Replace with Saxnot Earring
+        left_ring="Stikini Ring",
+        right_ring="Stikini Ring",
+        back={name="Moonbeam Cape", priority=250}, -- Replace with Altruistic Cape
+    }
 
     -- This seems very low HP lol
     sets.ja["Swipe"] = {
