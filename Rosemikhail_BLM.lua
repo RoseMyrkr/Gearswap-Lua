@@ -44,6 +44,8 @@ Potential enhancements:
 
 - Account for elemental celerity in FC for the sake of MP swaps : )
     - As an aside, perhaps have two separate sets
+
+- Eventually just do proper spell maps instead of relying on matches
 ]]
 
 ----------------------------------------------------------------

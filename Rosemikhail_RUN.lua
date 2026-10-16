@@ -968,18 +968,18 @@ function midcast(spell)
 
         -- Weather and day overlays
         -- Technically I could also do Divine for Banish but also lmao
-        local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
-        local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
-        local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
-        local element_matches_weather = world.weather_element == spell.element
+        -- local valid_obi_skill = S{"Elemental Magic", "Dark Magic"}:contains(spell.skill)
+        -- local is_cure = spell.name:match("Cure") or spell.name:match("Curaga")
+        -- local element_matches_day_or_weather = S{world.weather_element, world.day_element}:contains(spell.element)
+        -- local element_matches_weather = world.weather_element == spell.element
 
-        if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
-            equip({waist="Hachirin-no-Obi"})
-        end
+        -- if (valid_obi_skill or is_cure) and element_matches_day_or_weather and spell.element ~= "None" then
+        --     --equip({waist="Hachirin-no-Obi"})
+        -- end
 
-        if is_cure and element_matches_weather then
-            equip({main="Chatoyant Staff", sub="Khonsu",})
-        end
+        -- if is_cure and element_matches_weather then
+        --     equip({main="Chatoyant Staff", sub="Khonsu",})
+        -- end
 
         -- Embolden overlay (for self-casting)
         if buffactive["Embolden"] and spell.skill == "Enhancing Magic" then
