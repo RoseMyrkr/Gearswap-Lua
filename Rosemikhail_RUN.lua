@@ -16,8 +16,7 @@ TO DO:
     - Buff check in precast
 - Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
-- SIRD set + force toggle? or just a toggle for enmity - may default to SIRD if nothing is defined for that spell?
-    - For enmity sird, foil may need to become an overlay in midcast, though maybe not for SIRD reasons
+- For enmity sird, foil may need to become an overlay in midcast, though maybe not for SIRD reasons
 - Parrying set when I have access to SU3
 - Potentially healing magic sets i.e. Cursna
 - Needle the enmity cape to have PDT instead probably
@@ -93,6 +92,7 @@ send_command("bind f10 gs c sird")
 send_command("bind f12 gs c toggletextbox")
 
 -- Help Text
+add_to_chat(123, "F1-F3: Idle Modes")
 add_to_chat(123, "F5: Cycle weapon mode, F6: Cycle engaged mode")
 add_to_chat(123, "F7: Cycle idle mode, F8: Lock weapon")
 add_to_chat(123, "F9: Toggle speed gear")
@@ -1108,6 +1108,10 @@ function self_command(command)
 end
 
 function file_unload(file_name)
+    send_command("unbind f1")
+    send_command("unbind f2")
+    send_command("unbind f3")
+
     send_command("unbind f5")
     send_command("unbind f6")
 
