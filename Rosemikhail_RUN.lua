@@ -10,6 +10,7 @@ TO DO:
 
 -- How to approach SIRD... I could have a straight SIRD toggle for I MUST CAST THIS NOW, and then a separate line (perhaps default line) for spells that otherwise don't have a set to be casted in SIRD
 -- Actually nah I don't want to "by default" cast in SIRD for anything. I'll just have it as a toggle for when I need it. Aquaveil got me :)
+- Automatic mode maybe. If Aquaveil is NOT up, casting most is automatically SIRD mode. Turn this mode off when Aquaveil is up.
 
 - FC set with Vallation/Valiance up (Inspiration).
     - Buff check in precast
@@ -19,6 +20,7 @@ TO DO:
     - For enmity sird, foil may need to become an overlay in midcast, though maybe not for SIRD reasons
 - Parrying set when I have access to SU3
 - Potentially healing magic sets i.e. Cursna
+- Needle the enmity cape to have PDT instead probably
 
 STRETCH
 - Enmity mode (enmity vs safe enmity)
@@ -32,8 +34,10 @@ STRETCH
         Or if weather + day is matching, hachirin no obi
         Otherwise, osash
         world.weather_intensity 0-2
+- Consider ACC sets - idk how this works for WS though!
+- Potentially Flume Belt as a toggle for MP
 
-- Consider resist death things
+- Consider resist death resist toggle
 -- I don't *think* I need to care about Sublimation on Runefencer?
 
 ALL JOBS
@@ -174,7 +178,7 @@ function get_sets()
         ["Aettir"] = {
             gear = {
                 main="Aettir",
-                sub="Khonsu", -- Potentially refined grip later
+                sub="Refined Grip +1",
             },
             engaged_sets = {"Physical", "Magical", "TP"},
             overrides = {
@@ -199,7 +203,7 @@ function get_sets()
         ["Kaja Chopper"] = {
             gear = {
                 main="Kaja Chopper",
-                sub="Khonsu",
+                sub="Refined Grip +1",
             },
             engaged_sets = {"Physical", "Magical", "TP"},
             overrides = {},
@@ -257,6 +261,8 @@ function get_sets()
         fast_cast={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}, priority=80},
         SIRD={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}, priority=80},
         --VIT+30, DEF+50 supertank
+        -- MEVA cape INT+20, Eva/Meva, Meva+25, Enmity
+        -- TP cape
         -- dimidiation
         -- savage blade
         -- resolution
@@ -279,14 +285,15 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
-    sets.idle["Normal"] = {                                         -- 71% DT, 2% MDT, 7% PDT
+    sets.idle["Normal"] = {                                         -- 75% DT, 2% MDT, 7% PDT
         range=empty,
         ammo="Staunch Tathlum",                                     -- 2% DT
         head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2
         body={name="Adamantite Armor", priority=182},               -- 20% DT
         hands={name="Nyame Gauntlets", priority=91},                -- 7% DT
         legs={name="Nyame Flanchard", priority=114},                -- 8% DT
-        feet={name="Nyame Sollerets", priority=68},                 -- 7% DT
+        --feet={name="Nyame Sollerets", priority=68},               -- 7% DT
+        feet=jse.empyrean.feet,                                     -- 11% DT, +35 all resistances
         neck="Loricate Torque +1",                                  -- 6% DT
         waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
         left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
@@ -335,15 +342,15 @@ function get_sets()
 
     -- Set for if I can't force the enemies into a cone
     -- Default set for now until I get SU3
-    sets.engaged["Physical"] = {                                    -- 76% DT, 2% MDT, 7% PDT
+    sets.engaged["Physical"] = {                                    -- 54% DT, 2% MDT, 7% PDT
         range=empty,
         ammo="Staunch Tathlum",                                     -- 2% DT
-        head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2, Replace with Empyrean +3
-        body={name="Adamantite Armor", priority=182},               -- 20% DT, Replace with Empyrean +3
-        hands={name="Nyame Gauntlets", priority=91},                -- 7% DT, Replace with Empyrean +3
+        head=jse.empyrean.head,
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,                                   -- 11% DT
         legs=jse.empyrean.legs,                                     -- 13% DT
-        feet={name="Nyame Sollerets", priority=68},                 -- 7% DT, Replace with Empyrean +3
-        neck="Loricate Torque +1",                                  -- 6% DT
+        feet=jse.empyrean.feet,                                     -- 11% DT, Consider swapping in Turms Leggings +1 for the parry stat (I should be able to make the DT requirements)
+        neck="Loricate Torque +1",                                  -- 6% DT, Replace with JSE+1/+2 neck
         waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
         left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
@@ -353,21 +360,21 @@ function get_sets()
     }
 
     -- If DT needs are met, Warders Charm +1. If not, JSE neck +1/2.
-    sets.engaged["Magical"] = {                                 -- 56% DT, 2% MDT, 7% PDT
+    sets.engaged["Magical"] = {                                 -- 48% DT, 2% MDT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",                                 -- 2% DT
-        head={name="Nyame Helm", priority=91},                  -- 7% DT, Replace with Empyrean +3
-        body={name="Nyame Mail", priority=136},                 -- 9% DT, Replace with Empyrean +3, Consider swapping in Adamantite Armor
-        hands={name="Nyame Gauntlets", priority=91},            -- 7% DT, Replace with Empyrean +3
-        legs=jse.empyrean.legs,                                 -- 13% DT
-        feet={name="Nyame Sollerets", priority=68},             -- 7% DT, Replace with Empyrean +3
+        ammo="Staunch Tathlum",                                     -- 2% DT
+        head=jse.empyrean.head,
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,                                   -- 11% DT
+        legs=jse.empyrean.legs,                                     -- 13% DT
+        feet=jse.empyrean.feet,                                     -- 11% DT,
         neck="Warder's Charm +1",
-        waist={name="Plat. Mog. Belt", priority=1000},          -- 3% DT +10% HP, Replace with Engraved Belt
-        left_ear={name="Odnowa Earring +1", priority=110},      -- 3% DT, 2% MDT
+        waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT
-        left_ring={name="Gelatinous Ring +1", priority=135},    -- 7% PDT, Replace with Shadow Ring
-        right_ring={name="Moonbeam Ring", priority=100},        -- 4% DT, Replace with Moonlight Ring eventually
-        back=jse.capes.parry,
+        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT, Replace with Shadow Ring
+        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
+        back=jse.capes.parry, -- Replace with MEVA cape
     }
 
     -- I don't expect that I'll be using this much
@@ -398,11 +405,12 @@ function get_sets()
     -- I am at 50% FC under Inspiration from 5/5 Merits
     -- Relic legs give +2% for every merit. Extra 10%.
 
-    sets.precast.fast_cast = {                                                                                                      -- 58% FC
+    sets.precast.fast_cast = {                                                                                                      -- 71% FC
         range=empty,
         ammo="Sapience Orb",                                                                                                        -- 2% FC
         head=jse.AF.head,                                                                                                           -- 14% FC
-        body={name="Adamantite Armor", priority=182}, -- Empyrean Body
+        --body={name="Adamantite Armor", priority=182}, -- Empyrean Body
+        body=jse.empyrean.body,                                                                                                     -- 13% FC
         hands={ name="Leyline Gloves", augments={'Accuracy+12','Mag. Acc.+14','"Mag.Atk.Bns."+15','"Fast Cast"+2',}, priority=25},  -- 7% FC (Can do more SR to get slightly better)
         legs={name="Agwu's Slops", priority=50},                                                                                    -- 7% FC
         feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}, priority=95},                          -- 8% FC
@@ -423,7 +431,7 @@ function get_sets()
     ----------------------------------------------------------------
 
      -- All of the JA enmity actions inherit from this set
-    sets.midcast.enmity = {             -- 93 Enmity, 36% PDT
+    sets.midcast.enmity = {                                 -- 93 Enmity, 36% PDT
         range=empty,
         ammo={name="Aqreqaq Bomblet", priority=20},         -- 2 Enmity
         head={name="Halitus Helm", priority=88},            -- 8 Enmity
@@ -450,12 +458,12 @@ function get_sets()
     ----------------------------------------------------------------
     
     -- Fill with duration. I guess just fill with idle/defensive pieces otherwise?
-    sets.midcast["Enhancing Magic"] = { -- I assume I can just make this an enhancing duration set, which will be necessary for things like Protect, Shell and spikes
+    sets.midcast["Enhancing Magic"] = {     --
         ammo="",
-        head="",
+        head=jse.empyrean.head,             -- +25% Duration
         body="",
         hands="",
-        legs=jse.relic.legs,
+        legs=jse.relic.legs,                -- +25% Duration (+30% at +3)
         feet="",
         neck="",
         waist="",
@@ -891,11 +899,9 @@ end
 ----------------------------------------------------------------
 function precast(spell)
 
-    --[[
     if toggle_speed == "On" then
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
-    ]]
 
     add_to_chat(123, string.format("Weather intensity: %s", world.weather_intensity))
 
