@@ -57,6 +57,7 @@ idle_mode = M{"Normal", "Buffs", "Phalanx"}
 
 toggle_speed = "Off"
 weapon_lock = "Off"
+SIRD = "Off"
 
 -- Midcast helpers
 match_list = S{"Cure", "Regen"}
@@ -88,6 +89,7 @@ send_command("bind f6 gs c engagedmode")
 send_command("bind f8 gs c lockweapon")
 
 send_command("bind f9 gs c togglespeed")
+send_command("bind f10 gs c sird")
 send_command("bind f12 gs c toggletextbox")
 
 -- Help Text
@@ -116,12 +118,13 @@ function build_info_box()
     end
 
     local output = string.format(
-        "[F1-F3] Idle: %s [F5] Weapon: %s [F6] Engaged: %s [F8] Weapon Lock: %s [F9] Speed: %s",
+        "[F1-F3] Idle: %s [F5] Weapon: %s [F6] Engaged: %s [F8] Weapon Lock: %s [F9] Speed: %s [F10] SIRD: %s",
         idle_mode.current,
         weapon_mode.current,
         engaged_mode.current,
         format_toggle(weapon_lock),
-        format_toggle(toggle_speed)
+        format_toggle(toggle_speed),
+        format_toggle(SIRD)
     )
 
     text_box:text(output)
@@ -362,7 +365,7 @@ function get_sets()
     -- If DT needs are met, Warders Charm +1. If not, JSE neck +1/2.
     sets.engaged["Magical"] = {                                 -- 48% DT, 2% MDT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",                                     -- 2% DT
+        ammo="Staunch Tathlum",                                     -- 2% DT, Repalce with Yamarang
         head=jse.empyrean.head,
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,                                   -- 11% DT
@@ -949,6 +952,12 @@ end
 -- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
+        if SIRD == "On" then
+            equip_set_and_weapon(sets.midcast.SIRD)
+            -- Need a separate check for SIRD Enmity
+            return
+        end
+
         local matched = false
 
         -- If the spell matches one of the match_list spells.
@@ -1083,6 +1092,10 @@ function self_command(command)
     elseif main_command == "togglespeed" then
         toggle_speed = handle_toggle(toggle_speed, "Speed")
         idle()
+    
+    elseif main_command == "sird" then
+        SIRD = handle_toggle(SIRD, "SIRD")
+        idle()
 
     elseif main_command == "toggletextbox" then
         text_box:visible(not text_box:visible())
@@ -1101,6 +1114,6 @@ function file_unload(file_name)
     send_command("unbind f8")
 
     send_command("unbind f9")
-
+    send_command("unbind f10")
     send_command("unbind f12")
 end
