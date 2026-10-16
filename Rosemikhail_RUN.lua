@@ -7,13 +7,16 @@ include("Modes.lua")
 
 --[[
 TO DO:
+
+-- How to approach SIRD... I could have a straight SIRD toggle for I MUST CAST THIS NOW, and then a separate line (perhaps default line) for spells that otherwise don't have a set to be casted in SIRD
+-- Actually nah I don't want to "by default" cast in SIRD for anything. I'll just have it as a toggle for when I need it. Aquaveil got me :)
+
 - FC set with Vallation/Valiance up (Inspiration).
     - Buff check in precast
-- Add priorities to everything
-    - JSE gear, particularly after upgrading stuff - just add to the variables
 - Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
 - SIRD set + force toggle? or just a toggle for enmity - may default to SIRD if nothing is defined for that spell?
+    - For enmity sird, foil may need to become an overlay in midcast, though maybe not for SIRD reasons
 - Parrying set when I have access to SU3
 - Potentially healing magic sets i.e. Cursna
 
@@ -24,6 +27,12 @@ STRETCH
 - Swipe/Lunch JA magic burst damage
     - If I have double weather OR single weather + matching day, Hachirin-no-Obi is better than Osash
     - Need a check for Tenebrae or Lux (I don't have the weatherspoon ring though)
+    For melee range stuff like Lunge/Swipe or elemental weaponskills
+        If weather = double, hachirin-no-obi
+        Or if weather + day is matching, hachirin no obi
+        Otherwise, osash
+        world.weather_intensity 0-2
+
 - Consider resist death things
 -- I don't *think* I need to care about Sublimation on Runefencer?
 
@@ -227,11 +236,11 @@ function get_sets()
     }
 
     jse.relic = {
-        head="Futhark Bandeau +4",          -- Phalanx!!!, PDT
-        body="Futhark Coat +1",             -- Elemental Sforzo, Liement
-        hands="Futhark Mitons +1",          -- Maybe not as important, but used for Sleight of Sword
-        legs="Futhark Trousers +2",         -- Enhancing duration, Enhancing FC, additionally 50% FC when used with Vallation/Alliance via Inspiration merit trait
-        feet="Futhark Boots +1",            -- Rayke, maybe not useful for much else
+        head={name="Fu. Bandeau +4", priority=66},              -- Phalanx!!!, PDT
+        body={name="Futhark Coat +1", priority=99},             -- Elemental Sforzo, Liement
+        hands={name="Futhark Mitons +3", priority=45},          -- Maybe not as important, but used for Sleight of Sword
+        legs={name="Futhark Trousers +2", priority=97},         -- Enhancing duration, Enhancing FC, additionally 50% FC when used with Vallation/Alliance via Inspiration merit trait
+        feet={name="Futhark Boots +1", priority=13},            -- Rayke, maybe not useful for much else
     }
 
     jse.empyrean = {
@@ -414,7 +423,7 @@ function get_sets()
     ----------------------------------------------------------------
 
      -- All of the JA enmity actions inherit from this set
-    sets.midcast.enmity = set_combine(sets.idle["Normal"], {             -- 93 Enmity, 36% PDT
+    sets.midcast.enmity = {             -- 93 Enmity, 36% PDT
         range=empty,
         ammo={name="Aqreqaq Bomblet", priority=20},         -- 2 Enmity
         head={name="Halitus Helm", priority=88},            -- 8 Enmity
@@ -423,13 +432,14 @@ function get_sets()
         legs=jse.empyrean.legs,                             -- 13 Enmity, 12% DT
         feet=jse.empyrean.feet,                             -- 8 Enmity, 11% DT
         neck={name="Unmoving Collar +1", priority=200},     -- 10 Enmity, Replace with Moonlight Necklace when I'm rich
+        --neck="Moonlight Necklace",                        -- TODO: More enmity when I can balance this better with the main set
         waist={name="Kasiri Belt", priority=30},            -- 3 Enmity
         left_ear="Trux Earring",                            -- 5 Enmity
         right_ear={name="Cryptic Earring", priority=40},    -- 5 Enmity
         left_ring={name="Eihwaz Ring", priority=70},        -- 5 Enmity
         right_ring={name="Supershear Ring", priority=30},   -- 5 Enmity
         back=jse.capes.enmity,                              -- 10 Enmity, 5% DT
-    })
+    }
 
     sets.midcast["Foil"] = set_combine(sets.midcast.enmity, {
         legs=jse.relic.legs,
@@ -457,6 +467,7 @@ function get_sets()
     }
 
     -- This is not the most elegant solution but we need barspell to be checked separately in midcast
+    -- May rename to enhancing skill
     -- Aims are 501 skill + fill with duration
     sets.midcast.barspell = { -- Enhancing skill
         ammo="",
@@ -477,7 +488,7 @@ function get_sets()
     sets.midcast["Aquaveil"] = sets.midcast.barspell
     sets.midcast["Temper"] = sets.midcast.barspell
 
-    sets.midcast["Phalanx"] = {  -- This is for self-casting
+    sets.midcast["Phalanx"] = {  -- This is for self-casting. Huge HP dip.
         ammo="Staunch Tathlum",
         head=jse.relic.head,
         body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}, priority=61},
@@ -557,21 +568,23 @@ function get_sets()
         back=jse.capes.enmity,
     }
 
-    sets.midcast.SIRD = set_combine(sets.idle["Normal"], { -- This needs to become something proper
-        -- ammo="",
-        -- head="",
-        -- body="",
-        -- hands="",
-        -- legs="",
-        -- feet="",
-        -- neck="",
-        -- waist="",
-        left_ear="Halasz Earring", -- 5% SIRD
-        -- right_ear="",
-        -- left_ring="",
-        -- right_ring="",
-        -- back="",
+    sets.midcast.SIRD = set_combine(sets.idle["Normal"], {  -- 78% + 10% Merits = 88% SIRD, Consider Peord Claymore to replace waist and Evanescence Ring so that I can bring in Platinum Moogle Belt + Gelatinous Ring +1 for HP
+        ammo="Staunch Tathlum",                             -- 10% SIRD
+        head=jse.empyrean.head,                             -- 20% SIRD
+        body={name="Adamantite Armor", priority=182},
+        -- hands="",                                        -- Rawhide gloves (15% SIRD) / Regal Gauntless (10% + shit ton of HP + other buffs)
+        legs=jse.empyrean.legs,
+        feet=jse.empyrean.feet,
+        neck="Moonlight Necklace",                          -- 15% SIRD
+        waist="Rumination Sash",                            -- 10% SIRD, replace with Audumbla Sash
+        left_ear="Halasz Earring",                          -- 5% SIRD, replace with Magnetic Earring (but my BLM...)
+        right_ear={name="Alabaster Earring", priority=100},
+        left_ring="Evanescence Ring",                       -- 5% SIRD
+        right_ring="Murky Ring",                            -- 3% SIRD
+        back=jse.capes.SIRD,                                -- 10% SIRD
     })
+
+    sets.midcast.SIRD_enmity = {} -- Do I...
 
     sets.midcast["Enfeebling Magic"] = {
         ammo="",
@@ -884,6 +897,8 @@ function precast(spell)
     end
     ]]
 
+    add_to_chat(123, string.format("Weather intensity: %s", world.weather_intensity))
+
     -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
     if spell.type == "WeaponSkill" then
         -- If the weapon skill name matches.
@@ -952,7 +967,6 @@ function midcast(spell)
 
         -- Enmity, maybe reorder this if I need to
         if not matched and enmity_spells:contains(spell.name) then
-            add_to_chat(123, "Definitely an enmity spell!")
             equip_set_and_weapon(sets.midcast.enmity)
             matched = true
         end
