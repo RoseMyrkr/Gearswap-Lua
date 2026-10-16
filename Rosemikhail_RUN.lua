@@ -883,7 +883,6 @@ function idle()
     -- Embolden overlay
     if buffactive["Embolden"] then
         equip(sets.buff.embolden)
-        return;
     end
 
     if buffactive["doom"] then
@@ -1000,7 +999,6 @@ function midcast(spell)
         -- Embolden overlay (for self-casting)
         if buffactive["Embolden"] and spell.skill == "Enhancing Magic" then
             equip_set_and_weapon(sets.buff.embolden)
-            return;
         end
     end
 
