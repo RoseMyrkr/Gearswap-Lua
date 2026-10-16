@@ -908,6 +908,8 @@ function handle_toggle(toggle, label)
     return result
 end
 
+local last_rune = nil
+
 ----------------------------------------------------------------
 -- GEARSWAP FUNCTIONS
 ----------------------------------------------------------------
@@ -916,8 +918,6 @@ function precast(spell)
     if toggle_speed == "On" then
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
-
-    add_to_chat(123, string.format("Weather intensity: %s", world.weather_intensity))
 
     -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
     if spell.type == "WeaponSkill" then
@@ -929,11 +929,6 @@ function precast(spell)
             equip_set_and_weapon(sets.ws.default)
         end
 
-        -- Hachirin-no-Obi overlay.
-        if S{world.weather_element, world.day_element}:contains(spell.element) and spell.element ~= "None" and spell.name ~= "Myrkr" then
-            equip({waist="Hachirin-no-Obi"})
-        end
-
         return
     end
 
@@ -941,6 +936,25 @@ function precast(spell)
     if spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
+        end
+
+        -- Lunge Hachirin-no-Obi checks
+        -- We have to store the last rune used + check whether it is still active. We cannot check against spell.element, as it always returns "light".
+        -- A little flimsy, as it will always fail if I load the GS *after* using runes, but that shouldn't happen in normal gameplay.
+        if spell.type == "Rune" then
+            last_rune = spell
+        end
+
+        if last_rune then
+            local double_weather_matches_rune = last_rune.element == world.weather_element and world.weather_intensity == 2
+            local weather_and_day_matches_rune = last_rune.element == world.weather_element and last_rune.element == world.day_element
+
+            if spell.name == "Lunge" or spell.name == "Swipe" then
+                if (double_weather_matches_rune or weather_and_day_matches_rune) and buffactive[last_rune.name] then
+                    equip({waist="Hachirin-no-Obi"})
+                    return
+                end
+            end
         end
 
         return

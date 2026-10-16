@@ -368,11 +368,6 @@ function precast(spell)
             equip_set_and_weapon(sets.ws.default)
         end
 
-        -- Hachirin-no-Obi overlay.
-        if S{world.weather_element, world.day_element}:contains(spell.element) and spell.element ~= "None" and spell.name ~= "Myrkr" then
-            equip({waist="Hachirin-no-Obi"})
-        end
-
         return
     end
 
