@@ -461,7 +461,7 @@ function get_sets()
     ----------------------------------------------------------------
     
     -- Fill with duration. I guess just fill with idle/defensive pieces otherwise?
-    sets.midcast["Enhancing Magic"] = {     --
+    sets.midcast["Enhancing Magic"] = set_combine(sets.idle["Normal"], {     --
         ammo="",
         head=jse.empyrean.head,             -- +25% Duration
         body="",
@@ -475,12 +475,12 @@ function get_sets()
         left_ring="",
         right_ring="",
         back="",
-    }
+    })
 
     -- This is not the most elegant solution but we need barspell to be checked separately in midcast
     -- May rename to enhancing skill
     -- Aims are 501 skill + fill with duration
-    sets.midcast.barspell = { -- Enhancing skill
+    sets.midcast.barspell = set_combine(sets.idle["Normal"], { -- Enhancing skill
         ammo="",
         head="",
         body="",
@@ -494,7 +494,7 @@ function get_sets()
         left_ring="",
         right_ring="",
         back="",
-    }
+    })
 
     sets.midcast["Aquaveil"] = sets.midcast.barspell
     sets.midcast["Temper"] = sets.midcast.barspell
@@ -515,7 +515,7 @@ function get_sets()
         back={name="Moonbeam Cape", priority=250}, -- Replace with Merciful Cape
     }
 
-    sets.midcast["Regen"] = {
+    sets.midcast["Regen"] = set_combine(sets.idle["Normal"], {
         ammo="",
         head="",
         body="",
@@ -529,9 +529,9 @@ function get_sets()
         left_ring="",
         right_ring="",
         back="",
-    }
+    })
 
-    sets.midcast["Refresh"] = {
+    sets.midcast["Refresh"] = set_combine(sets.idle["Normal"], {
         ammo="",
         head="",
         body="",
@@ -545,9 +545,9 @@ function get_sets()
         left_ring="",
         right_ring="",
         back="",
-    }
+    })
 
-    sets.midcast["Stoneskin"] = { -- Not sure how close we can get to 500 but there are specific pieces I want here.
+    sets.midcast["Stoneskin"] = set_combine(sets.idle["Normal"], { -- Not sure how close we can get to 500 but there are specific pieces I want here.
         ammo="",
         head="",
         body="",
@@ -561,7 +561,7 @@ function get_sets()
         left_ring="",
         right_ring="",
         back="",
-    }
+    })
 
     sets.midcast["Cure"] = {
         ammo="Sapience Orb",
@@ -679,10 +679,10 @@ function get_sets()
         hands="Agwu's Gages",
         legs="Agwu's Slops",
         feet="Agwu's Pigaches",
-        neck="Sibyl Scarf",
+        neck="Sibyl Scarf", -- Baetyl Pendant
         waist="Orpheus's Sash",
         left_ear="Friomisi Earring",
-        right_ear="Moldavite Earring",
+        right_ear="Moldavite Earring", -- Crematio Earring
         left_ring="Metamor. Ring +1",
         right_ring="Gelatinous Ring +1",
         back={ name="Evasionist's Cape", augments={'Enmity+4','"Embolden"+15','"Dbl.Atk."+1',}},
