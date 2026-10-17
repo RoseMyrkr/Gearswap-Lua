@@ -579,20 +579,20 @@ function get_sets()
         back=jse.capes.enmity,
     }
 
-    sets.midcast.SIRD = set_combine(sets.idle["Normal"], {  -- 78% + 10% Merits = 88% SIRD, Consider Peord Claymore to replace waist and Evanescence Ring so that I can bring in Platinum Moogle Belt + Gelatinous Ring +1 for HP
-        ammo="Staunch Tathlum",                             -- 10% SIRD
-        head=jse.empyrean.head,                             -- 20% SIRD
+    sets.midcast.SIRD = set_combine(sets.idle["Normal"], {                                          -- 93% + 10% Merits = 103% SIRD, Consider Peord Claymore to replace waist and Evanescence Ring so that I can bring in Platinum Moogle Belt + Gelatinous Ring +1 for HP
+        ammo="Staunch Tathlum",                                                                     -- 10% SIRD
+        head=jse.empyrean.head,                                                                     -- 20% SIRD
         body={name="Adamantite Armor", priority=182},
-        -- hands="",                                        -- Rawhide gloves (15% SIRD) / Regal Gauntlets (10% + shit ton of HP + other buffs)
+        hands={name="Rawhide Gloves", augments={'HP+50','Accuracy+15','Evasion+20',}, priority=75}, -- 15% SIRD, replace with Regal Gauntlets (10%)
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
-        neck="Moonlight Necklace",                          -- 15% SIRD
-        waist="Rumination Sash",                            -- 10% SIRD, replace with Audumbla Sash
-        left_ear="Halasz Earring",                          -- 5% SIRD, replace with Magnetic Earring (but my BLM...)
+        neck="Moonlight Necklace",                                                                  -- 15% SIRD
+        waist="Rumination Sash",                                                                    -- 10% SIRD, replace with Audumbla Sash
+        left_ear="Halasz Earring",                                                                  -- 5% SIRD, replace with Magnetic Earring (but my BLM...)
         right_ear={name="Alabaster Earring", priority=100},
-        left_ring="Evanescence Ring",                       -- 5% SIRD
-        right_ring="Murky Ring",                            -- 3% SIRD
-        back=jse.capes.SIRD,                                -- 10% SIRD
+        left_ring="Evanescence Ring",                                                               -- 5% SIRD
+        right_ring="Murky Ring",                                                                    -- 3% SIRD
+        back=jse.capes.SIRD,                                                                        -- 10% SIRD
     })
 
     sets.midcast.SIRD_enmity = {} -- Do I...
@@ -947,7 +947,6 @@ function precast(spell)
 
         if last_rune and (spell.name == "Lunge" or spell.name == "Swipe") then
             -- Hachirin-no-Obi check
-
             local double_weather_matches_rune = last_rune.element == world.weather_element and world.weather_intensity == 2
             local weather_and_day_matches_rune = last_rune.element == world.weather_element and last_rune.element == world.day_element
 
