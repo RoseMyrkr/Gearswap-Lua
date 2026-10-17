@@ -945,26 +945,24 @@ function precast(spell)
             last_rune = spell
         end
 
-        --if last_rune then
-            if last_rune and (spell.name == "Lunge" or spell.name == "Swipe") then
-                -- Hachirin-no-Obi check
+        if last_rune and (spell.name == "Lunge" or spell.name == "Swipe") then
+            -- Hachirin-no-Obi check
 
-                local double_weather_matches_rune = last_rune.element == world.weather_element and world.weather_intensity == 2
-                local weather_and_day_matches_rune = last_rune.element == world.weather_element and last_rune.element == world.day_element
+            local double_weather_matches_rune = last_rune.element == world.weather_element and world.weather_intensity == 2
+            local weather_and_day_matches_rune = last_rune.element == world.weather_element and last_rune.element == world.day_element
 
-                if (double_weather_matches_rune or weather_and_day_matches_rune) and buffactive[last_rune.name] then
-                    equip({waist="Hachirin-no-Obi"})
-                    return
-                end
-
-                -- Tenebrae
-                if last_rune.name == "Tenebrae" then
-                    equip({head="Pixie Hairpin +1", left_ring="Archon Ring",})
-                end
-
-                -- Lux could have a Weatherspoon check, but I don't have one!
+            if (double_weather_matches_rune or weather_and_day_matches_rune) and buffactive[last_rune.name] then
+                equip({waist="Hachirin-no-Obi"})
+                return
             end
-        --end
+
+            -- Tenebrae
+            if last_rune.name == "Tenebrae" then
+                equip({head="Pixie Hairpin +1", left_ring="Archon Ring",})
+            end
+
+            -- Lux could have a Weatherspoon check, but I don't have one!
+        end
 
         return
     end
