@@ -674,17 +674,17 @@ function get_sets()
     -- This seems very low HP lol
     sets.ja["Swipe"] = {
         ammo="Pemphredo Tathlum",
-        head="Agwu's Cap",
-        body="Agwu's Robe",
-        hands="Agwu's Gages",
-        legs="Agwu's Slops",
-        feet="Agwu's Pigaches",
+        head={name="Agwu's Cap", priority=38},
+        body={name="Agwu's Robe", priority=61},
+        hands={name="Agwu's Gages", priority=38},
+        legs={name="Agwu's Slops", priority=50},
+        feet={name="Agwu's Pigaches", priority=27},
         neck="Sibyl Scarf", -- Baetyl Pendant
         waist="Orpheus's Sash",
         left_ear="Friomisi Earring",
         right_ear="Moldavite Earring", -- Crematio Earring
-        left_ring="Metamor. Ring +1",
-        right_ring="Gelatinous Ring +1",
+        left_ring={name="Gelatinous Ring +1", priority=135},
+        right_ring="Metamor. Ring +1",
         back={ name="Evasionist's Cape", augments={'Enmity+4','"Embolden"+15','"Dbl.Atk."+1',}},
     }
 
