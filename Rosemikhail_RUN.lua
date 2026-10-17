@@ -583,7 +583,7 @@ function get_sets()
         ammo="Staunch Tathlum",                             -- 10% SIRD
         head=jse.empyrean.head,                             -- 20% SIRD
         body={name="Adamantite Armor", priority=182},
-        -- hands="",                                        -- Rawhide gloves (15% SIRD) / Regal Gauntless (10% + shit ton of HP + other buffs)
+        -- hands="",                                        -- Rawhide gloves (15% SIRD) / Regal Gauntlets (10% + shit ton of HP + other buffs)
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Moonlight Necklace",                          -- 15% SIRD
@@ -938,24 +938,33 @@ function precast(spell)
             equip_set_and_weapon(sets.ja[spell.name])
         end
 
-        -- Lunge Hachirin-no-Obi checks
+        -- Lunge checks
         -- We have to store the last rune used + check whether it is still active. We cannot check against spell.element, as it always returns "light".
         -- A little flimsy, as it will always fail if I load the GS *after* using runes, but that shouldn't happen in normal gameplay.
         if spell.type == "Rune" then
             last_rune = spell
         end
 
-        if last_rune then
-            local double_weather_matches_rune = last_rune.element == world.weather_element and world.weather_intensity == 2
-            local weather_and_day_matches_rune = last_rune.element == world.weather_element and last_rune.element == world.day_element
+        --if last_rune then
+            if last_rune and (spell.name == "Lunge" or spell.name == "Swipe") then
+                -- Hachirin-no-Obi check
 
-            if spell.name == "Lunge" or spell.name == "Swipe" then
+                local double_weather_matches_rune = last_rune.element == world.weather_element and world.weather_intensity == 2
+                local weather_and_day_matches_rune = last_rune.element == world.weather_element and last_rune.element == world.day_element
+
                 if (double_weather_matches_rune or weather_and_day_matches_rune) and buffactive[last_rune.name] then
                     equip({waist="Hachirin-no-Obi"})
                     return
                 end
+
+                -- Tenebrae
+                if last_rune.name == "Tenebrae" then
+                    equip({head="Pixie Hairpin +1", left_ring="Archon Ring",})
+                end
+
+                -- Lux could have a Weatherspoon check, but I don't have one!
             end
-        end
+        --end
 
         return
     end
