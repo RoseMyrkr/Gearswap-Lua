@@ -56,7 +56,7 @@ Potential enhancements:
 nuking_mode = M{"Free Nuke", "Burst", "Occult Acumen"}
 weapon_mode = M{"Laevateinn", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"} --"Marin Staff",
 engaged_mode = M{}
-idle_mode = M{"Normal", "Refresh"}
+idle_mode = M{"Normal", "Refresh", "DEF"}
 
 eat_tp = "Off"
 toggle_speed = "Off"
@@ -344,6 +344,24 @@ function get_sets()
         right_ring="Defending Ring",                                                                                                                    -- -10% DT
         back=jse.capes.idle_fc,                                                                                                                         -- -10% PDT
     })
+
+    sets.idle["DEF"] = {                                                                                                                                -- OVERALL -71% DT, -17% PDT, -1% MDT (-88% DT+PDT, -72% DT+MDT)
+        main="Wizard's Rod",
+        sub="Genmei Shield",                                                                                                                            -- -10% PDT, DEF
+        ammo="Amar Cluster",                                                                                                                            -- Evasion
+        head="Null Masque",                                                                                                                             -- -10% DT, DEF, HP, +3 Regen
+        body="Adamantite Armor",                                                                                                                        -- -20% DT, DEF, HP
+        hands="Nyame Gauntlets",                                                                                                                        -- -7% DT, DEF, HP
+        legs="Nyame Flanchard",                                                                                                                         -- -8% DT,DEF, HP
+        feet="Nyame Sollerets",                                                                                                                         -- -7% DT, DEF, HP
+        neck="Loricate Torque +1",                                                                                                                      -- -6% DT, DEF
+        waist="Null Belt",                                                                                                                              -- Evasion, +3 Regen
+        left_ear="Tuisto Earring",                                                                                                                      -- DEF, HP
+        right_ear="Odnowa Earring +1",                                                                                                                  -- -2% MDT, 3% DT, DEF, HP
+        left_ring="Murky Ring",                                                                                                                         -- -10% DT, DEF
+        right_ring="Gelatinous Ring +1",                                                                                                                -- -7% PDT, +1% MDT HP
+        back="Null Shawl",                                                                                                                              -- Evasion
+    }
 
     sets.idle["Death"] = {
         ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},

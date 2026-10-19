@@ -24,6 +24,9 @@ STRETCH:
 - Consider resist death resist toggle
 - Potentially some kind of automatic SIRD vs Aquaveil check
 
+AS AND WHEN:
+- Update SIRD enmity set when I get Peord Claymore or Epeolatry
+
 ALL JOBS
 - Sleep cry
 
@@ -469,20 +472,21 @@ function get_sets()
     })
 
     -- Aims are 501 skill + fill with duration
-    sets.midcast.enhancing_skill = set_combine(sets.midcast["Enhancing Magic"], { -- Enhancing skill
-        ammo="",
-        head="",
-        body="",
-        hands="",
-        legs="",
-        feet="",
-        neck="",
-        waist="",
-        left_ear="",
-        right_ear="",
-        left_ring="",
-        right_ring="",
-        back="",
+    -- Health dip for real
+    sets.midcast.enhancing_skill = set_combine(sets.midcast["Enhancing Magic"], { -- 437 Enhancing skill
+        ammo="Staunch Tathlum",
+        head=jse.empyrean.head,
+        {name="Adamantite Armor", priority=182}, -- Replace with Manasa Chasauble
+        hands=jse.AF.hands,
+        legs=jse.relic.legs,
+        {name="Nyame Sollerets", priority=68}, -- Replace with...?
+        neck="Incanter's Torque",
+        waist="Olympus Sash",
+        left_ear="Andoaa Earring",
+        right_ear="Mimir Earring",
+        left_ring="Stikini Ring",
+        right_ring="Stikini Ring",
+        back=jse.capes.enmity, -- Merciful Cape
     })
 
     sets.midcast["Phalanx"] = {  -- This is for self-casting. Huge HP dip.
@@ -656,13 +660,13 @@ function get_sets()
     sets.ja["Pflug"] = sets.midcast.enmity
 
     -- Shove so much skill up my ass
-    sets.ja["Vivacious Pulse"] = { -- Probably Empyrean head just for the -na capability
+    sets.ja["Vivacious Pulse"] = {
         ammo="Staunch Tathlum",
         head=jse.empyrean.head,
         body={name="Adamantite Armor", priority=182},
         hands={name="Nyame Gauntlets", priority=91}, -- Replace with Regal Gauntlets
         legs=jse.AF.legs,
-        feet="Nyame Sollerets",
+        feet={name="Nyame Sollerets", priority=68},
         neck="Incanter's Torque",
         waist={name="Plat. Mog. Belt", priority=1000},
         left_ear={name="Odnowa Earring +1", priority=110}, -- Replace with Beatific Earring
