@@ -670,7 +670,7 @@ function get_sets()
         neck="Incanter's Torque",
         waist={name="Plat. Mog. Belt", priority=1000},
         left_ear={name="Odnowa Earring +1", priority=110}, -- Replace with Beatific Earring
-        right_ear={name="Tuisto Earring", priority=150}, -- Replace with Saxnot Earring
+        right_ear="Saxnot Earring",
         left_ring="Stikini Ring",
         right_ring="Stikini Ring",
         back={name="Moonbeam Cape", priority=250}, -- Replace with Altruistic Cape
