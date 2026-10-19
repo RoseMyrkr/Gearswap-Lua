@@ -263,7 +263,8 @@ function get_sets()
         parry={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Parrying rate+5%',}, priority=80},
         fast_cast={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}, priority=80},
         SIRD={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}, priority=80},
-        --VIT+30, DEF+50 supertank
+        -- SIRD enmity cape
+        -- Potentially a supertank cape with DEF n stuff check guide
         -- MEVA cape INT+20, Eva/Meva, Meva+25, Enmity
         -- TP cape
         -- dimidiation
@@ -288,7 +289,7 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
-    sets.idle["Normal"] = {                                         -- 75% DT, 2% MDT, 7% PDT
+    sets.idle["Normal"] = {                                         -- 72% DT, 2% MDT, 7% PDT
         range=empty,
         ammo="Staunch Tathlum",                                     -- 2% DT
         head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2
@@ -298,7 +299,8 @@ function get_sets()
         --feet={name="Nyame Sollerets", priority=68},               -- 7% DT
         feet=jse.empyrean.feet,                                     -- 11% DT, +35 all resistances
         neck="Loricate Torque +1",                                  -- 6% DT
-        waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        --waist={name="Plat. Mog. Belt", priority=1000},             -- 3% DT +10% HP, Replace with Engraved Belt
+        waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
         left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
@@ -345,7 +347,7 @@ function get_sets()
 
     -- Set for if I can't force the enemies into a cone
     -- Default set for now until I get SU3
-    sets.engaged["Physical"] = {                                    -- 54% DT, 2% MDT, 7% PDT
+    sets.engaged["Physical"] = {                                    -- 51% DT, 2% MDT, 7% PDT
         range=empty,
         ammo="Staunch Tathlum",                                     -- 2% DT
         head=jse.empyrean.head,
@@ -354,7 +356,8 @@ function get_sets()
         legs=jse.empyrean.legs,                                     -- 13% DT
         feet=jse.empyrean.feet,                                     -- 11% DT, Consider swapping in Turms Leggings +1 for the parry stat (I should be able to make the DT requirements)
         neck="Loricate Torque +1",                                  -- 6% DT, Replace with JSE+1/+2 neck
-        waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        --waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
         left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
@@ -363,7 +366,7 @@ function get_sets()
     }
 
     -- If DT needs are met, Warders Charm +1. If not, JSE neck +1/2.
-    sets.engaged["Magical"] = {                                 -- 48% DT, 2% MDT, 7% PDT
+    sets.engaged["Magical"] = {                                     -- 48% DT, 2% MDT, 7% PDT (technically capping both woo)
         range=empty,
         ammo="Staunch Tathlum",                                     -- 2% DT, Repalce with Yamarang
         head=jse.empyrean.head,
@@ -372,7 +375,8 @@ function get_sets()
         legs=jse.empyrean.legs,                                     -- 13% DT
         feet=jse.empyrean.feet,                                     -- 11% DT,
         neck="Warder's Charm +1",
-        waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        --waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT
         left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT, Replace with Shadow Ring
@@ -460,7 +464,6 @@ function get_sets()
     -- MAGIC
     ----------------------------------------------------------------
     
-    -- Fill with duration. I guess just fill with idle/defensive pieces otherwise?
     sets.midcast["Enhancing Magic"] = set_combine(sets.idle["Normal"], {     --
         ammo="",
         head=jse.empyrean.head,             -- +25% Duration
@@ -477,10 +480,8 @@ function get_sets()
         back="",
     })
 
-    -- This is not the most elegant solution but we need barspell to be checked separately in midcast
-    -- May rename to enhancing skill
     -- Aims are 501 skill + fill with duration
-    sets.midcast.barspell = set_combine(sets.idle["Normal"], { -- Enhancing skill
+    sets.midcast.enhancing_skill = set_combine(sets.midcast["Enhancing Magic"], { -- Enhancing skill
         ammo="",
         head="",
         body="",
@@ -495,9 +496,6 @@ function get_sets()
         right_ring="",
         back="",
     })
-
-    sets.midcast["Aquaveil"] = sets.midcast.barspell
-    sets.midcast["Temper"] = sets.midcast.barspell
 
     sets.midcast["Phalanx"] = {  -- This is for self-casting. Huge HP dip.
         ammo="Staunch Tathlum",
@@ -515,7 +513,7 @@ function get_sets()
         back={name="Moonbeam Cape", priority=250}, -- Replace with Merciful Cape
     }
 
-    sets.midcast["Regen"] = set_combine(sets.idle["Normal"], {
+    sets.midcast["Regen"] = set_combine(sets.midcast["Enhancing Magic"], {
         ammo="",
         head="",
         body="",
@@ -531,7 +529,7 @@ function get_sets()
         back="",
     })
 
-    sets.midcast["Refresh"] = set_combine(sets.idle["Normal"], {
+    sets.midcast["Refresh"] = set_combine(sets.midcast["Enhancing Magic"], {
         ammo="",
         head="",
         body="",
@@ -547,7 +545,7 @@ function get_sets()
         back="",
     })
 
-    sets.midcast["Stoneskin"] = set_combine(sets.idle["Normal"], { -- Not sure how close we can get to 500 but there are specific pieces I want here.
+    sets.midcast["Stoneskin"] = set_combine(sets.midcast.enhancing_skill, { -- Not sure how close we can get to 500 but there are specific pieces I want here.
         ammo="",
         head="",
         body="",
@@ -579,7 +577,7 @@ function get_sets()
         back=jse.capes.enmity,
     }
 
-    sets.midcast.SIRD = set_combine(sets.idle["Normal"], {                                          -- 93% + 10% Merits = 103% SIRD, Consider Peord Claymore to replace waist and Evanescence Ring so that I can bring in Platinum Moogle Belt + Gelatinous Ring +1 for HP
+    sets.midcast.SIRD = {                                                                           -- 93% + 10% Merits = 103% SIRD, Consider Peord Claymore to replace waist and Evanescence Ring so that I can bring in Platinum Moogle Belt + Gelatinous Ring +1 for HP
         ammo="Staunch Tathlum",                                                                     -- 10% SIRD
         head=jse.empyrean.head,                                                                     -- 20% SIRD
         body={name="Adamantite Armor", priority=182},
@@ -593,9 +591,24 @@ function get_sets()
         left_ring="Evanescence Ring",                                                               -- 5% SIRD
         right_ring="Murky Ring",                                                                    -- 3% SIRD
         back=jse.capes.SIRD,                                                                        -- 10% SIRD
-    })
+    }
 
-    sets.midcast.SIRD_enmity = {} -- Do I...
+    -- Attempt a better version of this when I have either Peord Claymore or Epeolatry because I can barely make it as is without enmity
+    sets.midcast.SIRD_enmity = {                                                                    -- 93% + 10% Merits = 103% SIRD, 51 enmity
+        ammo="Staunch Tathlum",                                                                     -- 10% SIRD
+        head=jse.empyrean.head,                                                                     -- 20% SIRD
+        body={name="Emet Harness +1", priority=61},                                                 -- 10 Enmity
+        hands={name="Rawhide Gloves", augments={'HP+50','Accuracy+15','Evasion+20',}, priority=75}, -- 15% SIRD, replace with Regal Gauntlets (10%)
+        legs=jse.empyrean.legs,                                                                     -- 13 enmity
+        feet=jse.empyrean.feet,                                                                     -- 8 enmity
+        neck="Moonlight Necklace",                                                                  -- 15% SIRD, 15 enmity
+        waist="Rumination Sash",                                                                    -- 10% SIRD, replace with Audumbla Sash
+        left_ear="Halasz Earring",                                                                  -- 5% SIRD
+        right_ear={name="Cryptic Earring", priority=40},                                            -- 5 Enmity
+        left_ring="Evanescence Ring",                                                               -- 5% SIRD
+        right_ring="Murky Ring",                                                                    -- 3% SIRD
+        back=jse.capes.SIRD,                                                                        -- 10% SIRD (eventually SIRD enmity cape with +10)
+    }
 
     sets.midcast["Enfeebling Magic"] = {
         ammo="",
@@ -1006,8 +1019,8 @@ function midcast(spell)
             matched = true
         end
 
-        if not matched and spell.name:match("^Bar") then
-            equip_set_and_weapon(sets.midcast.barspell)
+        if not matched and (spell.name:match("^Bar") or spell.name == "Aquaveil" or spell.name == "Temper") then
+            equip_set_and_weapon(sets.midcast.enhancing_skill)
             matched = true
         end
 
