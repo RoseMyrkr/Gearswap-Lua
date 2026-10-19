@@ -997,8 +997,12 @@ end
 function midcast(spell)
     if spell.action_type == "Magic" then
         if SIRD == "On" then
-            equip_set_and_weapon(sets.midcast.SIRD)
-            -- Need a separate check for SIRD Enmity
+            if enmity_spells:contains(spell.name) then
+                equip_set_and_weapon(sets.midcast.SIRD_enmity)
+            else
+                equip_set_and_weapon(sets.midcast.SIRD)
+            end
+
             return
         end
 
