@@ -7,42 +7,27 @@ include("Modes.lua")
 
 --[[
 TO DO:
-
--- How to approach SIRD... I could have a straight SIRD toggle for I MUST CAST THIS NOW, and then a separate line (perhaps default line) for spells that otherwise don't have a set to be casted in SIRD
--- Actually nah I don't want to "by default" cast in SIRD for anything. I'll just have it as a toggle for when I need it. Aquaveil got me :)
-- Automatic mode maybe. If Aquaveil is NOT up, casting most is automatically SIRD mode. Turn this mode off when Aquaveil is up.
-
-- FC set with Vallation/Valiance up (Inspiration).
-    - Buff check in precast
+- FC set with Vallation/Valiance up (Inspiration) + precast buff check
 - Pick up /BLU and get a fuck ton of spells. See Dumo guide.
 - Protect/Shell cast with Brachyura Earring or Sheltered Ring if self-cast
-- For enmity sird, foil may need to become an overlay in midcast, though maybe not for SIRD reasons
 - Parrying set when I have access to SU3
 - Potentially healing magic sets i.e. Cursna
 - Needle the enmity cape to have PDT instead probably
+- Finish sets in general
 
-STRETCH
+STRETCH:
 - Enmity mode (enmity vs safe enmity)
 - Regen idle when it comes to it (Sortie...)
 - SOME BLU magic IS subject to weather effects
-- Swipe/Lunch JA magic burst damage
-    - If I have double weather OR single weather + matching day, Hachirin-no-Obi is better than Osash
-    - Need a check for Tenebrae or Lux (I don't have the weatherspoon ring though)
-    For melee range stuff like Lunge/Swipe or elemental weaponskills
-        If weather = double, hachirin-no-obi
-        Or if weather + day is matching, hachirin no obi
-        Otherwise, osash
-        world.weather_intensity 0-2
 - Consider ACC sets - idk how this works for WS though!
 - Potentially Flume Belt as a toggle for MP
-
 - Consider resist death resist toggle
--- I don't *think* I need to care about Sublimation on Runefencer?
+- Potentially some kind of automatic SIRD vs Aquaveil check
 
 ALL JOBS
 - Sleep cry
 
--- When I have a bunch more gear, re-sim TP and WS sets
+- When I have a bunch more gear, re-sim TP and WS sets
 ]]
 
 ----------------------------------------------------------------
@@ -75,7 +60,8 @@ enmity_spells = S{
     "Bomb Toss",
     "Cursed Sphere",
     "Stun",
-    "Poisonga"}
+    "Poisonga",
+}
 
 -- Bindings
 send_command("bind f1 gs c idlemode normal")
@@ -455,6 +441,8 @@ function get_sets()
         right_ring={name="Supershear Ring", priority=30},   -- 5 Enmity
         back=jse.capes.enmity,                              -- 10 Enmity, 5% DT
     }
+
+    -- TODO: Safe enmity
 
     sets.midcast["Foil"] = set_combine(sets.midcast.enmity, {
         legs=jse.relic.legs,
