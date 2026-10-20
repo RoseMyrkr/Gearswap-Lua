@@ -345,7 +345,7 @@ function get_sets()
         back=jse.capes.idle_fc,                                                                                                                         -- -10% PDT
     })
 
-    sets.idle["DEF"] = {                                                                                                                                -- OVERALL -71% DT, -17% PDT, -1% MDT (-88% DT+PDT, -72% DT+MDT)
+    sets.idle["DEF"] = {                                                                                                                                -- OVERALL -61% DT, -10% PDT, -2% MDT (-71% DT+PDT, -63% DT+MDT)
         main="Wizard's Rod",
         sub="Genmei Shield",                                                                                                                            -- -10% PDT, DEF
         ammo="Amar Cluster",                                                                                                                            -- Evasion
@@ -358,8 +358,10 @@ function get_sets()
         waist="Null Belt",                                                                                                                              -- Evasion, +3 Regen
         left_ear="Tuisto Earring",                                                                                                                      -- DEF, HP
         right_ear="Odnowa Earring +1",                                                                                                                  -- -2% MDT, 3% DT, DEF, HP
-        left_ring="Murky Ring",                                                                                                                         -- -10% DT, DEF
-        right_ring="Gelatinous Ring +1",                                                                                                                -- -7% PDT, +1% MDT HP
+        left_ring="Mephitas's Ring",                                                                                                                    -- DEF, HP balancing
+        right_ring="Mephitas's Ring +1",                                                                                                                -- DEF, HP balancing
+        -- left_ring="Murky Ring",                                                                                                                      -- -10% DT, DEF
+        -- right_ring="Gelatinous Ring +1",                                                                                                             -- -7% PDT, +1% MDT HP
         back="Null Shawl",                                                                                                                              -- Evasion
     }
 
