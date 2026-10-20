@@ -225,16 +225,16 @@ function get_sets()
     
     sets.engaged["TP"] = {
         ammo="Amar Cluster",
-        head="Null Masque",
-        body="Nyame Mail",
+        head="Ischkur Turban",
+        body="Ayanmo Corazza +2",
         hands="Nyame Gauntlets",
-        legs="Nyame Flanchard",
+        legs="Aya. Cosciales +2",
         feet="Nyame Sollerets",
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Cessance Earring",
-        right_ear="Odnowa Earring +1",
-        left_ring="Petrov Ring",
+        left_ear="Telos Earring",
+        right_ear="Crep. Earring",
+        left_ring="Murky Ring",
         right_ring="Lehko's Ring",
         back="Null Shawl",
     }

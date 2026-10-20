@@ -26,6 +26,8 @@ Potential enhancements:
     - Steal from WHM
 
 - Potentially add sublimation/other SCH stuff down the line if I need to
+
+- Consider Magesmasher +1 for funny /DNC shenanigans
 ]]
 
 ----------------------------------------------------------------
@@ -260,18 +262,18 @@ function get_sets()
     
     -- This set is trying its best for accuracy but is suffering; it is a work in progress
     -- Nyame RP will help a lot, as will stuff like Chirich
-    sets.melee.TP = {
+    sets.melee.TP = { -- ~26 per WS
         range=empty,
         ammo="Amar Cluster",
-        head="Null Masque",
+        head=jse.empyrean.head,
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
-        legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet, -- Could instead be Battlecast Gaiters
+        legs="Jhakri Slops +2",
+        feet=jse.empyrean.feet,
         neck="Null Loop",
-        waist="Null Belt", -- Could instead be Grunfeld
-        left_ear="Cessance Earring",
-        right_ear="Crep. Earring",
+        waist="Grunfeld Rope",
+        left_ear="Telos Earring",
+        right_ear="Cessance Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
         back="Null Shawl",

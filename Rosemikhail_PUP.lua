@@ -174,6 +174,7 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
+    -- Re-sim this if it ever matters lol
     -- TODO: Upgrade my animatior to an ilvl119 one.
     sets.melee.TP = {
         range="Divinator",

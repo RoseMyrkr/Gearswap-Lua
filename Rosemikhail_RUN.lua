@@ -373,26 +373,25 @@ function get_sets()
         back=jse.capes.parry, -- Replace with MEVA cape
     }
 
-    -- I don't expect that I'll be using this much
-    -- This probably needs work.
-    sets.engaged["TP"] = {
+    -- This probably needs more work. I went for TP but tried keeping SOME HP instead of going buck wild.
+    sets.engaged["TP"] = { -- ~20 per WS
         range=empty,
         ammo="Coiste Bodhar", -- No RP at the moment...
-        head={name="Null Masque", priority=100},
+        head={name="Null Masque", priority=100}, -- Consider "Ischkur Turban". 100 hp for 1s faster WS...
         body={name="Ayanmo Corazza +2", priority=57},
-        hands={name="Nyame Gauntlets", priority=91},
+        hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet={name="Carmine Greaves +1", priority=95},
-        neck={name="Null Loop", priority=50},
-        waist="Kentarch Belt +1",
-        left_ear="Cessance Earring",
+        feet={name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}, priority=95},
+        neck="Loricate Torque +1",
+        waist="Sailfi Belt +1",
+        left_ear="Telos Earring",
         right_ear="Sherida Earring",
         left_ring={name="Moonbeam Ring", priority=100, bag="wardrobe5"},
         right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},
         back="Null Shawl",
     }
 
-    -- Not sure if I'll bother having a separate max TP set. Hybrid seems cozier.
+    -- Consult Dumo guide for better + Ongo variants.
 
     ----------------------------------------------------------------
     -- PRECAST

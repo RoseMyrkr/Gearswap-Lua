@@ -176,34 +176,26 @@ function get_sets()
     ----------------------------------------------------------------
     
     weapon_sets = {
-        -- ["Marin Staff"] = {
-        --     gear = {
-        --         main={ name="Marin Staff +1", augments={'Path: A',}},
-        --         sub="Enki Strap",
-        --     },
-        --     engaged_sets = {}, -- Use the default
-        --     overrides = {},
-        -- },
         ["Laevateinn"] = {
             gear = {
                 main={ name="Laevateinn", augments={'Path: A',}},
                 sub="Enki Strap",
             },
-            engaged_sets = {"Idle", "TP", "Low Acc TP"},
-            overrides = {},
+            engaged_sets = {}, -- Use the default
+            overrides = {
+                ["TP"] = {
+                    main="Laevateinn",
+                    sub="Khonsu",
+                },
+            },
         },
         ["Wizard's Rod"] = {
             gear = {
                 main="Wizard's Rod",
                 sub="Ammurapi Shield",
             },
-            engaged_sets = {"Idle", "TP", "/DNC TP"},
-            overrides = {
-                ["/DNC TP"] = {
-                    main="Wizard's Rod",
-                    sub="Maxentius",
-                },
-            },
+            engaged_sets = {},  -- Use the default
+            overrides = {},
         },
         ["Maxentius"] = {
             gear = {
@@ -214,7 +206,7 @@ function get_sets()
             overrides = {
                 ["/DNC TP"] = {
                     main="Maxentius",
-                    sub="Wizard's Rod",
+                    sub="Bunzi's Rod",
                 },
             },
         },
@@ -385,61 +377,38 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    -- Takes advantage of the AF body bonuses (with Marin Staff +1)
-    -- Re-sim these sets after Laev/Gazu Bracelets/Telos Earring
-
-    sets.engaged.TP = { -- ~100 per WS
-        ammo="Amar Cluster",
-        head="Null Masque",
-        body=jse.AF.body,
-        hands=jse.empyrean.hands,
-        legs=jse.AF.legs,
-        feet=jse.empyrean.feet, -- Replace with +4 AF feet (maybe, I'll lose DT)
-        neck="Null Loop",
-        waist="Null Belt",
-        left_ear="Crep. Earring",
-        right_ear="Regal Earring", -- Replace with Telos Earring
-        left_ring="Lehko's Ring",
-        right_ring="Defending Ring",
-        back="Null Shawl",
-    }
-
-    sets.engaged["Low Acc TP"] = { -- ~67 per WS
+    sets.engaged["TP"] = { -- ~28 per WS
         ammo="Amar Cluster",
         head="Ischkur Turban",
         body="Nyame Mail",
-        hands="Nyame Gauntlets",
-        legs="Jhakri Slops +2",
-        feet="Battlecast Gaiters",
-        neck="Loricate Torque +1",
-        waist="Olseni Belt",
-        left_ear="Cessance Earring",
-        right_ear="Alabaster Earring",
-        left_ring="Lehko's Ring",
-        right_ring="Petrov Ring",
-        back=jse.capes.tp,
-    }
-
-    -- Sub Dancer Wiz Rod + Maxentius TP (as a treat)
-    sets.engaged["/DNC TP"] = { -- ~73 per WS
-        ammo="Amar Cluster",
-        head="Null Masque",
-        body=jse.AF.body,
         hands=jse.empyrean.hands,
         legs="Jhakri Slops +2",
-        feet=jse.empyrean.feet, -- Replace with +4 AF feet
+        feet="Nyame Sollerets",
         neck="Null Loop",
-        waist="Null Belt",
-        left_ear="Crep. Earring",
-        right_ear="Regal Earring", -- Replace with Telos Earring
-        left_ring="Lehko's Ring",
-        right_ring="Defending Ring",
+        waist="Olseni Belt",
+        left_ear="Cessance Earring",
+        right_ear="Telos Earring",
+        left_ring="Murky Ring",
+        right_ring="Lehko's Ring",
         back="Null Shawl",
     }
-    
-    -- Aims are Nyame 20B on the legs + gazu bracelets + crep earring + telos earring + laev
-    -- Resimulate this when I get any one of the above items
-    -- The power of AF set bonus!
+
+    -- Sub Dancer Maxentius + Bunzi's Rod TP (as a treat)
+    sets.engaged["/DNC TP"] = { -- ~26 per WS
+        ammo="Amar Cluster",
+        head=jse.empyrean.head,
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs="Jhakri Slops +2",
+        feet=jse.empyrean.feet,
+        neck="Null Loop",
+        waist="Olseni Belt",
+        left_ear="Cessance Earring",
+        right_ear="Telos Earring",
+        left_ring="Petrov Ring",
+        right_ring="Lehko's Ring",
+        back=jse.capes.tp,
+    }
 
     ----------------------------------------------------------------
     -- PRECAST
@@ -548,7 +517,7 @@ function get_sets()
         feet="Battlecast Gaiters",
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist="Oneiros Rope",
-        left_ear="Cessance Earring",
+        left_ear="Telos Earring",
         right_ear="Crep. Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",

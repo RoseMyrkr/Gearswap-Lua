@@ -308,19 +308,19 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    sets.engaged.TP = { -- ~53 per WS
+    sets.engaged["TP"] = { -- ~32 per WS
         ammo="Amar Cluster",
-        head="Null Masque",
+        head="Ischkur Turban",
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Cessance Earring",
-        right_ear="Crep. Earring",
-        left_ring="Lehko's Ring",
-        right_ring="Defending Ring",
+        left_ear="Telos Earring",
+        right_ear="Alabaster Earring",
+        left_ring="Murky Ring",
+        right_ring="Lehko's Ring",
         back="Null Shawl",
     }
 
@@ -395,13 +395,13 @@ function get_sets()
     sets.midcast["Occult Acumen"] = set_combine(sets.midcast["Free Nuke"], {
         ammo="Seraphic Ampulla",
         head="Mallquis Chapeau +2",
-        --body=
-        --hands=
+        body={ name="Merlinic Jubbah", augments={'"Occult Acumen"+11','INT+7','Mag. Acc.+15','"Mag.Atk.Bns."+15',}},
+        hands={ name="Merlinic Dastanas", augments={'Mag. Acc.+19','"Occult Acumen"+11','MND+5',}},
         legs= "Perdition Slops",
         feet="Battlecast Gaiters",
         --neck=
         waist="Oneiros Rope",
-        left_ear="Cessance Earring",
+        left_ear="Telos Earring",
         right_ear="Crep. Earring",
         left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
