@@ -278,39 +278,39 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
-    sets.idle["Normal"] = {                                         -- 72% DT, 2% MDT, 7% PDT
+    sets.idle["Normal"] = {                                                 -- 72% DT, 2% MDT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",                                     -- 2% DT
-        head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2
-        body={name="Adamantite Armor", priority=182},               -- 20% DT
-        hands={name="Nyame Gauntlets", priority=91},                -- 7% DT
-        legs={name="Nyame Flanchard", priority=114},                -- 8% DT
-        --feet={name="Nyame Sollerets", priority=68},               -- 7% DT
-        feet=jse.empyrean.feet,                                     -- 11% DT, +35 all resistances
-        neck="Loricate Torque +1",                                  -- 6% DT
-        --waist={name="Plat. Mog. Belt", priority=1000},             -- 3% DT +10% HP, Replace with Engraved Belt
+        ammo="Staunch Tathlum",                                             -- 2% DT
+        head={name="Null Masque", priority=100},                            -- 10% DT Regen +3 Refresh +1 Regain +2
+        body={name="Adamantite Armor", priority=182},                       -- 20% DT
+        hands={name="Nyame Gauntlets", priority=91},                        -- 7% DT
+        legs={name="Nyame Flanchard", priority=114},                        -- 8% DT
+        --feet={name="Nyame Sollerets", priority=68},                       -- 7% DT
+        feet=jse.empyrean.feet,                                             -- 11% DT, +35 all resistances
+        neck="Loricate Torque +1",                                          -- 6% DT
+        --waist={name="Plat. Mog. Belt", priority=1000},                    -- 3% DT +10% HP, Replace with Engraved Belt
         waist="Engraved Belt",
-        left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
+        left_ear={name="Odnowa Earring +1", priority=110},                  -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
-        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
-        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
+        left_ring={name="Gelatinous Ring +1", priority=135},                -- 7% PDT
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},   -- 4% DT, Replace with Moonlight Ring eventually
         back="Null Shawl",
     }
 
-    sets.idle["Buffs"] = {                                          -- 68 DT, 7% PDT
+    sets.idle["Buffs"] = {                                                  -- 68 DT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",                                     -- 2% DT
-        head={name="Null Masque", priority=100},                    -- 10% DT Regen +3 Refresh +1 Regain +2
-        body={name="Adamantite Armor", priority=182},               -- 20% DT
-        hands={name="Nyame Gauntlets", priority=91},                -- 7% DT
-        legs={name="Nyame Flanchard", priority=114},                -- 8% DT
-        feet={name="Nyame Sollerets", priority=68},                 -- 7% DT
-        neck="Loricate Torque +1",                                  -- 6% DT
+        ammo="Staunch Tathlum",                                             -- 2% DT
+        head={name="Null Masque", priority=100},                            -- 10% DT Regen +3 Refresh +1 Regain +2
+        body={name="Adamantite Armor", priority=182},                       -- 20% DT
+        hands={name="Nyame Gauntlets", priority=91},                        -- 7% DT
+        legs={name="Nyame Flanchard", priority=114},                        -- 8% DT
+        feet={name="Nyame Sollerets", priority=68},                         -- 7% DT
+        neck="Loricate Torque +1",                                          -- 6% DT
         waist="Gishdubar Sash",
         left_ear="Brachyura Earring",
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}},
-        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
-        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
+        left_ring={name="Gelatinous Ring +1", priority=135},                -- 7% PDT
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},   -- 4% DT, Replace with Moonlight Ring eventually
         back=jse.capes.parry
     }
 
@@ -326,7 +326,7 @@ function get_sets()
         left_ear={name="Odnowa Earring +1", priority=110},
         right_ear={name="Alabaster Earring", priority=100},
         left_ring={name="Gelatinous Ring +1", priority=135},
-        right_ring={name="Moonbeam Ring", priority=100},
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},
         back={name="Moonbeam Cape", priority=250},
     }
 
@@ -336,40 +336,40 @@ function get_sets()
 
     -- Set for if I can't force the enemies into a cone
     -- Default set for now until I get SU3
-    sets.engaged["Physical"] = {                                    -- 51% DT, 2% MDT, 7% PDT
+    sets.engaged["Physical"] = {                                            -- 51% DT, 2% MDT, 7% PDT
         range=empty,
-        ammo="Staunch Tathlum",                                     -- 2% DT
+        ammo="Staunch Tathlum",                                             -- 2% DT
         head=jse.empyrean.head,
         body=jse.empyrean.body,
-        hands=jse.empyrean.hands,                                   -- 11% DT
-        legs=jse.empyrean.legs,                                     -- 13% DT
-        feet=jse.empyrean.feet,                                     -- 11% DT, Consider swapping in Turms Leggings +1 for the parry stat (I should be able to make the DT requirements)
-        neck="Loricate Torque +1",                                  -- 6% DT, Replace with JSE+1/+2 neck
-        --waist={name="Plat. Mog. Belt", priority=1000},            -- 3% DT +10% HP, Replace with Engraved Belt
+        hands=jse.empyrean.hands,                                           -- 11% DT
+        legs=jse.empyrean.legs,                                             -- 13% DT
+        feet=jse.empyrean.feet,                                             -- 11% DT, Consider swapping in Turms Leggings +1 for the parry stat (I should be able to make the DT requirements)
+        neck="Loricate Torque +1",                                          -- 6% DT, Replace with JSE+1/+2 neck
+        --waist={name="Plat. Mog. Belt", priority=1000},                    -- 3% DT +10% HP, Replace with Engraved Belt
         waist="Engraved Belt",
-        left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
+        left_ear={name="Odnowa Earring +1", priority=110},                  -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
-        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT
-        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
+        left_ring={name="Gelatinous Ring +1", priority=135},                -- 7% PDT
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},   -- 4% DT, Replace with Moonlight Ring eventually
         back=jse.capes.parry,
     }
 
     -- If DT needs are met, Warders Charm +1. If not, JSE neck +1/2.
-    sets.engaged["Magical"] = {                                     -- 48% DT, 2% MDT, 7% PDT (technically capping both woo)
+    sets.engaged["Magical"] = {                                             -- 48% DT, 2% MDT, 7% PDT (technically capping both woo)
         range=empty,
-        ammo="Staunch Tathlum",                                     -- 2% DT, Repalce with Yamarang
+        ammo="Staunch Tathlum",                                             -- 2% DT, Repalce with Yamarang
         head=jse.empyrean.head,
         body=jse.empyrean.body,
-        hands=jse.empyrean.hands,                                   -- 11% DT
-        legs=jse.empyrean.legs,                                     -- 13% DT
-        feet=jse.empyrean.feet,                                     -- 11% DT,
+        hands=jse.empyrean.hands,                                           -- 11% DT
+        legs=jse.empyrean.legs,                                             -- 13% DT
+        feet=jse.empyrean.feet,                                             -- 11% DT,
         neck="Warder's Charm +1",
-        --waist={name="Plat. Mog. Belt", priority=1000},            -- 3% DT +10% HP, Replace with Engraved Belt
+        --waist={name="Plat. Mog. Belt", priority=1000},                    -- 3% DT +10% HP, Replace with Engraved Belt
         waist="Engraved Belt",
-        left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
+        left_ear={name="Odnowa Earring +1", priority=110},                  -- 3% DT, 2% MDT
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT
-        left_ring={name="Gelatinous Ring +1", priority=135},        -- 7% PDT, Replace with Shadow Ring
-        right_ring={name="Moonbeam Ring", priority=100},            -- 4% DT, Replace with Moonlight Ring eventually
+        left_ring={name="Gelatinous Ring +1", priority=135},                -- 7% PDT, Replace with Shadow Ring
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},   -- 4% DT, Replace with Moonlight Ring eventually
         back=jse.capes.parry, -- Replace with MEVA cape
     }
 
@@ -397,8 +397,8 @@ function get_sets()
     -- PRECAST
     ----------------------------------------------------------------
     
-    -- I am at 50% FC under Inspiration from 5/5 Merits
-    -- Relic legs give +2% for every merit. Extra 10%.
+    -- I am at 40% FC under Inspiration from 4/5 Merits
+    -- Relic legs give +2% for every merit. Extra 8%.
 
     sets.precast.fast_cast = {                                                                                                      -- 71% FC
         range=empty,
@@ -418,7 +418,20 @@ function get_sets()
         back=jse.capes.fast_cast,                                                                                                   -- 10% FC
     }
 
-    sets.precast.fast_cast_inspiration = set_combine(sets.idle["Normal"], {
+    sets.precast.fast_cast_inspiration = set_combine(sets.idle["Normal"], { -- 4/5 Merits 40% Inspiration FC + 45% = 85% FC
+        ammo="Staunch Tathlum",
+        head=jse.AF.head,                                                   -- 14% FC
+        body=jse.empyrean.body,                                             -- 13% FC
+        hands=jse.empyrean.hands,
+        legs=jse.relic.legs,                                                -- 8% Inspiration FC
+        feet=jse.empyrean.feet,
+        neck="Loricate Torque +1",
+        waist="Engraved Belt",
+        left_ear={name="Odnowa Earring +1", priority=110},
+        right_ear={name="Tuisto Earring", priority=150},
+        left_ring={name="Gelatinous Ring +1", priority=135},
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},
+        back=jse.capes.fast_cast,                                           -- 10% FC
     })
 
     ----------------------------------------------------------------
@@ -565,8 +578,8 @@ function get_sets()
         waist="Sroda Belt",                                 -- 35% cure potency
         left_ear="Mendi. Earring",                          -- 5% cure potency
         right_ear={name="Cryptic Earring", priority=40},
-        left_ring={name="Moonbeam Ring", priority=100},
-        right_ring={name="Supershear Ring", priority=30},
+        left_ring={name="Supershear Ring", priority=30},
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},
         back=jse.capes.enmity,
     }
 
@@ -978,8 +991,12 @@ function precast(spell)
             -- If the spell name matches.
             equip_set_and_weapon(sets.precast[spell.name])
         else
-            -- General purpose
-            equip_set_and_weapon(sets.precast.fast_cast)
+            if buffactive["Valiance"] or buffactive["Vallation"] then
+                equip_set_and_weapon(sets.precast.fast_cast_inspiration)
+            else
+                -- General purpose
+                equip_set_and_weapon(sets.precast.fast_cast)
+            end
         end
 
         return
