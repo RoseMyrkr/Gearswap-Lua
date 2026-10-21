@@ -64,6 +64,9 @@ enmity_spells = S{
     "Cursed Sphere",
     "Stun",
     "Poisonga",
+    "Sleepga",
+    "Sleep",
+    "Sleep II"
 }
 
 -- Bindings
@@ -154,6 +157,8 @@ function update_macro_book()
         send_command("input /macro book 11;input /macro set 1")
     elseif player.sub_job == "BLU" then
         send_command("input /macro book 12;input /macro set 1")
+    elseif player.sub_job == "BLM" then
+        send_command("input /macro book 13;input /macro set 1")
     end
 end
 
