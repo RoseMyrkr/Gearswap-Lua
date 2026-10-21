@@ -345,7 +345,7 @@ function get_sets()
         legs=jse.empyrean.legs,                                     -- 13% DT
         feet=jse.empyrean.feet,                                     -- 11% DT, Consider swapping in Turms Leggings +1 for the parry stat (I should be able to make the DT requirements)
         neck="Loricate Torque +1",                                  -- 6% DT, Replace with JSE+1/+2 neck
-        --waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        --waist={name="Plat. Mog. Belt", priority=1000},            -- 3% DT +10% HP, Replace with Engraved Belt
         waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
@@ -364,7 +364,7 @@ function get_sets()
         legs=jse.empyrean.legs,                                     -- 13% DT
         feet=jse.empyrean.feet,                                     -- 11% DT,
         neck="Warder's Charm +1",
-        --waist={name="Plat. Mog. Belt", priority=1000},              -- 3% DT +10% HP, Replace with Engraved Belt
+        --waist={name="Plat. Mog. Belt", priority=1000},            -- 3% DT +10% HP, Replace with Engraved Belt
         waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},          -- 3% DT, 2% MDT
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT
@@ -426,7 +426,8 @@ function get_sets()
     ----------------------------------------------------------------
 
      -- All of the JA enmity actions inherit from this set
-    sets.midcast.enmity = {                                 -- 93 Enmity, 36% PDT
+     -- Tempted to put another HP item in just for balancing's sake
+    sets.midcast.enmity = {                                 -- 90 Enmity, 36% PDT
         range=empty,
         ammo={name="Aqreqaq Bomblet", priority=20},         -- 2 Enmity
         head={name="Halitus Helm", priority=88},            -- 8 Enmity
@@ -435,8 +436,9 @@ function get_sets()
         legs=jse.empyrean.legs,                             -- 13 Enmity, 12% DT
         feet=jse.empyrean.feet,                             -- 8 Enmity, 11% DT
         neck={name="Unmoving Collar +1", priority=200},     -- 10 Enmity, Replace with Moonlight Necklace when I'm rich
-        --neck="Moonlight Necklace",                        -- TODO: More enmity when I can balance this better with the main set
-        waist={name="Kasiri Belt", priority=30},            -- 3 Enmity
+        --neck="Moonlight Necklace",                        -- 15 Enmity, but I lose 200 HP
+        --waist={name="Kasiri Belt", priority=30},          -- 3 Enmity, but I lose 10% HP
+        waist={name="Plat. Mog. Belt", priority=1000},
         left_ear="Trux Earring",                            -- 5 Enmity
         right_ear={name="Cryptic Earring", priority=40},    -- 5 Enmity
         left_ring={name="Eihwaz Ring", priority=70},        -- 5 Enmity
