@@ -415,19 +415,21 @@ function get_sets()
     ----------------------------------------------------------------
 
     -- Could drop the Prolix Ring and replace it with the Lebeche Ring
-    sets.precast.fast_cast = {                                                                                                          -- OVERALL 83% FC, 2% Occ
+    sets.precast.fast_cast = {                                                                                                          -- OVERALL 81% FC, 2% Occ
         ammo="Impatiens",                                                                                                               -- 2% Occ
         head={ name="Merlinic Hood", augments={'"Fast Cast"+6','"Mag.Atk.Bns."+8',}},                                                   -- 14% FC
         body={ name="Merlinic Jubbah", augments={'Mag. Acc.+2','"Fast Cast"+7','INT+9','"Mag.Atk.Bns."+7',}},                           -- 13% FC
         hands={ name="Merlinic Dastanas", augments={'Mag. Acc.+8 "Mag.Atk.Bns."+8','"Fast Cast"+7','MND+5','Mag. Acc.+11',}},           -- 7% FC
-        legs="Agwu's Slops",                                                                                                            -- 7% FC
+        --legs="Agwu's Slops",                                                                                                          -- 7% FC
+        legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},                                             -- 7% FC
         feet={ name="Merlinic Crackows", augments={'"Fast Cast"+6','CHR+2','Mag. Acc.+8','"Mag.Atk.Bns."+11',}},                        -- 11% FC
         neck="Voltsurge Torque",                                                                                                        -- 4% FC
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},                                                                     -- 5% FC
         left_ear="Malignance Earring",                                                                                                  -- 4% FC
         right_ear="Loquacious Earring",                                                                                                 -- 2% FC
         left_ring="Kishar Ring",                                                                                                        -- 4% FC
-        right_ring="Prolix Ring",                                                                                                       -- 2% FC
+        --right_ring="Prolix Ring",                                                                                                     -- 2% FC
+        right_ring="Sangoma Ring",
         back=jse.capes.idle_fc,                                                                                                         -- 10% FC
     }
 
@@ -513,13 +515,13 @@ function get_sets()
         head="Mallquis Chapeau +2",
         body={ name="Merlinic Jubbah", augments={'"Occult Acumen"+11','INT+7','Mag. Acc.+15','"Mag.Atk.Bns."+15',}},
         hands={ name="Merlinic Dastanas", augments={'Mag. Acc.+19','"Occult Acumen"+11','MND+5',}},
-        legs= "Perdition Slops",
-        feet="Battlecast Gaiters",
+        legs="Perdition Slops",
+        feet="Battlecast Gaiters", -- Replace with Merlinic Crackows
         neck={ name="Src. Stole +2", augments={'Path: A',}},
         waist="Oneiros Rope",
         left_ear="Telos Earring",
         right_ear="Crep. Earring",
-        left_ring="Petrov Ring",
+        left_ring="Petrov Ring", -- Replace with Chirich Ring +1
         right_ring="Lehko's Ring",
         back=jse.capes.occult_acumen,
     })

@@ -334,7 +334,8 @@ function get_sets()
         head={ name="Merlinic Hood", augments={'"Fast Cast"+6','"Mag.Atk.Bns."+8',}},                                                   -- 14% FC
         body={ name="Merlinic Jubbah", augments={'Mag. Acc.+2','"Fast Cast"+7','INT+9','"Mag.Atk.Bns."+7',}},                           -- 13% FC
         hands=jse.AF.hands,                                                                                                             -- 9% FC
-        legs="Agwu's Slops",                                                                                                            -- 7% FC
+        --legs="Agwu's Slops",                                                                                                          -- 7% FC
+        legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},                                             -- 7% FC
         feet={ name="Merlinic Crackows", augments={'"Fast Cast"+6','CHR+2','Mag. Acc.+8','"Mag.Atk.Bns."+11',}},                        -- 11% FC
         neck="Voltsurge Torque",                                                                                                        -- 4% FC
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},                                                                     -- 5% FC

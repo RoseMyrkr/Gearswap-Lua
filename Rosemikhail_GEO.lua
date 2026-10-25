@@ -284,20 +284,22 @@ function get_sets()
     ----------------------------------------------------------------
 
     -- Could drop the Prolix Ring and replace it with the Lebeche Ring
-    sets.precast.fast_cast = {                                                                                                          -- OVERALL 83% FC, 2% Occ
+    sets.precast.fast_cast = {                                                                                                          -- OVERALL 81% FC, 2% Occ
         range=empty,
         ammo="Impatiens",                                                                                                               -- 2% Occ
         head={ name="Merlinic Hood", augments={'"Fast Cast"+6','"Mag.Atk.Bns."+8',}},                                                   -- 14% FC
         body={ name="Merlinic Jubbah", augments={'Mag. Acc.+2','"Fast Cast"+7','INT+9','"Mag.Atk.Bns."+7',}},                           -- 13% FC
         hands={ name="Merlinic Dastanas", augments={'Mag. Acc.+8 "Mag.Atk.Bns."+8','"Fast Cast"+7','MND+5','Mag. Acc.+11',}},           -- 7% FC
-        legs="Agwu's Slops",                                                                                                            -- 7% FC
+        --legs="Agwu's Slops",                                                                                                          -- 7% FC
+        legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},                                             -- 7% FC
         feet={ name="Merlinic Crackows", augments={'"Fast Cast"+6','CHR+2','Mag. Acc.+8','"Mag.Atk.Bns."+11',}},                        -- 11% FC
         neck="Voltsurge Torque",                                                                                                        -- 4% FC
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},                                                                     -- 5% FC
         left_ear="Malignance Earring",                                                                                                  -- 4% FC
         right_ear="Loquacious Earring",                                                                                                 -- 2% FC
         left_ring="Kishar Ring",                                                                                                        -- 4% FC
-        right_ring="Prolix Ring",                                                                                                       -- 2% FC
+        --right_ring="Prolix Ring",                                                                                                     -- 2% FC
+        right_ring="Sangoma Ring",                                                                                                      -- 2% FC
         back=jse.capes.enfeebling_healing_fc,                                                                                           -- 10% FC
     }
 
@@ -848,7 +850,7 @@ function midcast(spell)
             else
                 equip_set_and_weapon(sets.midcast.indicolure)
             end
-            
+
             matched = true
         end
 

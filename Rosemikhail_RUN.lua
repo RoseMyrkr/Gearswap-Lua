@@ -63,10 +63,12 @@ enmity_spells = S{
     "Bomb Toss",
     "Cursed Sphere",
     "Stun",
+    "Poison",
+    "Poison II",
     "Poisonga",
-    "Sleepga",
     "Sleep",
-    "Sleep II"
+    "Sleep II",
+    "Sleepga",
 }
 
 -- Bindings
@@ -643,7 +645,7 @@ function get_sets()
 
     sets.ja["Valiance"] = set_combine(sets.midcast.enmity, {
         body=jse.AF.body,
-        -- Needs ambuscade cape
+        -- Needs but does inherit Ambuscade cape
     })
 
     sets.ja["Vallation"] = sets.ja["Valiance"]
@@ -984,7 +986,7 @@ function precast(spell)
                 equip({head="Pixie Hairpin +1", left_ring="Archon Ring",})
             end
 
-            -- Lux could have a Weatherspoon check, but I don't have one!
+            -- Lux could have a Weatherspoon Ring check, but I don't have one!
         end
 
         return
