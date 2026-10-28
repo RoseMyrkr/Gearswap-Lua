@@ -38,8 +38,8 @@ ALL JOBS
 ----------------------------------------------------------------
 
 -- Modes and toggles
-weapon_mode = M{"Aettir", "Naegling", "Kaja Chopper", "Kaja Axe"} -- Update these
-engaged_mode = M{"Physical", "Magical", "TP"}
+weapon_mode = M{"Aettir", "Lionheart", "Naegling", "Kaja Chopper", "Kaja Axe"} -- Update these
+engaged_mode = M{}
 idle_mode = M{"Normal", "Buffs", "Phalanx"}
 
 toggle_speed = "Off"
@@ -179,7 +179,7 @@ function get_sets()
                 main="Aettir",
                 sub="Refined Grip +1",
             },
-            engaged_sets = {"Physical", "Magical", "TP"},
+            engaged_sets = {"Physical", "Parrying", "Magical", "TP"},
             overrides = {
                 ["Magical"] = {
                     main="Aettir",
@@ -191,12 +191,20 @@ function get_sets()
                 -- },
             },
         },
+        ["Lionheart"] = {
+            gear = {
+                main="Lionheart",
+                sub="Refined Grip +1", -- Probably Utu I guess
+            },
+            engaged_sets = {"TP", "Physical", "Parrying", "Magical"},
+            overrides = {},
+        },
         ["Naegling"] = {
             gear = {
                 main="Naegling",
                 sub=empty,
             },
-            engaged_sets = {"Physical", "Magical", "TP"},
+            engaged_sets = {"Physical", "Parrying", "Magical", "TP"},
             overrides = {},
         },
         ["Kaja Chopper"] = {
@@ -204,7 +212,7 @@ function get_sets()
                 main="Kaja Chopper",
                 sub="Refined Grip +1",
             },
-            engaged_sets = {"Physical", "Magical", "TP"},
+            engaged_sets = {"Physical", "Parrying", "Magical", "TP"},
             overrides = {},
         },
         ["Kaja Axe"] = {
@@ -212,7 +220,7 @@ function get_sets()
                 main="Kaja Axe",
                 sub=empty,
             },
-            engaged_sets = {"Physical", "Magical", "TP"},
+            engaged_sets = {"Physical", "Parrying", "Magical", "TP"},
             overrides = {},
         },
     }
@@ -341,8 +349,6 @@ function get_sets()
     -- ENGAGED
     ----------------------------------------------------------------
 
-    -- Set for if I can't force the enemies into a cone
-    -- Default set for now until I get SU3
     sets.engaged["Physical"] = {                                            -- 51% DT, 2% MDT, 7% PDT
         range=empty,
         ammo="Staunch Tathlum",                                             -- 2% DT
@@ -350,15 +356,30 @@ function get_sets()
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,                                           -- 11% DT
         legs=jse.empyrean.legs,                                             -- 13% DT
-        feet=jse.empyrean.feet,                                             -- 11% DT, Consider swapping in Turms Leggings +1 for the parry stat (I should be able to make the DT requirements)
+        feet=jse.empyrean.feet,                                             -- 11% DT
         neck="Loricate Torque +1",                                          -- 6% DT, Replace with JSE+1/+2 neck
-        --waist={name="Plat. Mog. Belt", priority=1000},                    -- 3% DT +10% HP, Replace with Engraved Belt
         waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},                  -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
         left_ring={name="Gelatinous Ring +1", priority=135},                -- 7% PDT
         right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},   -- 4% DT, Replace with Moonlight Ring eventually
         back=jse.capes.parry,
+    }
+
+    sets.engaged["Parrying"] = {                                            -- 52% DT, 2% MDT, 3% PDT, +12 Inquartata
+        ammo="Staunch Tathlum",                                             -- 2% DT
+        head={name="Null Masque", priority=100},                            -- 10% DT
+        body={name="Adamantite Armor", priority=182},                       -- 20% DT
+        hands={name="Turms Mittens +1", priority=74},                       -- +4 Inquartata
+        legs=jse.empyrean.legs,                                             -- 13% DT
+        feet={name="Turms Leggings +1", priority=76},                       -- +5 Inquartata
+        neck="Loricate Torque +1",                                          -- Replace with either Warder's Charm or JSE torque
+        waist="Engraved Belt",
+        left_ear={name="Odnowa Earring +1", priority=110},                  -- 3% DT, 2% MDT
+        right_ear={name="Tuisto Earring", priority=150},
+        left_ring="Warden's Ring",                                          -- 3% PDT, -5% enemy critical hit rate
+        right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},   -- 4% DT, potentially replace with Fortified Ring for more crit reduction
+        back=jse.capes.parry,                                               -- +3 Inquartata
     }
 
     -- If DT needs are met, Warders Charm +1. If not, JSE neck +1/2.
@@ -371,7 +392,6 @@ function get_sets()
         legs=jse.empyrean.legs,                                             -- 13% DT
         feet=jse.empyrean.feet,                                             -- 11% DT,
         neck="Warder's Charm +1",
-        --waist={name="Plat. Mog. Belt", priority=1000},                    -- 3% DT +10% HP, Replace with Engraved Belt
         waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},                  -- 3% DT, 2% MDT
         right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT

@@ -12,9 +12,9 @@ include("Modes.lua")
 ----------------------------------------------------------------
 
 -- Modes and toggles
-weapon_mode = M{"Naegling", "Maxentius"}
+weapon_mode = M{"Kitty Rod", "Naegling", "Maxentius"}
 engaged_mode = M{}
-idle_mode = M{"Normal"}
+idle_mode = M{"Learning", "Normal",}
 
 weapon_lock = "Off"
 
@@ -106,12 +106,20 @@ function get_sets()
     ----------------------------------------------------------------
     
     weapon_sets = {
+        ["Kitty Rod"] = {
+            gear = {
+                main="Kitty Rod",
+                sub=empty,
+            },
+            engaged_sets = {"Idle"}, -- Use the default
+            overrides = {},
+        },
         ["Naegling"] = {
             gear = {
                 main="Naegling",
                 sub="Genmei Shield",
             },
-            engaged_sets = {"TP"}, -- Use the default
+            engaged_sets = {"Idle", "TP"}, -- Use the default
             overrides = {},
         },
         ["Maxentius"] = {
@@ -119,7 +127,7 @@ function get_sets()
                 main="Maxentius",
                 sub="Ammurapi Shield",
             },
-            engaged_sets = {"TP"},  -- Use the default
+            engaged_sets = {"Idle", "TP"},  -- Use the default
             overrides = {},
         },
     }
@@ -140,7 +148,7 @@ function get_sets()
     jse.AF = {
         --head="",
         --body="",
-        --hands="",
+        hands="Magus Bazubands",
         --legs="",
         --feet="",
     }
@@ -198,6 +206,22 @@ function get_sets()
         back="Null Shawl",
     }
 
+    sets.idle["Learning"] = {
+        ammo="Staunch Tathlum",
+        head="Null Masque",
+        body="Adamantite Armor",
+        hands=jse.AF.hands,
+        legs={ name="Hagondes Pants +1", augments={'Phys. dmg. taken -4%','Magic dmg. taken -3%','"Avatar perpetuation cost" -4',}},
+        feet={ name="Hag. Sabots +1", augments={'Phys. dmg. taken -4%','Magic dmg. taken -4%','"Mag.Atk.Bns."+27',}},
+        neck="Incanter's Torque",
+        waist="Plat. Mog. Belt",
+        left_ear="Alabaster Earring",
+        right_ear="Genmei Earring",
+        left_ring="Stikini Ring",
+        right_ring="Stikini Ring",
+        back="Null Shawl",
+    }
+
     ----------------------------------------------------------------
     -- MELEE "IDLE"
     ----------------------------------------------------------------
@@ -223,7 +247,7 @@ function get_sets()
     ----------------------------------------------------------------
 
     -- Could drop the Prolix Ring and replace it with the Lebeche Ring
-    sets.precast.fast_cast = { -- Terrible and bad 54% FC
+    sets.precast.fast_cast = { -- Terrible and bad 51% FC
         main="Maxentius",
         sub="Chanter's Shield",
         ammo="Sapience Orb",
@@ -368,6 +392,11 @@ function precast(spell)
 
     -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
     if spell.type == "WeaponSkill" then
+        if idle_mode.current == "Learning" then
+            idle()
+            return
+        end
+
         -- If the weapon skill name matches.
         if sets.ws[spell.name] then
             equip_set_and_weapon(sets.ws[spell.name])
@@ -403,6 +432,10 @@ function precast(spell)
 end
 
 function midcast(spell)
+    if idle_mode.current == "Learning" then
+        idle()
+    end
+
     if buffactive["doom"] then
         equip(sets.buff.doom)
     end

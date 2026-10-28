@@ -702,7 +702,7 @@ function get_sets()
         range=empty,
         ammo="Amar Cluster",
         head="Null Masque",
-        body="Jhakri Robe +2",
+        body="Jhakri Robe +2", 
         hands="Jhakri Cuffs +2",
         legs="Nyame Flanchard",
         feet="Nyame Sollerets",
