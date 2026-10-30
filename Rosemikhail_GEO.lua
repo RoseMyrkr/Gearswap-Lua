@@ -199,7 +199,7 @@ function get_sets()
     -- IDLE SETS
     ----------------------------------------------------------------
 
-    sets.idle["Normal"] = {                                                                                                                -- -62% DT, -10% PDT, -0% MDT (-72% DT+PDT, -62% DT+MDT), +6-7 Refresh
+    sets.idle["Normal"] = {                                                                                                                -- -56% DT, -10% PDT, -3% MDT (-66% DT+PDT, -59% DT+MDT), +6-7 Refresh
         --main={ name="Solstice", augments={'Mag. Acc.+20','Pet: Damage taken -4%','"Fast Cast"+5',}},                                    -- -0%
         --sub="Genmei Shield",                                                                                                            -- -10% PDT
         range=empty,
@@ -211,8 +211,10 @@ function get_sets()
         feet=jse.empyrean.feet,                                                                                                         -- -10% DT
         neck="Warder's Charm +1",
         waist="Fucho-no-Obi",                                                                                                           -- +1 Refresh -- Maybe replace with Shinjutsu-no-Obi someday according to guide
-        left_ear="Alabaster Earring",                                                                                                   -- -5% DT
-        right_ear={ name="Odnowa Earring +1", augments={'Path: A',}},                                                                   -- -3% DT
+        -- left_ear="Alabaster Earring",                                                                                                   -- -5% DT
+        -- right_ear={ name="Odnowa Earring +1", augments={'Path: A',}},                                                                   -- -3% DT
+        left_ear="Nehalennia Earring",
+        right_ear="Etiolation Earring",                                                                                                 -- -3% MDT
         left_ring="Murky Ring",                                                                                                         -- -10% DT
         right_ring="Defending Ring",                                                                                                    -- -10% DT
         back=jse.capes.idle,                                                                                                            -- -10% PDT
@@ -230,8 +232,8 @@ function get_sets()
         feet="Serpentes Sabots",                                                                                                                        -- -0%      +0.5 Refresh with Serpentes Cuffs
         neck="Loricate Torque +1",                                                                                                                      -- -6% DT
         waist="Fucho-no-Obi",                                                                                                                           -- -0%      +1 Refresh -- Maybe replace with Shinjutsu-no-Obi someday according to guide
-        left_ear="Alabaster Earring",                                                                                                                   -- -5% DT
-        right_ear="Nehalennia Earring",
+        left_ear="Nehalennia Earring",                                                                                                                   -- -5% DT
+        right_ear="Alabaster Earring",
         left_ring="Murky Ring",                                                                                                                         -- -10% DT
         right_ring="Defending Ring",                                                                                                                    -- -10% DT
         back=jse.capes.idle,                                                                                                                            -- -10% PDT
@@ -251,8 +253,8 @@ function get_sets()
         left_ring="Murky Ring",                                                                                                         -- -10% DT
         right_ring="Defending Ring",                                                                                                    -- -10% DT
         waist="Isa Belt",                                                                                                               -- -3% Pet DT, +1 Regen
-        left_ear="Alabaster Earring",                                                                                                   -- -5% DT ETIOLATION EARRING WHEN DT ACHEIVED
-        right_ear={ name="Odnowa Earring +1", augments={'Path: A',}},                                                                   -- -3% DT actually probably this one
+        left_ear={ name="Odnowa Earring +1", augments={'Path: A',}},                                                                    -- -3% DT ETIOLATION EARRING WHEN DT ACHIEVED
+        right_ear="Alabaster Earring",                                                                                                  -- -5% DT 
         back=jse.capes.luopan,                                                                                                          -- +15 regen
     }
 
