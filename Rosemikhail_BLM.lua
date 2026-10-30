@@ -874,15 +874,15 @@ function get_sets()
 
     sets.ws["Myrkr"] = { -- No DT
         ammo="Strobilus",
-        head={ name="Kaabnax Hat", augments={'HP+30','MP+30','MP+30',}},                                                                -- Want to replace with Amalric Coif +1 augmented
+        head={ name="Kaabnax Hat", augments={'HP+30','MP+30','MP+30',}}, -- Want to replace with Amalric Coif +1 augmented
         body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
         hands="Otomi Gloves",
-        legs=jse.AF.legs,                                                                                                               -- Want to replace with Amalric Slops +1 augmented
+        legs=jse.AF.legs, -- Want to replace with Amalric Slops +1 augmented
         feet={ name="Psycloth Boots", augments={'MP+50','INT+7','"Conserve MP"+6',}},
         neck="Dualism Collar +1",
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
-        left_ear="Moonshade Earring",
-        right_ear="Nehalennia Earring",
+        left_ear="Nehalennia Earring",
+        right_ear="Moonshade Earring",
         left_ring="Mephitas's Ring",
         right_ring="Mephitas's Ring +1",
         back=jse.capes.idle_fc,

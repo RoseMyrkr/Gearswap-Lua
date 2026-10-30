@@ -330,6 +330,9 @@ function get_sets()
     }
 
     sets.idle["Phalanx"] = {
+        main="Deacon Sword",
+        sub=empty,
+        range=empty,
         ammo="Staunch Tathlum",
         head=jse.relic.head,
         body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}, priority=61},
@@ -373,7 +376,7 @@ function get_sets()
         hands={name="Turms Mittens +1", priority=74},                       -- +4 Inquartata
         legs=jse.empyrean.legs,                                             -- 13% DT
         feet={name="Turms Leggings +1", priority=76},                       -- +5 Inquartata
-        neck="Loricate Torque +1",                                          -- Replace with either Warder's Charm or JSE torque
+        neck="Warder's Charm +1",
         waist="Engraved Belt",
         left_ear={name="Odnowa Earring +1", priority=110},                  -- 3% DT, 2% MDT
         right_ear={name="Tuisto Earring", priority=150},
@@ -531,6 +534,9 @@ function get_sets()
     })
 
     sets.midcast["Phalanx"] = {  -- This is for self-casting. Huge HP dip.
+        main="Deacon Sword",
+        sub=empty,
+        range=empty,
         ammo="Staunch Tathlum",
         head=jse.relic.head,
         body={ name="Herculean Vest", augments={'INT+11','Mag. Acc.+15 "Mag.Atk.Bns."+15','Phalanx +5','Accuracy+20 Attack+20',}, priority=61},
@@ -618,7 +624,7 @@ function get_sets()
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Moonlight Necklace",                                                                  -- 15% SIRD
-        waist="Rumination Sash",                                                                    -- 10% SIRD, replace with Audumbla Sash
+        waist="Audumbla Sash",                                                                      -- 10% SIRD
         left_ear="Halasz Earring",                                                                  -- 5% SIRD, replace with Magnetic Earring (but my BLM...)
         right_ear={name="Alabaster Earring", priority=100},
         left_ring="Evanescence Ring",                                                               -- 5% SIRD
