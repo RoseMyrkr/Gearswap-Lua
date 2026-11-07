@@ -974,21 +974,14 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    -- There are many kinds of abilities, so let's check Weapon Skills first, as they count as an "Ability"
-    if spell.type == "WeaponSkill" then
-        -- If the weapon skill name matches.
+    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name])
+            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
         else
-             -- Unhandled Weapon Skills
-            equip_set_and_weapon(sets.ws.default)
+            equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-        return
-    end
-
-    -- Check every other kind of ability
-    if spell.action_type == "Ability" then
+    elseif spell.action_type == "Ability" then -- Check every other kind of ability
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
@@ -1018,24 +1011,17 @@ function precast(spell)
             -- Lux could have a Weatherspoon Ring check, but I don't have one!
         end
 
-        return
-    end
-
     -- Handling for both matched and unmatched magic spells
-    if spell.action_type == "Magic" then
+    elseif spell.action_type == "Magic" then
         if sets.precast[spell.name] then
-            -- If the spell name matches.
-            equip_set_and_weapon(sets.precast[spell.name])
+            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
         else
             if buffactive["Valiance"] or buffactive["Vallation"] then
-                equip_set_and_weapon(sets.precast.fast_cast_inspiration)
+                equip_set_and_weapon(sets.precast.fast_cast_inspiration) -- Less FC required to cap
             else
-                -- General purpose
-                equip_set_and_weapon(sets.precast.fast_cast)
+                equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
             end
         end
-
-        return
     end
 
     if buffactive["doom"] then
