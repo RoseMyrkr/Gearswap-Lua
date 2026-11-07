@@ -240,7 +240,7 @@ function get_sets()
 
     jse.AF = {
         head={name="Runeist Bandeau +3", priority=109},         -- FC, Regen
-        body={name="Runeist Coat +3", priority=218},            -- Valliance/Vallation, "FC"?, Refresh swap? -- Not as good as Nyame for MEVA
+        body={name="Runeist Coat +4", priority=228},            -- Valliance/Vallation
         hands={name="Runeist Mitons +3", priority=85},          -- Gambit, Enhancing Magic Skill
         legs={name="Runeist Trousers +3", priority=80},         -- Vaguely useful in niche circumstances, yolo
         feet={name="Runeist Bottes +3", priority=74},           -- I have these for lockstyle more than anything, thank you AF+3 voucher
@@ -601,6 +601,9 @@ function get_sets()
     })
 
     sets.midcast["Cure"] = {
+        main="Deacon Sword",                                -- 11% Cure potency. Not ideal, I know. Until I get Sacro Gorget.
+        sub=empty,
+        range=empty,
         ammo="Sapience Orb",
         head={name="Null Masque", priority=100},
         body={name="Adamantite Armor", priority=182},
@@ -608,8 +611,8 @@ function get_sets()
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Loricate Torque +1",                          -- Change to Sacro Gorget
-        waist="Sroda Belt",                                 -- 35% cure potency
-        left_ear="Mendi. Earring",                          -- 5% cure potency
+        waist="Sroda Belt",                                 -- 35% Cure potency
+        left_ear="Mendi. Earring",                          -- 5% Cure potency
         right_ear={name="Cryptic Earring", priority=40},
         left_ring={name="Supershear Ring", priority=30},
         right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},

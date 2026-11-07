@@ -338,8 +338,8 @@ function get_sets()
     })
 
     sets.idle["DEF"] = {                                                                                                                                -- OVERALL -61% DT, -10% PDT, -2% MDT (-71% DT+PDT, -63% DT+MDT)
-        main="Wizard's Rod",
-        sub="Genmei Shield",                                                                                                                            -- -10% PDT, DEF
+        --main="Wizard's Rod",
+        --sub="Genmei Shield",                                                                                                                            -- -10% PDT, DEF
         ammo="Amar Cluster",                                                                                                                            -- Evasion
         head="Null Masque",                                                                                                                             -- -10% DT, DEF, HP, +3 Regen
         body="Adamantite Armor",                                                                                                                        -- -20% DT, DEF, HP
@@ -513,7 +513,8 @@ function get_sets()
     sets.midcast["Occult Acumen"] = set_combine(sets.midcast["Free Nuke"], {
         ammo="Seraphic Ampulla",
         head="Mallquis Chapeau +2",
-        body={ name="Merlinic Jubbah", augments={'"Occult Acumen"+11','INT+7','Mag. Acc.+15','"Mag.Atk.Bns."+15',}},
+        --body={ name="Merlinic Jubbah", augments={'"Occult Acumen"+11','INT+7','Mag. Acc.+15','"Mag.Atk.Bns."+15',}},
+        body=jse.AF.body, -- Above body is technically good but if I'm losing MP then what's the point
         hands={ name="Merlinic Dastanas", augments={'Mag. Acc.+19','"Occult Acumen"+11','MND+5',}},
         legs="Perdition Slops",
         feet="Battlecast Gaiters", -- Replace with Merlinic Crackows
