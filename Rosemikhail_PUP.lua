@@ -307,7 +307,7 @@ function get_sets()
         neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
         waist="Gishdubar Sash", -- 10% Cursna
         left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
-        --right_ring="Blenmot's Ring +1", -- 10% Holy Water
+        right_ring="Blenmot's Ring +1", -- 10% Holy Water
     }
 end
 
@@ -392,6 +392,10 @@ function precast(spell)
         end
 
         return
+    end
+
+    if buffactive["doom"] then
+        equip(sets.buff.doom)
     end
 end
 
