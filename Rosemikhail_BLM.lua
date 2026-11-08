@@ -19,10 +19,12 @@ Potential enhancements:
     - Regular set + elemental casting set
 - Toggle for Mana Wall set (so I don't have to click it off to do stuff)
     - Perhaps also allow speed ring
+- Allow spell swaps (Impact, Dispelga, etc.) during Mana Wall
+    - There is value in just not equipping the Mana Wall set during midcast, which cures this but makes me a bit squishier
+    - Being locked isn't a huge problem for damage, as I'm sitting in my Empyrean, but I think this is worth trying
 - Death in general
-    - Allow for occult acumen casting - it'll murder my mp, but the point is to get as much TP as possible to regain mp
+    - Allow for Occult Acumen casting. It'll murder my mp, but the point is to get as much TP as possible to regain mp
     - Consider letting the user use any set during midcast instead of just the Death one
-- Allow dispelga and impact during mana wall and death
 - Add stun set loaded with recast/macc/DT
 - Build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
 - Consider a separate Aspir burst set
