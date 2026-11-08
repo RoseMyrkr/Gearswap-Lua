@@ -9,30 +9,27 @@ include("Modes.lua")
 Todo: Become a citizen of Windurst for Sibyl Scarf
 
 Potential enhancements:
-- Add stun set loaded with recast/macc/DT
-- Allow dispelga and impact during mana wall and death
-- Toggle for Mana Wall set
-
-- Potentially build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
-
-- Probably want to rework the death functionality to allow for occult acumen casting - it'll murder my mp, but the point is to get as much TP as possible to regain mp
-
-- Barspell stuff maybe?
-
-- Consider a separate Aspir burst set
-
-- Update enfeebling set
-
-- potentially add /whm capability i.e. curaga
-
-- Automagically fill in the weapon modes based on the weapon sets
-
-- For elemental weaponskills, if I have double weather OR single weather + matching day, Hachirin-no-Obi is likely better than Osash
-- This is such a tiny optimisation for BLM that it can come later
-
+- Doom improvements
+    - Prioritise holy water or cursna on my doom override? 
+        - Cursna: Eshmun's Ring (potentially double up, but having Purity Ring should be fine)
+        - Holy Water: Double up on Blenmot's Ring +1
+    - Self-casting set that takes the best of both worlds
+        - Eshmun's Ring, Menelaus's Ring, Gishdubar Sash, Nicander's Necklace
 - Account for elemental celerity in FC for the sake of MP swaps : )
-    - As an aside, perhaps have two separate sets
-
+    - Regular set + elemental casting set
+- Toggle for Mana Wall set (so I don't have to click it off to do stuff)
+    - Perhaps also allow speed ring
+- Death in general
+    - Allow for occult acumen casting - it'll murder my mp, but the point is to get as much TP as possible to regain mp
+    - Consider letting the user use any set during midcast instead of just the Death one
+- Allow dispelga and impact during mana wall and death
+- Add stun set loaded with recast/macc/DT
+- Build a straight up DT/meva set. Probably have Normal as a hybrid, a DT/meva set, and a refresh set.
+- Consider a separate Aspir burst set
+- Barspell stuff maybe?
+- Potentially add /whm capability i.e. curaga
+- For elemental weaponskills, if I have double weather OR single weather + matching day, Hachirin-no-Obi is likely better than Osash
+    - This is such a tiny optimisation for BLM that it can come later
 - Maybe a toggle for Occult Acumen Impact?
 ]]
 

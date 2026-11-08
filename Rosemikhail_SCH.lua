@@ -230,7 +230,6 @@ function get_sets()
             engaged_sets = {}, -- Use the default
             overrides = {},
         },
-       
     }
 
     -- Soon Malevolence and Ammurapi Shield
