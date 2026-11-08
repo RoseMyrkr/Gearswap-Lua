@@ -56,7 +56,7 @@ spell_map = {
     ["Aspir"] = "Aspir", ["Aspir II"] = "Aspir", ["Aspir III"] = "Aspir",
 }
 elemental_debuffs = S{'Burn', 'Frost', 'Choke', 'Rasp', 'Shock', 'Drown'}
-cumulative_spells = S{'Stoneja', 'Waterja', 'Aeroja',' Firaja', 'Blizzaja', 'Thundaja', 'Comet'}
+cumulative_spells = S{'Stoneja', 'Waterja', 'Aeroja', 'Firaja', 'Blizzaja', 'Thundaja', 'Comet'}
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix"}
 
 -- Bindings
