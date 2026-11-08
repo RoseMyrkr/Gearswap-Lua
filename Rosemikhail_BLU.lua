@@ -31,6 +31,7 @@ send_command("bind f12 gs c toggletextbox")
 add_to_chat(123, "F5: Cycle weapon mode, F6: Cycle engaged mode")
 add_to_chat(123, "F7: Cycle idle mode, F8: Lock weapon")
 add_to_chat(123, "F9: Toggle speed gear")
+add_to_chat(123, "F12: Hide information text box")
 
 ----------------------------------------------------------------
 -- INFORMATION BOX & OTHER FUNCTIONS
@@ -52,7 +53,7 @@ function build_info_box()
     end
 
     local output = string.format(
-        "[F5] Weapon: %s [F6] Engaged: %s [F7] Idle: %s [F8] Weapon Lock: %s [F9] Speed: %s ",
+        "[F5] Weapon: %s [F6] Engaged: %s [F7] Idle: %s [F8] Weapon Lock: %s [F9] Speed: %s",
         weapon_mode.current,
         engaged_mode.current,
         idle_mode.current,
@@ -129,7 +130,7 @@ function get_sets()
                 main="Kitty Rod",
                 sub=empty,
             },
-            engaged_sets = {"Idle"}, -- Use the default
+            engaged_sets = {"Idle"},
             overrides = {},
         },
         ["Naegling"] = {
@@ -492,22 +493,7 @@ function self_command(command)
     local main_command = commandArgs[1]
     local sub_command = commandArgs[2]
 
-    if main_command == "idlemode" then
-        if sub_command == "normal" then
-            idle_mode:set("Normal")
-        elseif sub_command == "buffs" then
-            idle_mode:set("Buffs")
-        elseif sub_command == "phalanx" then
-            idle_mode:set("Phalanx")
-        else
-            idle_mode:cycle()
-        end
-
-        idle()
-
-        add_to_chat(123, string.format("Idle mode set to %s", idle_mode.current))
-
-    elseif main_command == "weaponmode" then
+    if main_command == "weaponmode" then
         weapon_mode:cycle()
         add_to_chat(123, string.format("Weapon mode set to %s", weapon_mode.current))
         update_engaged_modes(weapon_sets)
@@ -516,6 +502,11 @@ function self_command(command)
     elseif main_command == "engagedmode" then
         engaged_mode:cycle()
         add_to_chat(123, string.format("Engaged mode set to %s", engaged_mode.current))
+        idle()
+
+    elseif main_command == "idlemode" then
+        idle_mode:cycle()
+        add_to_chat(123, string.format("Idle mode set to %s", idle_mode.current))
         idle()
 
     elseif main_command == "lockweapon" then
@@ -544,10 +535,10 @@ function self_command(command)
 end
 
 function file_unload(file_name)
-    send_command("unbind f1")
-    send_command("unbind f2")
-    send_command("unbind f3")
-    send_command("unbind f4")
+    send_command("unbind f5")
+    send_command("unbind f6")
+    send_command("unbind f7")
+    send_command("unbind f8")
 
     send_command("unbind f9")
     send_command("unbind f12")

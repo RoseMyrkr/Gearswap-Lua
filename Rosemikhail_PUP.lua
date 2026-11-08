@@ -16,28 +16,31 @@ May be best to just equip ammo and "empty" with priorities when using a manoueve
 ----------------------------------------------------------------
 
 -- Modes and toggles
+weapon_mode = M{} -- This is automatically populated
+engaged_mode = M{} -- This is automatically populated
 idle_mode = M{"Normal"} -- TODO: Not sure if I'll even need different idle modes!
-weapon_mode = M{"Midnights"}
+
 
 toggle_speed = "Off"
 toggle_tp = "Off" -- This will disable weapon swapping as well
 
 -- Bindings
 send_command("bind f5 gs c weaponmode")
-send_command("bind f6 gs c idlemode")
-send_command("bind f7 gs c toggletp")
+send_command("bind f6 gs c engagedmode")
+send_command("bind f7 gs c idlemode")
+send_command("bind f8 gs c lockweapon")
 
 send_command("bind f9 gs c togglespeed")
 send_command("bind f12 gs c toggletextbox")
 
 -- Help Text
-add_to_chat(123, "F5: Switch weapon set, F6: Cycle idle mode")
-add_to_chat(123, "F7: Toggle TP lock")
+add_to_chat(123, "F5: Cycle weapon mode, F6: Cycle engaged mode")
+add_to_chat(123, "F7: Cycle idle mode, F8: Lock weapon")
 add_to_chat(123, "F9: Toggle speed gear")
 add_to_chat(123, "F12: Hide information text box")
 
 ----------------------------------------------------------------
--- INFORMATION BOX
+-- INFORMATION BOX & OTHER FUNCTIONS
 ----------------------------------------------------------------
 
 default_settings = {
@@ -56,17 +59,51 @@ function build_info_box()
     end
 
     local output = string.format(
-        "Wep: %s | Idle: %s | TP Lock: %s | Speed: %s",
+        "[F5] Weapon: %s [F6] Engaged: %s [F7] Idle: %s [F8] Weapon Lock: %s [F9] Speed: %s",
         weapon_mode.current,
+        engaged_mode.current,
         idle_mode.current,
-        format_toggle(toggle_tp),
+        format_toggle(weapon_lock),
         format_toggle(toggle_speed)
     )
 
     text_box:text(output)
 end
 
-build_info_box()
+-- We wait until inside get_sets() to build the info box initially, as that is where some weapon set logic is being handled.
+
+function build_weapon_modes(weapon_sets)
+    local weapons = {}
+
+    for weapon, _ in pairs (weapon_sets) do
+        weapons[#weapons + 1] = weapon
+    end
+
+    -- Why don't you just unpack in the same order that you were added, buddy?
+    table.sort(weapons, function (a, b)
+        return weapon_sets[a].index < weapon_sets[b].index
+    end)
+
+    add_to_chat(200, string.format("There are %s weapon modes.", #weapons))
+    weapon_mode = M{table.unpack(weapons)}
+end
+
+function update_engaged_modes(weapon_sets)
+    -- Get the sets (i.e. Idle, TP, etc.) from the currently active weapon mode
+    local weapon = weapon_sets[weapon_mode.current]
+    local weapon_engaged_sets = {}
+    
+    -- If the weapon has engaged sets associated with it, then use those.
+    -- Otherwise, insert our own and assume that we want a non-engaged and a default TP toggle.
+    if #weapon.engaged_sets > 0 then
+        weapon_engaged_sets = weapon.engaged_sets
+    else
+        weapon_engaged_sets = {"Idle", "TP"}
+    end
+
+    add_to_chat(123, string.format("The current weapon has %s engaged sets associated with it.", #weapon.engaged_sets))
+    engaged_mode = M{table.unpack(weapon_engaged_sets)}
+end
 
 ----------------------------------------------------------------
 -- LOCKSTYLE & MACROS
@@ -86,9 +123,31 @@ update_macro_book()
 -- Individual spells should be added in the following way: sets.precast["Impact"]. This goes for precast and midcast.
 function get_sets()
     ----------------------------------------------------------------
+    -- WEAPON SETS
+    ----------------------------------------------------------------
+    -- Note that engaged_sets is automatically populated with Idle and TP if left empty.
+    -- "Idle" is treated as a keyword and refers to whichever set the current idle mode is using.
+
+    weapon_sets = {
+        ["Midnights"] = {
+            index = 1,
+            gear = {
+                main={ name="Midnights", augments={'Pet: Attack+25','Pet: Accuracy+25','Pet: Damage taken -3%',}},
+                sub=empty,
+            },
+            engaged_sets = {"TP"}, -- Use the default
+            overrides = {},
+        },
+    }
+
+    build_weapon_modes(weapon_sets)
+    update_engaged_modes(weapon_sets)
+    build_info_box()
+
+    ----------------------------------------------------------------
     -- GEAR PLACEHOLDERS
     ----------------------------------------------------------------
-    
+
     jse = {}                       -- Leave this empty
     jse.AF = {}                    -- Leave this empty
     jse.relic = {}                 -- Leave this empty
@@ -123,16 +182,7 @@ function get_sets()
         --idle="",
     }
 
-    ----------------------------------------------------------------
-    -- WEAPON SETS
-    ----------------------------------------------------------------
 
-    weapon_sets = {
-        ["Midnights"] = {
-            main={ name="Midnights", augments={'Pet: Attack+25','Pet: Accuracy+25','Pet: Damage taken -3%',}},
-            sub=empty,
-        },
-    }
 
     ----------------------------------------------------------------
     -- GEAR SETS
@@ -144,7 +194,7 @@ function get_sets()
     sets.idle = {}                  -- Leave this empty
     sets.ja = {}                    -- Leave this empty
     sets.ws = {}                    -- Leave this empty
-    sets.melee = {}                 -- Leave this empty
+    sets.engaged = {}               -- Leave this empty
     sets.buff = {}                  -- Leave this empty
 
     ----------------------------------------------------------------
@@ -175,7 +225,7 @@ function get_sets()
     
     -- Re-sim this if it ever matters lol
     -- TODO: Upgrade my animatior to an ilvl119 one.
-    sets.melee.TP = {
+    sets.engaged["TP"] = {
         range="Divinator",
         ammo="Automat. Oil +2",             -- Up in Arms lol
         head="Malignance Chapeau",
@@ -314,20 +364,36 @@ end
 -- HELPER FUNCTIONS 
 ----------------------------------------------------------------
 
+function equip_current_weapon()
+    local current_weapon = weapon_sets[weapon_mode.current]
+    local engaged_override = current_weapon.overrides[engaged_mode.current]
+
+    -- First check if the weapon has any engaged_mode specific permutation
+    -- Otherwise, we'll just use the default gear
+    if engaged_override then
+        equip(engaged_override)
+    else
+        equip(current_weapon.gear)
+    end
+end
+
 function equip_set_and_weapon(set)
     equip(set)
 
     -- This will only add the current weapon set to sets that have neither a main weapon or a sub (like a shield)
     if not set.main and not set.sub then
-        equip(weapon_sets[weapon_mode.current])
-        return
+        equip_current_weapon()
     end
 end
 
 function idle()
-    -- Choose between TP set and regular idle
-    if toggle_tp == "On" and player.status == "Engaged" then
-        equip_set_and_weapon(sets.melee.TP)
+    -- Choose between engaged set and regular idle
+    if player.status == "Engaged" then
+        if engaged_mode.current == "Idle" then
+            equip_set_and_weapon(sets.idle[idle_mode.current])
+        else
+            equip_set_and_weapon(sets.engaged[engaged_mode.current])
+        end
     else
         equip_set_and_weapon(sets.idle[idle_mode.current])
 
@@ -434,6 +500,12 @@ function self_command(command)
     if main_command == "weaponmode" then
         weapon_mode:cycle()
         add_to_chat(123, string.format("Weapon mode set to %s", weapon_mode.current))
+        update_engaged_modes(weapon_sets)
+        idle()
+
+    elseif main_command == "engagedmode" then
+        engaged_mode:cycle()
+        add_to_chat(123, string.format("Engaged mode set to %s", engaged_mode.current))
         idle()
 
     elseif main_command == "idlemode" then
@@ -441,16 +513,15 @@ function self_command(command)
         add_to_chat(123, string.format("Idle mode set to %s", idle_mode.current))
         idle()
 
-    elseif main_command == "toggletp" then
-        toggle_tp = handle_toggle(toggle_tp, "TP")
+    elseif main_command == "lockweapon" then
+        weapon_lock = handle_toggle(weapon_lock, "Weapon Lock")
 
-        idle()
-
-        if toggle_tp == "On" then
-            equip(weapon_sets[weapon_mode.current])
+        if weapon_lock == "On" then
+            equip_current_weapon()
             send_command("gs disable main;gs disable sub;gs disable range")
         else
             send_command("gs enable main;gs enable sub;gs enable range")
+            equip_current_weapon()
         end
 
     elseif main_command == "togglespeed" then
@@ -471,8 +542,8 @@ function file_unload(file_name)
     send_command("unbind f5")
     send_command("unbind f6")
     send_command("unbind f7")
+    send_command("unbind f8")
 
     send_command("unbind f9")
-
     send_command("unbind f12")
 end
