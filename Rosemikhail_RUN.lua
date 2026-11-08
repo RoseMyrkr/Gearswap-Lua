@@ -38,8 +38,8 @@ ALL JOBS
 ----------------------------------------------------------------
 
 -- Modes and toggles
-weapon_mode = M{"Aettir", "Lionheart", "Naegling", "Kaja Chopper", "Kaja Axe"} -- Update these
-engaged_mode = M{}
+weapon_mode = M{} -- This is automatically populated
+engaged_mode = M{} -- This is automatically populated
 idle_mode = M{"Normal", "Buffs", "Phalanx"}
 
 toggle_speed = "Off"
@@ -129,6 +129,22 @@ end
 
 -- We wait until inside get_sets() to build the info box initially, as that is where some weapon set logic is being handled.
 
+function build_weapon_modes(weapon_sets)
+    local weapons = {}
+
+    for weapon, _ in pairs (weapon_sets) do
+        weapons[#weapons + 1] = weapon
+    end
+
+    -- Why don't you just unpack in the same order that you were added, buddy?
+    table.sort(weapons, function (a, b)
+        return weapon_sets[a].index < weapon_sets[b].index
+    end)
+
+    add_to_chat(200, string.format("There are %s weapon modes.", #weapons))
+    weapon_mode = M{table.unpack(weapons)}
+end
+
 function update_engaged_modes(weapon_sets)
     -- Get the sets (i.e. Idle, TP, etc.) from the currently active weapon mode
     local weapon = weapon_sets[weapon_mode.current]
@@ -174,9 +190,12 @@ function get_sets()
     ----------------------------------------------------------------
     -- WEAPON SETS
     ----------------------------------------------------------------
+    -- Note that engaged_sets is automatically populated with Idle and TP if left empty.
+    -- "Idle" is treated as a keyword and refers to whichever set the current idle mode is using.
 
     weapon_sets = {
         ["Aettir"] = {
+            index = 1,
             gear = {
                 main="Aettir",
                 sub="Refined Grip +1",
@@ -194,6 +213,7 @@ function get_sets()
             },
         },
         ["Lionheart"] = {
+            index = 2,
             gear = {
                 main="Lionheart",
                 sub="Refined Grip +1", -- Probably Utu I guess
@@ -202,6 +222,7 @@ function get_sets()
             overrides = {},
         },
         ["Naegling"] = {
+            index = 3,
             gear = {
                 main="Naegling",
                 sub=empty,
@@ -210,6 +231,7 @@ function get_sets()
             overrides = {},
         },
         ["Kaja Chopper"] = {
+            index = 4,
             gear = {
                 main="Kaja Chopper",
                 sub="Refined Grip +1",
@@ -218,6 +240,7 @@ function get_sets()
             overrides = {},
         },
         ["Kaja Axe"] = {
+            index = 5,
             gear = {
                 main="Kaja Axe",
                 sub=empty,
@@ -227,6 +250,7 @@ function get_sets()
         },
     }
 
+    build_weapon_modes(weapon_sets)
     update_engaged_modes(weapon_sets)
     build_info_box()
 

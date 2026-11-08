@@ -37,8 +37,8 @@ From Reddit:
 
 -- Modes and toggles
 nuking_mode = M{"Free Nuke", "Burst", "Occult Acumen", "Vagary Burst"}
-weapon_mode = M{"Marin Staff", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"}
-engaged_mode = M{}
+weapon_mode = M{} -- This is automatically populated
+engaged_mode = M{} -- This is automatically populated
 idle_mode = M{"Normal", "Refresh"}
 regen_mode = M{"Balanced", "Potency", "Duration"}
 
@@ -113,6 +113,22 @@ end
 
 -- We wait until inside get_sets() to build the info box initially, as that is where some weapon set logic is being handled.
 
+function build_weapon_modes(weapon_sets)
+    local weapons = {}
+
+    for weapon, _ in pairs (weapon_sets) do
+        weapons[#weapons + 1] = weapon
+    end
+
+    -- Why don't you just unpack in the same order that you were added, buddy?
+    table.sort(weapons, function (a, b)
+        return weapon_sets[a].index < weapon_sets[b].index
+    end)
+
+    add_to_chat(200, string.format("There are %s weapon modes.", #weapons))
+    weapon_mode = M{table.unpack(weapons)}
+end
+
 function update_engaged_modes(weapon_sets)
     -- Get the sets (i.e. Idle, TP, etc.) from the currently active weapon mode
     local weapon = weapon_sets[weapon_mode.current]
@@ -154,9 +170,12 @@ function get_sets()
     ----------------------------------------------------------------
     -- WEAPON SETS
     ----------------------------------------------------------------
+    -- Note that engaged_sets is automatically populated with Idle and TP if left empty.
+    -- "Idle" is treated as a keyword and refers to whichever set the current idle mode is using.
 
     weapon_sets = {
         ["Marin Staff"] = {
+            index = 1,
             gear = {
                 main={ name="Marin Staff +1", augments={'Path: A',}},
                 sub="Enki Strap",
@@ -165,6 +184,7 @@ function get_sets()
             overrides = {},
         },
         ["Wizard's Rod"] = {
+            index = 2,
             gear = {
                 main="Wizard's Rod",
                 sub="Ammurapi Shield",
@@ -174,6 +194,7 @@ function get_sets()
             },
         },
         ["Maxentius"] = {
+            index = 3,
             gear = {
                 main="Maxentius",
                 sub="Ammurapi Shield",
@@ -183,6 +204,7 @@ function get_sets()
             },
         },
         ["Daybreak"] = {
+            index = 4,
             gear = {
                  main="Daybreak",
                 sub="Ammurapi Shield",
@@ -191,6 +213,7 @@ function get_sets()
             overrides = {},
         },
         ["Opashoro"] = {
+            index = 5,
             gear = {
                 main="Opashoro",
                 sub="Enki Strap",
@@ -199,6 +222,7 @@ function get_sets()
             overrides = {},
         },
         ["Khatvanga"] = {
+            index = 6,
             gear = {
                 main="Khatvanga",
                 sub="Enki Strap",
@@ -212,6 +236,7 @@ function get_sets()
     -- Soon Malevolence and Ammurapi Shield
     -- Consider Malignance pole for later.
 
+    build_weapon_modes(weapon_sets)
     update_engaged_modes(weapon_sets)
     build_info_box()
 

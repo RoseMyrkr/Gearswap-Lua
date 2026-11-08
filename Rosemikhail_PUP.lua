@@ -126,7 +126,7 @@ function get_sets()
     ----------------------------------------------------------------
     -- WEAPON SETS
     ----------------------------------------------------------------
-    
+
     weapon_sets = {
         ["Midnights"] = {
             main={ name="Midnights", augments={'Pet: Attack+25','Pet: Accuracy+25','Pet: Damage taken -3%',}},

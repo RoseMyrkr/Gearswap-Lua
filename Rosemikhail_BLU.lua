@@ -12,8 +12,8 @@ include("Modes.lua")
 ----------------------------------------------------------------
 
 -- Modes and toggles
-weapon_mode = M{"Kitty Rod", "Naegling", "Maxentius"}
-engaged_mode = M{}
+weapon_mode = M{} -- This is automatically populated
+engaged_mode = M{} -- This is automatically populated
 idle_mode = M{"Learning", "Normal",}
 
 weapon_lock = "Off"
@@ -65,6 +65,22 @@ end
 
 -- We wait until inside get_sets() to build the info box initially, as that is where some weapon set logic is being handled.
 
+function build_weapon_modes(weapon_sets)
+    local weapons = {}
+
+    for weapon, _ in pairs (weapon_sets) do
+        weapons[#weapons + 1] = weapon
+    end
+
+    -- Why don't you just unpack in the same order that you were added, buddy?
+    table.sort(weapons, function (a, b)
+        return weapon_sets[a].index < weapon_sets[b].index
+    end)
+
+    add_to_chat(200, string.format("There are %s weapon modes.", #weapons))
+    weapon_mode = M{table.unpack(weapons)}
+end
+
 function update_engaged_modes(weapon_sets)
     -- Get the sets (i.e. Idle, TP, etc.) from the currently active weapon mode
     local weapon = weapon_sets[weapon_mode.current]
@@ -103,9 +119,12 @@ function get_sets()
     ----------------------------------------------------------------
     -- WEAPON SETS
     ----------------------------------------------------------------
-    
+    -- Note that engaged_sets is automatically populated with Idle and TP if left empty.
+    -- "Idle" is treated as a keyword and refers to whichever set the current idle mode is using.
+
     weapon_sets = {
         ["Kitty Rod"] = {
+            index = 1,
             gear = {
                 main="Kitty Rod",
                 sub=empty,
@@ -114,6 +133,7 @@ function get_sets()
             overrides = {},
         },
         ["Naegling"] = {
+            index = 2,
             gear = {
                 main="Naegling",
                 sub="Genmei Shield",
@@ -122,6 +142,7 @@ function get_sets()
             overrides = {},
         },
         ["Maxentius"] = {
+            index = 3,
             gear = {
                 main="Maxentius",
                 sub="Ammurapi Shield",
@@ -131,6 +152,7 @@ function get_sets()
         },
     }
 
+    build_weapon_modes(weapon_sets)
     update_engaged_modes(weapon_sets)
     build_info_box()
     
