@@ -12,7 +12,7 @@ May be best to just equip ammo and "empty" with priorities when using a manoueve
 ]]
 
 ----------------------------------------------------------------
--- VARIABLES
+-- VARIABLES & COMMANDS
 ----------------------------------------------------------------
 
 -- Modes and toggles
@@ -69,10 +69,9 @@ end
 build_info_box()
 
 ----------------------------------------------------------------
--- MISC INIT/COMMANDS
+-- LOCKSTYLE & MACROS
 ----------------------------------------------------------------
 
--- Lockstyle
 function update_lockstyle()
     send_command("wait 5;input /lockstyleset 35") -- River
 end
@@ -357,22 +356,21 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
+            equip_set_and_weapon(sets.ws[spell.name])
         else
             equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-    elseif spell.action_type == "Ability" then -- Check every other kind of ability
+    elseif spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
 
-    -- Handling for both matched and unmatched magic spells
-    elseif spell.action_type == "Magic" then -- Handling for both matched and unmatched magic spells
+    elseif spell.action_type == "Magic" then
         if sets.precast[spell.name] then
-            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
+            equip_set_and_weapon(sets.precast[spell.name])
         else
             equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
         end
@@ -383,21 +381,14 @@ function precast(spell)
     end
 end
 
--- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
         -- If we ever use spells on PUP, steal stuff from other jobs.
-        local matched = false
 
-        -- If the spell skill has a relevant set
-        if not matched and sets.midcast[spell.skill] then
+        if sets.midcast[spell.skill] then
             equip_set_and_weapon(sets.midcast[spell.skill])
-            matched = true
-        end
-
-        -- Any other spell (trusts?)
-        if not matched then
-            idle()
+        else
+            idle() -- Any other spell (trusts?)
         end
     end
 

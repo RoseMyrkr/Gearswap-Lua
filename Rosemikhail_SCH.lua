@@ -32,7 +32,7 @@ From Reddit:
 ]]
 
 ----------------------------------------------------------------
--- VARIABLES
+-- VARIABLES & COMMANDS
 ----------------------------------------------------------------
 
 -- Modes and toggles
@@ -46,7 +46,12 @@ toggle_speed = "Off"
 weapon_lock = "Off"
 
 -- Midcast helpers
-match_list = S{"Cure", "Curaga", "Aspir", "Drain"}
+spell_map = {
+    ["Cure"] = "Cure", ["Cure II"] = "Cure", ["Cure III"] = "Cure", ["Cure IV"] = "Cure",
+    ["Curaga"] = "Cure", ["Curaga II"] = "Cure", ["Curaga III"] = "Cure",
+    ["Aspir"] = "Aspir", ["Aspir II"] = "Aspir",
+}
+
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix", "Geohelix II", "Hydrohelix II", "Anemohelix II", "Pyrohelix II", "Cryohelix II", "Ionohelix II", "Noctohelix II", "Luminohelix II",}
 elemental_barspells = S{"Barfire", "Barblizzard", "Baraero", "Barstone", "Barthunder", "Barwater", "Barfira", "Barblizzara", "Baraera", "Barstonra", "Barthundra", "Barwatera",}
 status_barspells = S{"Baramnesia","Barvirus", "Barparalyze", "Barsilence", "Barpetrify", "Barpoison", "Barblind", "Barsleep", "Baramnesra","Barvira", "Barparalyzra", "Barsilencera", "Barpetra", "Barpoisonra", "Barblindra", "Barsleepra"}
@@ -126,10 +131,9 @@ function update_engaged_modes(weapon_sets)
 end
 
 ----------------------------------------------------------------
--- MISC INIT/COMMANDS
+-- LOCKSTYLE & MACROS
 ----------------------------------------------------------------
 
--- Lockstyle
 function update_lockstyle()
     send_command("wait 5;input /lockstyleset 22") -- Ebur
 end
@@ -947,22 +951,21 @@ function precast(spell)
         return
     end
 
-    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
+            equip_set_and_weapon(sets.ws[spell.name])
         else
             equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-    elseif spell.action_type == "Ability" then -- Check every other kind of ability
+    elseif spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
     
-    -- Handling for both matched and unmatched magic spells
-    elseif spell.action_type == "Magic" then -- Handling for both matched and unmatched magic spells
+    elseif spell.action_type == "Magic" then
         if sets.precast[spell.name] then
-            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
+            equip_set_and_weapon(sets.precast[spell.name])
         else
             equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
         end
@@ -978,10 +981,11 @@ function precast(spell)
     end
 end
 
--- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
-        local matched = false
+        ----------------------------------------------------------------
+        -- OVERRIDE
+        ----------------------------------------------------------------
 
         -- To avoid any delay in knowing that Immanence is up (I am going to STRANGLE FFXI - it won't immediately register that the buff is active, so I can't check that)
         if spell.name == "Immanence" then
@@ -990,47 +994,34 @@ function midcast(spell)
         end
 
         -- If Immanence is up and the spell is either a helix or elemental magic
-        -- No need to use "matched", as I don't want to overlay this at all
         if immanence and spell.skill == "Elemental Magic" then
             equip_set_and_weapon(sets.midcast.immanence)
             return
         end
 
-        -- If the spell matches one of the match_list spells.
-        for match in match_list:it() do
-            if spell.name:match(match) then
-                equip_set_and_weapon(sets.midcast[match])
-                matched = true
-                break
-            end
-        end
+        ----------------------------------------------------------------
+        -- SET MATCHING
+        ----------------------------------------------------------------
 
-        -- If the spell is any Regen spell (not including it in the above due to it being reliant on mode)
-        if not matched and spell.name:match("Regen") then
+        local match_spell = spell_map[spell.name]
+        
+        if spell_map[spell.name] then
+            equip_set_and_weapon(sets.midcast[match_spell])
+
+        elseif spell.name:match("Regen") then
             equip_set_and_weapon(sets.midcast.regen[regen_mode.current])
-            matched = true
-        end
 
-        -- If the spell name EXACTLY matches
-        if not matched and sets.midcast[spell.name] then
+        elseif sets.midcast[spell.name] then
             equip_set_and_weapon(sets.midcast[spell.name])
-            matched = true
-        end
 
-        -- If the spell is a barspell
-        if not matched and spell.name:match("^Bar") then
+        elseif spell.name:match("^Bar") then
             if elemental_barspells:contains(spell.name) then
                 equip_set_and_weapon(sets.midcast.elemental_barspell)
             elseif status_barspells:contains(spell.name) then
                 equip_set_and_weapon(sets.midcast.status_barspell)
             end
-            matched = true
-        end
 
-        -- If the spell is a helix
-        if not matched and helix_spells:contains(spell.name) then
-
-            --if nuking_mode.current == "Free Nuke" or nuking_mode.current == "Burst" then
+        elseif helix_spells:contains(spell.name) then
             if sets.midcast.helix[nuking_mode.current] then
                 equip_set_and_weapon(sets.midcast.helix[nuking_mode.current])
             else
@@ -1040,57 +1031,43 @@ function midcast(spell)
 
             if spell.name:match("Noctohelix") then
                 equip({head="Pixie Hairpin +1", left_ring="Archon Ring",})
-            end
-
-            if spell.name:match("Anemohelix") then
+            elseif spell.name:match("Anemohelix") then
                 equip({main={ name="Marin Staff +1", augments={'Path: A',}}, sub="Enki Strap",})
-            end
-
-            if spell.name:match("Luminohelix") then
+            elseif spell.name:match("Luminohelix") then
                 equip({main="Daybreak", sub="Ammurapi Shield",})
             end
 
-            -- If I happen to get the item.
-            -- Argute Stole +2 may be better.
-            --if spell.name:match("Geohelix") then
-            --    equip({neck="Quanpur Necklace"})
+            --elseif spell.name:match("Geohelix") then
+            --    equip({neck="Quanpur Necklace"}) -- JSE neck may be better
             --end
 
-            matched = true
-        end
-
-        -- If the spell skill is Elemental Magic
-        if not matched and spell.skill == "Elemental Magic" then
+        elseif spell.skill == "Elemental Magic" then
             equip_set_and_weapon(sets.midcast[nuking_mode.current])
-            matched = true
-        end
 
-        if not matched and spell.skill == "Enfeebling Magic" then
+        elseif spell.skill == "Enfeebling Magic" then
             if buffactive["Dark Arts"] or buffactive["Addendum: Black"] then
-                equip(sets.midcast.enfeebling_dark)
                 -- Specifically because AF body gives a buff if you're in Dark Arts
-                matched = true
+                equip(sets.midcast.enfeebling_dark)
             else
+                -- This also covers the instance that you're not in any art at all for some reason
                 equip(sets.midcast.enfeebling_light)
-                -- Also covering the instance that you're not in any art at all for some reason
-                matched = true
             end
 
+            -- Overlay for Dispelga so that I can keep the logic for dark or light
             if spell.name == "Dispelga" then
                 equip({main="Daybreak", sub="Ammurapi Shield",})
             end
-        end
 
-        -- If the spell skill has a relevant set
-        if not matched and sets.midcast[spell.skill] then
+        elseif sets.midcast[spell.skill] then
             equip_set_and_weapon(sets.midcast[spell.skill])
-            matched = true
+
+        else
+            idle() -- Any other spell (trusts?)
         end
 
-        -- Any other spell (trusts?)
-        if not matched then
-            idle()
-        end
+        ----------------------------------------------------------------
+        -- OVERLAY
+        ----------------------------------------------------------------
 
         -- Weather and day overlays
         -- Technically I could also do Divine for Banish but also lmao

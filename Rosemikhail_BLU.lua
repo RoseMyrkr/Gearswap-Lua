@@ -8,7 +8,7 @@ include("Modes.lua")
 -- I have no interest in expanding this past a basic spell and quest machine
 
 ----------------------------------------------------------------
--- VARIABLES
+-- VARIABLES & COMMANDS
 ----------------------------------------------------------------
 
 -- Modes and toggles
@@ -83,10 +83,9 @@ function update_engaged_modes(weapon_sets)
 end
 
 ----------------------------------------------------------------
--- MISC INIT/COMMANDS
+-- LOCKSTYLE & MACROS
 ----------------------------------------------------------------
 
--- Lockstyle
 function update_lockstyle()
     send_command("wait 5;input /lockstyleset 34")
 end
@@ -393,32 +392,30 @@ end
 -- GEARSWAP FUNCTIONS
 ----------------------------------------------------------------
 function precast(spell)
-
     if toggle_speed == "On" then
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
         if idle_mode.current == "Learning" then -- TODO: Review this
             idle()
             return
         end
-    
+
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
+            equip_set_and_weapon(sets.ws[spell.name])
         else
             equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-    elseif spell.action_type == "Ability" then -- Check every other kind of ability
+    elseif spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
 
-    -- Handling for both matched and unmatched magic spells
-    elseif spell.action_type == "Magic" then -- Handling for both matched and unmatched magic spells
+    elseif spell.action_type == "Magic" then
         if sets.precast[spell.name] then
-            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
+            equip_set_and_weapon(sets.precast[spell.name])
         else
             equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
         end

@@ -31,7 +31,7 @@ Potential enhancements:
 ]]
 
 ----------------------------------------------------------------
--- VARIABLES
+-- VARIABLES & COMMANDS
 ----------------------------------------------------------------
 
 -- Modes
@@ -43,7 +43,12 @@ toggle_speed = "Off"
 toggle_tp = "Off" -- This will disable weapon swapping as well
 
 -- Midcast helpers
-match_list  = S{"Cure", "Curaga", "Aspir", "Drain", "Regen"}
+spell_map = {
+    ["Cure"] = "Cure", ["Cure II"] = "Cure", ["Cure III"] = "Cure", ["Cure IV"] = "Cure",
+    ["Curaga"] = "Cure", ["Curaga II"] = "Cure", ["Curaga III"] = "Cure",
+    ["Regen"] = "Regen", ["Regen II"] = "Regen", ["Regen III"] = "Regen",
+    ["Aspir"] = "Aspir", ["Aspir II"] = "Aspir",
+}
 elemental_barspells = S{"Barfire", "Barblizzard", "Baraero", "Barstone", "Barthunder", "Barwater", "Barfira", "Barblizzara", "Baraera", "Barstonra", "Barthundra", "Barwatera",}
 status_barspells = S{"Baramnesia","Barvirus", "Barparalyze", "Barsilence", "Barpetrify", "Barpoison", "Barblind", "Barsleep", "Baramnesra","Barvira", "Barparalyzra", "Barsilencera", "Barpetra", "Barpoisonra", "Barblindra", "Barsleepra"}
 
@@ -99,10 +104,9 @@ end
 build_info_box()
 
 ----------------------------------------------------------------
--- MISC INIT/COMMANDS
+-- LOCKSTYLE & MACROS
 ----------------------------------------------------------------
 
--- Lockstyle
 function update_lockstyle()
     send_command("wait 5;input /lockstyleset 5") -- Geomancer Relic
 end
@@ -801,22 +805,21 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
+            equip_set_and_weapon(sets.ws[spell.name])
         else
             equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-    elseif spell.action_type == "Ability" then -- Check every other kind of ability
+    elseif spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
 
-    -- Handling for both matched and unmatched magic spells
-    elseif spell.action_type == "Magic" then -- Handling for both matched and unmatched magic spells
+    elseif spell.action_type == "Magic" then
         if sets.precast[spell.name] then
-            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
+            equip_set_and_weapon(sets.precast[spell.name])
         else
             equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
         end
@@ -827,70 +830,50 @@ function precast(spell)
     end
 end
 
--- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
-        local matched = false
+        ----------------------------------------------------------------
+        -- SET MATCHING
+        ----------------------------------------------------------------
 
-        -- If the spell is a Geocolure or Indicolure spell
-        if spell.name:match("^Geo") then
+        local match_spell = spell_map[spell.name]
+        
+        if spell_map[spell.name] then
+            equip_set_and_weapon(sets.midcast[match_spell])
+
+        elseif spell.name:match("^Geo") then
             equip_set_and_weapon(sets.midcast.geocolure)
-            matched = true
+
         elseif spell.name:match("^Indi") then
             if buffactive["Entrust"] then
                 equip_set_and_weapon(sets.midcast.entrust)
             else
                 equip_set_and_weapon(sets.midcast.indicolure)
             end
-
-            matched = true
-        end
-
-        -- If the spell matches one of the match_list spells.
-        -- Note: This HAS to be after the Geo/Indi spells otherwise it'll match those too
-        -- If I ever have to break up these spells into separate sets, it would be worth breaking this up.
-        if not matched then
-            for match in match_list:it() do
-                if spell.name:match(match) then
-                    equip_set_and_weapon(sets.midcast[match])
-                    matched = true
-                    break
-                end
-            end
-        end
         
-        -- If the spell name EXACTLY matches.
-        if not matched and sets.midcast[spell.name] then
+        elseif sets.midcast[spell.name] then
             equip_set_and_weapon(sets.midcast[spell.name])
-            matched = true
-        end
 
-        -- If the spell is a barspell
-        if not matched and spell.name:match("^Bar") then
+        elseif spell.name:match("^Bar") then
             if elemental_barspells:contains(spell.name) then
                 equip_set_and_weapon(sets.midcast.elemental_barspell)
             elseif status_barspells:contains(spell.name) then
                 equip_set_and_weapon(sets.midcast.status_barspell)
             end
-            matched = true
-        end
 
-        -- If the spell skill is Elemental Magic
-        if not matched and spell.skill == "Elemental Magic" then
+        elseif spell.skill == "Elemental Magic" then
             equip_set_and_weapon(sets.midcast[nuking_mode.current])
-            matched = true
-        end
 
-        -- If the spell skill has a relevant set
-        if not matched and sets.midcast[spell.skill] then
+        elseif sets.midcast[spell.skill] then
             equip_set_and_weapon(sets.midcast[spell.skill])
-            matched = true
+
+        else
+            idle() -- Any other spell (trusts?)
         end
 
-        -- Any other spell (trusts?)
-        if not matched then
-            idle()
-        end
+        ----------------------------------------------------------------
+        -- OVERLAY
+        ----------------------------------------------------------------
 
         -- Weather and day overlays
         -- Technically I could also do Divine for Banish but also lmao

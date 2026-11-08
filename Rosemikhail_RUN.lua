@@ -34,7 +34,7 @@ ALL JOBS
 ]]
 
 ----------------------------------------------------------------
--- VARIABLES
+-- VARIABLES & COMMANDS
 ----------------------------------------------------------------
 
 -- Modes and toggles
@@ -47,7 +47,10 @@ weapon_lock = "Off"
 SIRD = "Off"
 
 -- Midcast helpers
-match_list = S{"Cure", "Regen"}
+spell_map = {
+    ["Cure"] = "Cure", ["Cure II"] = "Cure", ["Cure III"] = "Cure", ["Cure IV"] = "Cure",
+    ["Regen"] = "Regen", ["Regen II"] = "Regen", ["Regen III"] = "Regen", ["Regen IV"] = "Regen",
+}
 enmity_spells = S{
     "Foil",
     "Flash",
@@ -144,10 +147,9 @@ function update_engaged_modes(weapon_sets)
 end
 
 ----------------------------------------------------------------
--- MISC INIT/COMMANDS
+-- LOCKSTYLE & MACROS
 ----------------------------------------------------------------
 
--- Lockstyle
 function update_lockstyle()
     send_command("wait 5;input /lockstyleset 22") -- Ebur
 end
@@ -974,14 +976,14 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
+            equip_set_and_weapon(sets.ws[spell.name])
         else
             equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-    elseif spell.action_type == "Ability" then -- Check every other kind of ability
+    elseif spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
@@ -1011,10 +1013,9 @@ function precast(spell)
             -- Lux could have a Weatherspoon Ring check, but I don't have one!
         end
 
-    -- Handling for both matched and unmatched magic spells
     elseif spell.action_type == "Magic" then
         if sets.precast[spell.name] then
-            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
+            equip_set_and_weapon(sets.precast[spell.name])
         else
             if buffactive["Valiance"] or buffactive["Vallation"] then
                 equip_set_and_weapon(sets.precast.fast_cast_inspiration) -- Less FC required to cap
@@ -1029,9 +1030,12 @@ function precast(spell)
     end
 end
 
--- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
+        ----------------------------------------------------------------
+        -- OVERRIDE
+        ----------------------------------------------------------------
+
         if SIRD == "On" then
             if enmity_spells:contains(spell.name) then
                 equip_set_and_weapon(sets.midcast.SIRD_enmity)
@@ -1042,46 +1046,36 @@ function midcast(spell)
             return
         end
 
-        local matched = false
+        ----------------------------------------------------------------
+        -- SET MATCHING
+        ----------------------------------------------------------------
 
-        -- If the spell matches one of the match_list spells.
-        for match in match_list:it() do
-            if spell.name:match(match) then
-                equip_set_and_weapon(sets.midcast[match])
-                matched = true
-                break
-            end
-        end
+        local match_spell = spell_map[spell.name]
+        
+        if spell_map[spell.name] then
+            equip_set_and_weapon(sets.midcast[match_spell])
 
-        -- If the spell name EXACTLY matches.
-        if not matched and sets.midcast[spell.name] then
+        elseif sets.midcast[spell.name] then
             equip_set_and_weapon(sets.midcast[spell.name])
-            matched = true
-        end
 
-        if not matched and (spell.name:match("^Bar") or spell.name == "Aquaveil" or spell.name == "Temper") then
+        elseif spell.name:match("^Bar") or spell.name == "Aquaveil" or spell.name == "Temper" then
             equip_set_and_weapon(sets.midcast.enhancing_skill)
-            matched = true
-        end
 
-        -- Enmity, maybe reorder this if I need to
-        if not matched and enmity_spells:contains(spell.name) then
+        elseif enmity_spells:contains(spell.name) then
             equip_set_and_weapon(sets.midcast.enmity)
-            matched = true
-        end
 
-        -- If the spell skill has a relevant set
-        if not matched and sets.midcast[spell.skill] then
+        elseif sets.midcast[spell.skill] then
             equip_set_and_weapon(sets.midcast[spell.skill])
-            matched = true
-        end
 
-        -- Any other spell (trusts?)
-        if not matched then
+        else
+            -- Any other spell (trusts?)
             idle()
         end
 
-        -- Embolden overlay (for self-casting)
+        ----------------------------------------------------------------
+        -- OVERLAY
+        ----------------------------------------------------------------
+
         if buffactive["Embolden"] and spell.skill == "Enhancing Magic" then
             equip_set_and_weapon(sets.buff.embolden)
         end

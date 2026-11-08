@@ -23,7 +23,7 @@ include("Modes.lua")
 -- Maybe I can set up some nuking sets for stuff like Banish and Holy? Lmao?
 
 ----------------------------------------------------------------
--- VARIABLES
+-- VARIABLES & COMMANDS
 ----------------------------------------------------------------
 
 -- Modes and toggles
@@ -35,7 +35,14 @@ toggle_speed = "Off"
 weapon_lock = "Off"
 
 -- Midcast helpers
-match_list = S{"Cure", "Curaga", "Regen"} -- Maybe add Aspir and Drain here if I use BLM sub. Maybe also add Cura and whatever other spells, but for now, yolo
+-- I can probably improve this in the sense that I only have two kinds of cure set because of Solace
+-- But what if I'm not casting in Solace? So maybe better rules for this could apply /shrug
+spell_map = {
+    ["Cure"] = "Cure", ["Cure II"] = "Cure", ["Cure III"] = "Cure", ["Cure IV"] = "Cure", ["Cure V"] = "Cure", ["Cure VI"] = "Cure", ["Full Cure"] = "Cure",
+    ["Curaga"] = "Curaga", ["Curaga II"] = "Curaga", ["Curaga III"] = "Curaga", ["Curaga IV"] = "Curaga", ["Curaga V"] = "Curaga",
+    ["Cura"] = "Cura", ["Cura II"] = "Cura", ["Cura III"] = "Cura",
+    ["Regen"] = "Regen", ["Regen II"] = "Regen", ["Regen III"] = "Regen", ["Regen IV"] = "Regen",
+}
 debuff_cleansers = S{"Stona", "Poisona", "Silena", "Viruna", "Paralyna", "Blindna", "Cursna", "Erase", "Esuna", "Sacrifice"}
 elemental_barspells = S{"Barfire", "Barblizzard", "Baraero", "Barstone", "Barthunder", "Barwater", "Barfira", "Barblizzara", "Baraera", "Barstonra", "Barthundra", "Barwatera",}
 status_barspells = S{"Baramnesia","Barvirus", "Barparalyze", "Barsilence", "Barpetrify", "Barpoison", "Barblind", "Barsleep", "Baramnesra","Barvira", "Barparalyzra", "Barsilencera", "Barpetra", "Barpoisonra", "Barblindra", "Barsleepra"}
@@ -106,10 +113,9 @@ function update_engaged_modes(weapon_sets)
 end
 
 ----------------------------------------------------------------
--- MISC INIT/COMMANDS
+-- LOCKSTYLE & MACROS
 ----------------------------------------------------------------
 
--- Lockstyle
 function update_lockstyle()
     send_command("wait 5;input /lockstyleset 12") -- WHM Empy
 end
@@ -386,6 +392,8 @@ function get_sets()
         back=jse.capes.casting_idle,                                                                                                    -- -5% DT, -10 enmity
     }
 
+    sets.midcast["Cura"] = sets.midcast["Curaga"] -- Shrug!
+
     -- This will apply to any non-cure healing magic, like debuff cleanses, unless they have their own set
     sets.midcast["Healing Magic"] = { -- -50% DT, +32% Conserve MP, 33% SIRD, FC +18%
         main="Daybreak",                                                                                                            -- Filler
@@ -560,22 +568,21 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
+            equip_set_and_weapon(sets.ws[spell.name])
         else
             equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-    elseif spell.action_type == "Ability" then -- Check every other kind of ability
+    elseif spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
 
-    -- Handling for both matched and unmatched magic spells
-    elseif spell.action_type == "Magic" then -- Handling for both matched and unmatched magic spells
+    elseif spell.action_type == "Magic" then
         if sets.precast[spell.name] then
-            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
+            equip_set_and_weapon(sets.precast[spell.name])
         else
             equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
         end
@@ -586,50 +593,40 @@ function precast(spell)
     end
 end
 
--- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
-        local matched = false
+        ----------------------------------------------------------------
+        -- SET MATCHING
+        ----------------------------------------------------------------
 
-        -- If the spell matches one of the match_list spells.
-        for match in match_list:it() do
-            if spell.name:match(match) then
-                equip_set_and_weapon(sets.midcast[match])
-                matched = true
-                break
-            end
-        end
+        -- Missing logic for nuking, but this can be added later. i.e. Holy and Banish
+        -- Missing logic for Enfeebling, but this can be added later.
 
-        -- If the spell name EXACTLY matches
-        if not matched and sets.midcast[spell.name] then
+        local match_spell = spell_map[spell.name]
+        
+        if spell_map[spell.name] then
+            equip_set_and_weapon(sets.midcast[match_spell])
+
+        elseif sets.midcast[spell.name] then
             equip_set_and_weapon(sets.midcast[spell.name])
-            matched = true
-        end
 
-        -- If the spell is a barspell
-        if not matched and spell.name:match("^Bar") then
+        elseif spell.name:match("^Bar") then
             if elemental_barspells:contains(spell.name) then
                 equip_set_and_weapon(sets.midcast.elemental_barspell)
             elseif status_barspells:contains(spell.name) then
                 equip_set_and_weapon(sets.midcast.status_barspell)
             end
-            matched = true
-        end
 
-        -- Missing logic for nuking, but this can be added later. i.e. Holy and Banish
-
-        -- Missing logic for Enfeebling, but this can be added later.
-
-        -- If the spell skill has a relevant set
-        if not matched and sets.midcast[spell.skill] then
+        elseif sets.midcast[spell.skill] then
             equip_set_and_weapon(sets.midcast[spell.skill])
-            matched = true
+        
+        else
+            idle() -- Any other spell (trusts?)
         end
 
-        -- Any other spell (trusts?)
-        if not matched then
-            idle()
-        end
+        ----------------------------------------------------------------
+        -- OVERLAY
+        ----------------------------------------------------------------
 
         -- Weather and day overlays
         -- Technically I could also do Divine for Banish but also lmao

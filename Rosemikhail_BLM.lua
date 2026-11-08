@@ -23,38 +23,26 @@ Potential enhancements:
 
 - Update enfeebling set
 
-- Consider midcast enmity toggle instead of tying it only to Mana Wall Stun
-
 - potentially add /whm capability i.e. curaga
 
-- finish upgrading AF+4 for accuracy purposes
-
-- Bursting set specifically for Triboulex
-
--- Automagically fill in the weapon modes based on the weapon sets
+- Automagically fill in the weapon modes based on the weapon sets
 
 - For elemental weaponskills, if I have double weather OR single weather + matching day, Hachirin-no-Obi is likely better than Osash
-- This is such a tiny optimisation that it can come later
-
-- Consider switching to if/elses again for code simplicity even if it is a bit uggo
-    - Add the doom check into precast as well if this happens. It isn't in there because 1. it's fast 2. annoying
-
-- Probably need to make the doomed set idle only for the sake of being able to cast cursna/use holy water on myself and not make it a problem
-    - Or check if the target is myself for cursna
+- This is such a tiny optimisation for BLM that it can come later
 
 - Account for elemental celerity in FC for the sake of MP swaps : )
     - As an aside, perhaps have two separate sets
 
-- Eventually just do proper spell maps instead of relying on matches
+- Maybe a toggle for Occult Acumen Impact?
 ]]
 
 ----------------------------------------------------------------
--- VARIABLES
+-- VARIABLES & COMMANDS
 ----------------------------------------------------------------
 
 -- Modes and toggles
 nuking_mode = M{"Free Nuke", "Burst", "Occult Acumen"}
-weapon_mode = M{"Laevateinn", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"} --"Marin Staff",
+weapon_mode = M{"Laevateinn", "Wizard's Rod", "Maxentius", "Daybreak", "Opashoro", "Khatvanga"}
 engaged_mode = M{}
 idle_mode = M{"Normal", "Refresh", "DEF"}
 
@@ -65,9 +53,13 @@ toggle_death = "Off"
 weapon_lock = "Off"
 
 -- Midcast helpers
-match_list = S{"Cure", "Aspir", "Drain", "Regen"}
-elemental_debuffs = S{'Burn','Frost','Choke','Rasp','Shock','Drown'}
-cumulative_spells = S{'Stoneja','Waterja','Aeroja','Firaja','Blizzaja','Thundaja', 'Comet'}
+spell_map = {
+    ["Cure"] = "Cure", ["Cure II"] = "Cure", ["Cure III"] = "Cure", ["Cure IV"] = "Cure",
+    ["Regen"] = "Regen", ["Regen II"] = "Regen", ["Regen III"] = "Regen",
+    ["Aspir"] = "Aspir", ["Aspir II"] = "Aspir", ["Aspir III"] = "Aspir",
+}
+elemental_debuffs = S{'Burn', 'Frost', 'Choke', 'Rasp', 'Shock', 'Drown'}
+cumulative_spells = S{'Stoneja', 'Waterja', 'Aeroja',' Firaja', 'Blizzaja', 'Thundaja', 'Comet'}
 helix_spells = S{"Geohelix", "Hydrohelix", "Anemohelix", "Pyrohelix", "Cryohelix", "Ionohelix", "Noctohelix", "Luminohelix"}
 
 -- Bindings
@@ -148,10 +140,9 @@ function update_engaged_modes(weapon_sets)
 end
 
 ----------------------------------------------------------------
--- MISC INIT/COMMANDS
+-- LOCKSTYLE & MACROS
 ----------------------------------------------------------------
 
--- Lockstyle
 function update_lockstyle()
     send_command("wait 5;input /lockstyleset 21") -- Furia
 end
@@ -321,6 +312,7 @@ function get_sets()
         back=jse.capes.idle_fc,                                                                                                                         -- -10% PDT
     }
 
+    -- Please don't follow my example of using Abyssea level gear for refresh (I need to get Merlinic here)
     sets.idle["Refresh"] = set_combine(sets.idle["Normal"], {                                                                                           -- OVERALL -33% DT, -10% PDT, -0% MDT (-43% DT+PDT, -33% DT+MDT), +9-10 refresh
         ammo="Staunch Tathlum",                                                                                                                         -- -2% DT
         head={ name="Merlinic Hood", augments={'DEX+11','Pet: "Store TP"+6','"Refresh"+2','Accuracy+16 Attack+16','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},    -- +2 Refresh
@@ -476,24 +468,6 @@ function get_sets()
         back=jse.capes.nuking
     }
 
-    -- I can come up with a set that uses Awgu's hands and feet for almost identical damage at R15. It's not really worth until R20/R25.
-
-    -- sets.midcast["Burst"] = {                                                                                           -- 37% MB, 12% MB II
-    --     ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
-    --     head="Ea Hat +1",                                                                                               -- 7% MB 7% MB II
-    --     body=jse.empyrean.body,                                                                                         -- 5% MB II
-    --     hands=jse.empyrean.hands,                                                                                       -- Replace with r25 Agwu's
-    --     legs=jse.empyrean.legs,                                                                                         -- 15% MB
-    --     feet=jse.empyrean.feet,                                                                                         -- Replace with r25 Agwu's, might even be replaceable at r23 now
-    --     neck={ name="Src. Stole +2", augments={'Path: A',}},
-    --     waist={ name="Acuity Belt +1", augments={'Path: A',}},
-    --     left_ear="Malignance Earring",
-    --     right_ear="Regal Earring",
-    --     left_ring="Freke Ring",
-    --     right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},                                                   -- Replace with Mujin Band
-    --     back=jse.capes.nuking                                                                                           -- 5% MB
-    -- }
-
     sets.midcast["Burst"] = {                                                                                           -- 51% MB (40% cap), 22% MB II
         ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
         head="Ea Hat +1",                                                                                               -- 7% MB, 7% MB II
@@ -570,7 +544,7 @@ function get_sets()
     -- ENFEEBLING MIDCAST
     ----------------------------------------------------------------
 
-    -- Eventually when I have more Wicce upgraded, they may end up beating out the Spaekona macc bonuses.
+    -- Review this.
     sets.midcast["Enfeebling Magic"] = {
         ammo="Pemphredo Tathlum",
         head=empty,
@@ -587,7 +561,7 @@ function get_sets()
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
     }
 
-    -- Eventually this prefers Wicce+3 head and Spae body for the slightly higher elemental magic skill + accuracy, it seems...
+    -- Review this.
     sets.midcast.elemental_debuff = {
         ammo="Pemphredo Tathlum",
         head=empty,
@@ -676,7 +650,7 @@ function get_sets()
     ----------------------------------------------------------------
 
     -- TODO: Check out the BLM guide for a set that doesn't require a weapon swap for curing.
-    sets.midcast["Cure"] = {                                                                 -- Overall +50%
+    sets.midcast["Cure"] = {                                                                                                        -- Overall +50%
         main="Daybreak",                                                                                                            -- 30%
         sub="Genmei Shield",
         ammo="Kalboron Stone",
@@ -694,7 +668,7 @@ function get_sets()
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
     }
 
-    -- TODO: Steal whatever SCH has but otherwise idle is enough for now
+    -- TODO: Steal whatever SCH has i.e. DT, SIRD, Conserve, etc. but otherwise idle is enough for now
     -- This will apply to any non-cure healing magic, like debuff cleanses, unless they have their own set
     sets.midcast["Healing Magic"] = sets.idle["Normal"]
 
@@ -724,17 +698,17 @@ function get_sets()
     -- OTHER MIDCAST
     ----------------------------------------------------------------
 
-    sets.midcast["Aspir"] = set_combine(sets.midcast["Free Nuke"], {
+    sets.midcast["Aspir"] = set_combine(sets.midcast["Free Nuke"], { -- Rubicundity is a thing but I don't like resetting TP
         ammo="Pemphredo Tathlum",
         head="Pixie Hairpin +1",
         body="Shango Robe",
-        hands=jse.relic.hands,
+        hands=jse.relic.hands, -- Replace with Merlinic with Aspir augment
         legs=jse.AF.legs,
         feet="Agwu's Pigaches",
         neck="Erra Pendant",
         waist="Fucho-no-Obi",
-        left_ear="Barkaro. Earring",
-        --right_ear="Barkaro. Earring",
+        left_ear="Barkaro. Earring", -- Replace with Hirudinea Earring
+        right_ear={ name="Wicce Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+13','Enmity-3',}},
         left_ring="Archon Ring",
         right_ring="Evanescence Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
@@ -769,11 +743,9 @@ function get_sets()
     sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {                                                      -- OVERALL +38 enmity, 27% Haste (cap 25%), 24 FC (12% recast)
         ammo="Sapience Orb",                                                                                            -- +2 enmity
         head="Null Masque",                                                                                             -- -10% DT, 10% Haste
-        --body=jse.empyrean.body,                                                                                       -- 3% Haste (More macc than Agwu's Robe)
         body="Agwu's Robe",                                                                                             -- 3% Haste, 8 FC
         hands=jse.empyrean.hands,                                                                                       -- -12% DT, 3% Haste
         legs=jse.empyrean.legs,                                                                                         -- 5% Haste
-        --feet=jse.empyrean.feet,                                                                                       -- -10% DT, -16 enmity, 3% Haste
         feet={ name="Merlinic Crackows", augments={'"Fast Cast"+6','CHR+2','Mag. Acc.+8','"Mag.Atk.Bns."+11',}},        -- 3% Haste, 11% FC
         neck="Unmoving Collar +1",                                                                                      -- +10 enmity
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},                                                     -- 5% FC
@@ -784,24 +756,8 @@ function get_sets()
         back=jse.capes.enmity                                                                                           -- +10 enmity
     })
 
-    -- sets.midcast.stun_enmity = set_combine(sets.ja["Mana Wall"], {  -- OVERALL +35 enmity -35 enmity = 0, 17% Haste (cap 25%)
-    --     ammo="Staunch Tathlum",                                     -- -2% DT
-    --     head=jse.empyrean.head,                                     -- -10 enmity, 6% Haste
-    --     body=jse.AF.body,                                           -- -9 enmity, 3% Haste
-    --     hands=jse.empyrean.hands,                                   -- -12% DT, 3% Haste
-    --     legs=jse.empyrean.legs,                                     -- 5% Haste, 3% Haste
-    --     feet=jse.empyrean.feet,                                     -- -10% DT, -16 enmity
-    --     neck="Unmoving Collar +1",                                  -- +10 enmity
-    --     waist="Plat. Mog. Belt",                                    -- -3% DT
-    --     left_ear="Cryptic Earring",                                 -- +4 enmity 
-    --     right_ear="Friomisi Earring",                               -- +2 enmity
-    --     left_ring="Eihwaz Ring",                                    -- +5 enmity
-    --     right_ring="Petrov Ring",                                   -- +4 enmity TODO: Replace with Supershear
-    --     back=jse.capes.enmity                                       -- +10 enmity
-    -- })
-
-    -- Worth noting that the BLM guide for some reason uses Wicce pieces in the enmity set, but that has huge enmity decreases
-    -- I guess it's for Mana Wall but that seems silly!!!!!! May replace with other high accuracy haste pieces
+    -- Worth noting that the BLM guide for some reason uses Wicce pieces in the enmity set that have huge enmity decreases
+    -- I guess it's for Mana Wall but that seems silly!!!!!!
 
     ----------------------------------------------------------------
     -- WEAPONSKILLS - STAFF
@@ -968,7 +924,6 @@ function get_sets()
         waist="Embla Sash", -- Sublimation +3
     }
 
-    -- Consider separating into Holy Water on self vs Cursna received sets because if I cast Cursna on myself I may want to use Menelaus's Ring
     sets.buff.doom = {
         neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
         waist="Gishdubar Sash", -- 10% Cursna
@@ -1064,23 +1019,23 @@ function precast(spell)
         add_to_chat(123, "Consider disabling the speed toggle!")
     end
 
-    if spell.type == "WeaponSkill" then -- Weapon Skills are checked first, as they count as an "Ability"
+    if spell.type == "WeaponSkill" then
         if sets.ws[spell.name] then
-            equip_set_and_weapon(sets.ws[spell.name]) -- If the weapon skill name matches.
+            equip_set_and_weapon(sets.ws[spell.name])
         else
             equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
         end
 
-    elseif spell.action_type == "Ability" then -- Check every other kind of ability
+    elseif spell.action_type == "Ability" then
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
 
-    elseif spell.action_type == "Magic" then -- Handling for both matched and unmatched magic spells
+    elseif spell.action_type == "Magic" then
         if toggle_death == "On" then
             equip_set_and_weapon(sets.precast["Death"]) -- Death! Still deliberating on whether I want to do this
         elseif sets.precast[spell.name] then
-            equip_set_and_weapon(sets.precast[spell.name]) -- If the spell name matches.
+            equip_set_and_weapon(sets.precast[spell.name])
         else
             equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
         end
@@ -1091,9 +1046,12 @@ function precast(spell)
     end
 end
 
--- spell.action_type == "Magic" ensures that job ability gear survives into midcast, as otherwise they won't work.
 function midcast(spell)
     if spell.action_type == "Magic" then
+        ----------------------------------------------------------------
+        -- OVERRIDE
+        ----------------------------------------------------------------
+
         -- Mana Wall
         if buffactive["Mana Wall"] then
             if spell.name == "Stun" then
@@ -1104,7 +1062,9 @@ function midcast(spell)
             return
         end
 
-        -- Early return Death to avoid overlays
+        -- Death
+        -- Contemplating whether I actually want to lock you into a single set during Death mode
+        -- This could get in the way of other spells, even if I am trying to mantain my MP pool
         if toggle_death == "On" then
             if nuking_mode.current == "Burst" then
                 equip_set_and_weapon(sets.midcast.death_burst)
@@ -1114,67 +1074,52 @@ function midcast(spell)
             return
         end
 
-        local matched = false
+        ----------------------------------------------------------------
+        -- SET MATCHING
+        ----------------------------------------------------------------
 
-        -- If the spell matches one of the match_list spells.
-        -- If I ever have to break up these spells into separate sets, it would be worth breaking this up.
-        for match in match_list:it() do
-            if spell.name:match(match) then
-                equip_set_and_weapon(sets.midcast[match])
-                matched = true
-                break
-            end
-        end
+        local match_spell = spell_map[spell.name]
+        
+        if spell_map[spell.name] then
+            equip_set_and_weapon(sets.midcast[match_spell])
 
-        -- If we're casting Death even if we're not in the Death mode (why tho)
-        if not matched and spell.name == "Death" then
+        elseif spell.name == "Death" then -- If we're casting Death outside of the mode
             if nuking_mode.current == "Burst" then
                 equip_set_and_weapon(sets.midcast.death_burst)
             else
                 equip_set_and_weapon(sets.midcast.death_free_nuke)
             end
 
-            matched = true
-        end
-
-        -- If the spell name EXACTLY matches.
-        if not matched and sets.midcast[spell.name] then
+        elseif sets.midcast[spell.name] then
             equip_set_and_weapon(sets.midcast[spell.name])
-            matched = true
-        end
 
-        -- If the spell name is contained within elemental debuffs
-        if not matched and elemental_debuffs:contains(spell.name) then
+        elseif elemental_debuffs:contains(spell.name) then
             equip_set_and_weapon(sets.midcast.elemental_debuff)
-            matched = true
-        end
 
-        -- If the spell skill is Elemental Magic
-        if not matched and spell.skill == "Elemental Magic" then
+        elseif spell.skill == "Elemental Magic" then
             equip_set_and_weapon(sets.midcast[nuking_mode.current])
-            matched = true
 
-            -- Empyrean leg overlay
-            if cumulative_spells:contains(spell.name) then
+            -- Cumulative magic bonus overlay
+            if cumulative_spells:contains(spell.name) then 
                 equip({legs=jse.empyrean.legs})
             end
 
             -- AF body overlay
-            if toggle_af_body == "On" and spell.skill == "Elemental Magic" then
+            if toggle_af_body == "On" then 
                 equip({body=jse.AF.body})
             end
-        end
 
-        -- If the spell skill has a relevant set
-        if not matched and sets.midcast[spell.skill] then
+        elseif sets.midcast[spell.skill] then
             equip_set_and_weapon(sets.midcast[spell.skill])
-            matched = true
-        end
 
-        -- Any other spell (trusts?)
-        if not matched then
+        else
+            -- Any other spell (trusts?)
             idle()
         end
+
+        ----------------------------------------------------------------
+        -- OVERLAY
+        ----------------------------------------------------------------
 
         -- Weather and day overlays
         -- Technically I could also do Divine for Banish but also lmao
