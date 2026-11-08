@@ -15,6 +15,7 @@ Potential enhancements:
         - Holy Water: Double up on Blenmot's Ring +1
     - Self-casting set that takes the best of both worlds
         - Eshmun's Ring, Menelaus's Ring, Gishdubar Sash, Nicander's Necklace
+    - Doom override won't equip while in Mana Wall or Death; figure out a way to resolve that. Probably a mini function.
 - Account for elemental celerity in FC for the sake of MP swaps : )
     - Regular set + elemental casting set
 - Toggle for Mana Wall set (so I don't have to click it off to do stuff)
@@ -78,7 +79,7 @@ send_command("bind f11 gs c toggledeath")
 send_command("bind f12 gs c toggletextbox")
 
 -- Help Text
-add_to_chat(123, "F1-F3: Cycle nuking mode", "F4: Eat TP")
+add_to_chat(123, "F1-F3: Cycle nuking mode, F4: Eat TP")
 add_to_chat(123, "F5: Cycle weapon mode, F6: Cycle engaged mode")
 add_to_chat(123, "F7: Cycle idle mode, F8: Lock weapon")
 add_to_chat(123, "F9: Toggle speed gear, F10: Toggle AF body")
@@ -1077,6 +1078,7 @@ function midcast(spell)
         ----------------------------------------------------------------
 
         -- Mana Wall
+        -- Contemplating whether I want to lock you into this during midcast; it's technically safer, but less helpful.
         if buffactive["Mana Wall"] then
             if spell.name == "Stun" then
                 equip_set_and_weapon(sets.midcast.stun_enmity)
