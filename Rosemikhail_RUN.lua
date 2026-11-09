@@ -91,7 +91,7 @@ send_command("bind f12 gs c toggletextbox")
 -- Help Text
 add_to_chat(123, "F1-F3: Idle Modes")
 add_to_chat(123, "F5: Cycle weapon mode, F6: Cycle engaged mode")
-add_to_chat(123, "F7: Cycle idle mode, F8: Lock weapon")
+add_to_chat(123, "F8: Lock weapon")
 add_to_chat(123, "F9: Toggle speed gear")
 add_to_chat(123, "F12: Hide information text box")
 
@@ -276,7 +276,7 @@ function get_sets()
         head={name="Fu. Bandeau +4", priority=66},              -- Phalanx!!!, PDT
         body={name="Futhark Coat +1", priority=99},             -- Elemental Sforzo, Liement
         hands={name="Futhark Mitons +3", priority=45},          -- Maybe not as important, but used for Sleight of Sword
-        legs={name="Futhark Trousers +2", priority=97},         -- Enhancing duration, Enhancing FC, additionally 50% FC when used with Vallation/Alliance via Inspiration merit trait
+        legs={name="Futhark Trousers +2", priority=97},         -- Enhancing duration, Enhancing FC, additionally 50% FC when used with Vallation/Valiance via Inspiration merit trait
         feet={name="Futhark Boots +1", priority=13},            -- Rayke, maybe not useful for much else
     }
 
@@ -546,10 +546,10 @@ function get_sets()
     sets.midcast.enhancing_skill = set_combine(sets.midcast["Enhancing Magic"], { -- 437 Enhancing skill
         ammo="Staunch Tathlum",
         head=jse.empyrean.head,
-        {name="Adamantite Armor", priority=182}, -- Replace with Manasa Chasauble
+        body={name="Adamantite Armor", priority=182}, -- Replace with Manasa Chasauble
         hands=jse.AF.hands,
         legs=jse.relic.legs,
-        {name="Nyame Sollerets", priority=68}, -- Replace with...?
+        feet={name="Nyame Sollerets", priority=68}, -- Replace with...?
         neck="Incanter's Torque",
         waist="Olympus Sash",
         left_ear="Andoaa Earring",
