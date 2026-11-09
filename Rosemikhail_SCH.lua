@@ -632,9 +632,9 @@ function get_sets()
 
     sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 91% SIRD
         ammo="Staunch Tathlum",                                                                                                     -- 10% SIRD
-        head="Agwu's Cap",                                                                                                          -- 10% SIRD
+        head="Agwu's Cap",                                                                                                          -- 10% SIRD, Replace with Chironic Hat for Aquaveil
         body="Ros. Jaseran +1",                                                                                                     -- 25% SIRD
-        hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},                                  -- 11% SIRD
+        hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},                                  -- 11% SIRD, Replace with Chironic Gloves for 31% SIRD with augment 
         legs="Shedir Seraweels",                                                                                                    -- +1 Aquaveil
         neck="Loricate Torque +1",                                                                                                  -- 5% SIRD
         waist="Rumination Sash",                                                                                                    -- 10% SIRD
@@ -1029,7 +1029,7 @@ function midcast(spell)
 
         local match_spell = spell_map[spell.name]
         
-        if spell_map[spell.name] then
+        if match_spell then
             equip_set_and_weapon(sets.midcast[match_spell])
 
         elseif spell.name:match("Regen") then

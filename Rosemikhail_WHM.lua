@@ -624,7 +624,7 @@ function midcast(spell)
 
         local match_spell = spell_map[spell.name]
         
-        if spell_map[spell.name] then
+        if match_spell then
             equip_set_and_weapon(sets.midcast[match_spell])
 
         elseif sets.midcast[spell.name] then
