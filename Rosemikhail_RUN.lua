@@ -49,6 +49,7 @@ SIRD = "Off"
 -- Midcast helpers
 spell_map = {
     ["Cure"] = "Cure", ["Cure II"] = "Cure", ["Cure III"] = "Cure", ["Cure IV"] = "Cure",
+    ["Wild Carrot"] = "Cure", ["Healing Breeze"] = "Cure", ["Magic Fruit"] = "Cure",
     ["Regen"] = "Regen", ["Regen II"] = "Regen", ["Regen III"] = "Regen", ["Regen IV"] = "Regen",
 }
 enmity_spells = S{
