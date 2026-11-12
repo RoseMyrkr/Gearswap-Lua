@@ -124,17 +124,26 @@ function get_sets()
     -- "Idle" is treated as a keyword and refers to whichever set the current idle mode is using.
 
     weapon_sets = {
-        ["Kitty Rod"] = {
+        ["Kitty Rod + Apkallu Scepter"] = {
             index = 1,
+            gear = {
+                main="Kitty Rod",
+                sub="Apkallu Scepter",
+            },
+            engaged_sets = {"Learning"},
+            overrides = {},
+        },
+        ["Kitty Rod"] = {
+            index = 2,
             gear = {
                 main="Kitty Rod",
                 sub=empty,
             },
-            engaged_sets = {"Idle"},
+            engaged_sets = {"Learning"},
             overrides = {},
         },
         ["Naegling"] = {
-            index = 2,
+            index = 3,
             gear = {
                 main="Naegling",
                 sub="Genmei Shield",
@@ -143,7 +152,7 @@ function get_sets()
             overrides = {},
         },
         ["Maxentius"] = {
-            index = 3,
+            index = 4,
             gear = {
                 main="Maxentius",
                 sub="Ammurapi Shield",
@@ -247,7 +256,23 @@ function get_sets()
     ----------------------------------------------------------------
     -- MELEE "IDLE"
     ----------------------------------------------------------------
-    
+
+    sets.engaged["Learning"] = { -- Maximum hits, minimal damage, horrific accuracy
+        ammo="Coiste Bodhar",
+        head="Null Masque",
+        body="Adamantite Armor",
+        hands=jse.AF.hands,
+        legs="Aya. Cosciales +2",
+        feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}},
+        neck="Null Loop",
+        waist="Cornelia's Belt",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
+        left_ring="Murky Ring",
+        right_ring="Petrov Ring",
+        back="Null Shawl",
+    }
+
     -- I suspect BLU earring +2 might be good here but yolo
 
     sets.engaged["TP"] = {
@@ -443,11 +468,6 @@ function precast(spell)
     end
 
     if spell.type == "WeaponSkill" then
-        if idle_mode.current == "Learning" then -- TODO: Review this
-            idle()
-            return
-        end
-
         if sets.ws[spell.name] then
             equip_set_and_weapon(sets.ws[spell.name])
         else
