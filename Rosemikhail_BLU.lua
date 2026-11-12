@@ -288,6 +288,27 @@ function get_sets()
     }
 
     ----------------------------------------------------------------
+    -- MAGIC
+    ----------------------------------------------------------------
+    
+    sets.midcast["Enfeebling Magic"] = {
+        main="Maxentius",
+        sub="Chanter's Shield",
+        ammo="Pemphredo Tathlum",
+        body="Cohort Cloak +1",
+        hands=jse.AF.hands, -- Just in case :)
+        legs="Jhakri Slops +2",
+        feet="Jhakri Pigaches +2",
+        neck="Incanter's Torque",
+        waist="Acuity Belt +1",
+        left_ear="Crep. Earring",
+        right_ear="Regal Earring",
+        left_ring="Stikini Ring",
+        right_ring="Stikini Ring",
+        back="Aurist's Cape +1",
+    }
+
+    ----------------------------------------------------------------
     -- JOB ABILITIES 
     ----------------------------------------------------------------
 
@@ -450,7 +471,10 @@ function precast(spell)
 end
 
 function midcast(spell)
-    if idle_mode.current == "Learning" then
+    -- This can be developed out later
+    if sets.midcast[spell.skill] then
+        equip_set_and_weapon(sets.midcast[spell.skill])
+    else
         idle()
     end
 
