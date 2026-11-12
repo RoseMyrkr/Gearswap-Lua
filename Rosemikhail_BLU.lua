@@ -248,6 +248,8 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
+    -- I suspect BLU earring +2 might be good here but yolo
+
     sets.engaged["TP"] = {
         ammo="Amar Cluster",
         head="Malignance Chapeau",
@@ -301,8 +303,8 @@ function get_sets()
         feet="Jhakri Pigaches +2",
         neck="Incanter's Torque",
         waist="Acuity Belt +1",
-        left_ear="Crep. Earring",
-        right_ear="Regal Earring",
+        left_ear="Regal Earring",
+        right_ear={ name="Hashi. Earring +2", augments={'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','"Dbl.Atk."+6','STR+9 INT+9',}},
         left_ring="Stikini Ring",
         right_ring="Stikini Ring",
         back="Aurist's Cape +1",
