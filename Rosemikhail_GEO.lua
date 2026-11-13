@@ -553,7 +553,8 @@ function get_sets()
         neck="Nodens Gorget",                                                                                                       -- +30 Stoneskin
     })
 
-    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 91% SIRD
+    sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +2 Aquaveil, 91% SIRD
+        main="Vadose Rod",                                                                                                          -- +1 Aquaveil
         ammo="Staunch Tathlum",                                                                                                     -- 10% SIRD
         head="Agwu's Cap",                                                                                                          -- 10% SIRD
         body="Ros. Jaseran +1",                                                                                                     -- 25% SIRD

@@ -148,7 +148,7 @@ function get_sets()
                 main="Naegling",
                 sub="Genmei Shield",
             },
-            engaged_sets = {"Idle", "TP"}, -- Use the default
+            engaged_sets = {"Learning", "TP"}, -- Use the default
             overrides = {},
         },
         ["Maxentius"] = {
@@ -157,7 +157,7 @@ function get_sets()
                 main="Maxentius",
                 sub="Ammurapi Shield",
             },
-            engaged_sets = {"Idle", "TP"},  -- Use the default
+            engaged_sets = {"Learning", "TP"},  -- Use the default
             overrides = {},
         },
     }
@@ -257,7 +257,7 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
 
-    sets.engaged["Learning"] = { -- Maximum hits, minimal damage, horrific accuracy
+    sets.engaged["Learning"] = { -- Maximum hits, minimal damage
         ammo="Coiste Bodhar",
         head="Null Masque",
         body="Adamantite Armor",
@@ -265,7 +265,7 @@ function get_sets()
         legs="Aya. Cosciales +2",
         feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}},
         neck="Null Loop",
-        waist="Cornelia's Belt",
+        waist="Kentarch Belt +1",
         left_ear="Crep. Earring",
         right_ear="Telos Earring",
         left_ring="Murky Ring",

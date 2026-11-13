@@ -657,6 +657,7 @@ function get_sets()
     })
 
     sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {                                                       -- +1 Aquaveil, 96% SIRD
+        --main="Vadose Rod",                                                                                                          -- +1 Aquaveil
         ammo="Staunch Tathlum",                                                                                                     -- 10% SIRD
         head="Agwu's Cap",                                                                                                          -- 10% SIRD
         body="Ros. Jaseran +1",                                                                                                     -- 25% SIRD

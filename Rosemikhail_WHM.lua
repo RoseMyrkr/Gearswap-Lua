@@ -356,6 +356,7 @@ function get_sets()
     })
 
     sets.midcast["Aquaveil"] = set_combine(sets.midcast["Enhancing Magic"], {
+        main="Vadose Rod",                                                                                                          -- +1 Aquaveil
         legs="Shedir Seraweels",                                                                                                    -- +1 Aquaveil
     })
 
