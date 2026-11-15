@@ -755,6 +755,9 @@ function get_sets()
 
     -- This seems very low HP lol
     sets.ja["Swipe"] = {
+        main="Nandaka",
+        sub="Khonsu",
+        ranged=empty,
         ammo="Pemphredo Tathlum",
         head={name="Agwu's Cap", priority=38},
         body={name="Agwu's Robe", priority=61},
