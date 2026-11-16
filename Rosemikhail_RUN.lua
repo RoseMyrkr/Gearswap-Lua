@@ -586,7 +586,7 @@ function get_sets()
         hands="",
         legs="",
         feet="",
-        neck="",
+        neck={name="Sacro Gorget", priority=50},            -- 10% Regen potency
         waist="",
         left_ear="",
         right_ear="",
@@ -627,17 +627,17 @@ function get_sets()
         back="",
     })
 
-    sets.midcast["Cure"] = {
-        main="Deacon Sword",                                -- 11% Cure potency. Not ideal, I know. Until I get Sacro Gorget.
-        sub=empty,
-        range=empty,
+    sets.midcast["Cure"] = {                                -- 50% Cure potency
+        --main="Deacon Sword",                              -- 11% Cure potency. Not ideal, I know. Until I get Sacro Gorget.
+        --sub=empty,
+        --range=empty,
         ammo="Sapience Orb",
         head={name="Null Masque", priority=100},
         body={name="Adamantite Armor", priority=182},
         hands={name="Nyame Gauntlets", priority=91},
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
-        neck="Loricate Torque +1",                          -- Change to Sacro Gorget
+        neck={name="Sacro Gorget", priority=50},            -- 10% Cure potency
         waist="Sroda Belt",                                 -- 35% Cure potency
         left_ear="Mendi. Earring",                          -- 5% Cure potency
         right_ear={name="Cryptic Earring", priority=40},
