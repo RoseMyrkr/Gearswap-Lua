@@ -562,7 +562,7 @@ function get_sets()
 
     sets.midcast["Comet"] = set_combine(sets.midcast["Free Nuke"], {
         head="Pixie Hairpin +1",
-        left_ring="Archon Ring",
+        right_ring="Archon Ring",
     })
 
     ----------------------------------------------------------------
@@ -735,8 +735,8 @@ function get_sets()
         waist="Fucho-no-Obi",
         left_ear="Barkaro. Earring", -- Replace with Hirudinea Earring
         right_ear={ name="Wicce Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+13','Enmity-3',}},
-        left_ring="Archon Ring",
-        right_ring="Evanescence Ring",
+        left_ring="Evanescence Ring",
+        right_ring="Archon Ring",
         back={ name="Aurist's Cape +1", augments={'Path: A',}},
     })
 
@@ -988,11 +988,21 @@ end
 function idle()
     if buffactive["Mana Wall"] then
         equip_set_and_weapon(sets.ja["Mana Wall"])
+
+        -- Speed overlay
+        if toggle_speed == "On" then
+            equip({right_ring="Shneddick Ring",})
+        end
         return
     end
 
     if toggle_death == "On" then
         equip_set_and_weapon(sets.idle["Death"])
+
+        -- Speed overlay
+        if toggle_speed == "On" then
+            equip({right_ring="Shneddick Ring",})
+        end
         return
     end
 
