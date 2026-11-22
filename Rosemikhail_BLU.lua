@@ -16,6 +16,7 @@ weapon_mode = M{} -- This is automatically populated
 engaged_mode = M{} -- This is automatically populated
 idle_mode = M{"Learning", "Normal",}
 
+toggle_speed = "Off"
 weapon_lock = "Off"
 
 -- Bindings
