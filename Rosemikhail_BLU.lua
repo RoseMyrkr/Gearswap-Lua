@@ -109,7 +109,7 @@ end
 
 function update_macro_book()
     -- BLU macro book
-    send_command("input /macro book 15;input /macro set 1")
+    send_command("input /macro book 14;input /macro set 1")
 end
 
 update_lockstyle()

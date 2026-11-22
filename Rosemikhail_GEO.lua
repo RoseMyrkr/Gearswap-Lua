@@ -190,7 +190,12 @@ function get_sets()
                 sub="Ammurapi Shield",
             },
             engaged_sets = {}, -- Use the default
-            overrides = {},
+            overrides = {
+                ["TP"] = {
+                    main="Idris",
+                    sub="Genmei Shield",
+                },
+            },
         },
         ["Maxentius"] = {
             index = 4,

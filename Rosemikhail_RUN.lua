@@ -646,6 +646,8 @@ function get_sets()
         back=jse.capes.enmity,
     }
 
+    -- Potentially a SIRD Cure set
+
     sets.midcast.SIRD = {                                                                           -- 93% + 10% Merits = 103% SIRD, Consider Peord Claymore to replace waist and Evanescence Ring so that I can bring in Platinum Moogle Belt + Gelatinous Ring +1 for HP
         ammo="Staunch Tathlum",                                                                     -- 10% SIRD
         head=jse.empyrean.head,                                                                     -- 20% SIRD
