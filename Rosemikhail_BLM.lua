@@ -367,8 +367,8 @@ function get_sets()
         waist="Null Belt",                                                                                                                              -- Evasion, +3 Regen
         left_ear="Tuisto Earring",                                                                                                                      -- DEF, HP
         right_ear="Odnowa Earring +1",                                                                                                                  -- -2% MDT, 3% DT, DEF, HP
-        left_ring="Mephitas's Ring",                                                                                                                    -- DEF, HP balancing
-        right_ring="Mephitas's Ring +1",                                                                                                                -- DEF, HP balancing
+        left_ring="Mephitas's Ring +1",                                                                                                                    -- DEF, HP balancing
+        right_ring="Mephitas's Ring",                                                                                                                -- DEF, HP balancing
         -- left_ring="Murky Ring",                                                                                                                      -- -10% DT, DEF
         -- right_ring="Gelatinous Ring +1",                                                                                                             -- -7% PDT, +1% MDT HP
         back="Null Shawl",                                                                                                                              -- Evasion
@@ -385,8 +385,8 @@ function get_sets()
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
         left_ear="Nehalennia Earring",
         right_ear="Etiolation Earring",
-        left_ring="Mephitas's Ring",
-        right_ring="Mephitas's Ring +1",
+        left_ring="Mephitas's Ring +1",
+        right_ring="Mephitas's Ring",
         back=jse.capes.death,
     }
 
@@ -459,8 +459,8 @@ function get_sets()
         hands="Agwu's Gages",
         body="Ros. Jaseran +1",
         legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
-        left_ring="Mephitas's Ring",
-        right_ring="Mephitas's Ring +1",
+        left_ring="Mephitas's Ring +1",
+        right_ring="Mephitas's Ring",
         back=jse.capes.death,
     })
 
@@ -532,8 +532,8 @@ function get_sets()
         hands="Agwu's Gages",
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
         left_ear="Barkaro. Earring",
-        left_ring="Archon Ring",
-        right_ring="Mephitas's Ring +1",
+        left_ring="Mephitas's Ring +1",
+        right_ring="Archon Ring",
         back=jse.capes.death,
     })
 
@@ -543,8 +543,8 @@ function get_sets()
         hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
         left_ear="Barkaro. Earring",
-        left_ring="Archon Ring",
-        right_ring="Mephitas's Ring +1",
+        left_ring="Mephitas's Ring +1",
+        right_ring="Archon Ring",
         back=jse.capes.death,
     })
     
@@ -866,8 +866,8 @@ function get_sets()
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
         left_ear="Nehalennia Earring",
         right_ear="Moonshade Earring",
-        left_ring="Mephitas's Ring",
-        right_ring="Mephitas's Ring +1",
+        left_ring="Mephitas's Ring +1",
+        right_ring="Mephitas's Ring",
         back=jse.capes.idle_fc,
     }
 
