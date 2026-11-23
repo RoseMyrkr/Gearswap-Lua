@@ -5,25 +5,11 @@ include("Modes.lua")
 -- NOTES
 ----------------------------------------------------------------
 
--- So apparently it's good to have a high buff and a low buff version of WS sets.
--- I suppose it's possible to achieve this by doing sets.ws.high_buff["Stardiver"], etc.
--- For now, I'll just assume low buffs in all of my sets and go for high buff when I feel a bit more fleshed out, I think.
+-- High buff vs low buff WS sets (sets.ws.high_buff["Stardiver"], etc.)
+    -- I think I might try for this after I've gotten Gleti's in a good place
+    -- For now, I'll just assume low buffs in all of my sets and go for high buff when I feel a bit more fleshed out, I think.
 
 -- GET CAPES!!!!!! AMBUSCADE AMBUSCADE AMBUSCADE!!!
-
--- Might need to emulate geomancer code in that on "call wyvern", "dismiss" or the pet dying, gearswap won't necessarily register it right away for sets
--- So, on summoning, if I'm meant to switch to a wyvern friendly set, or if my wyvern updates while I'm engaging, I probably want to check and replace any gear in pet_change
--- Skip aftercast in that scenario for call wyvern at least - let pet_change notice and put any specific idle/engaged gear on if necessary
--- I think this is relevant to the sroda earring
-
--- Sroda earring check. I could have an overlay for Telos in the idle function for engaged. Or I could do sets.engaged.wyvern["TP"] and sets.engaged.no_wyvern["TP"]
--- Some sets don't use Telos though... So how do I deal with that?
-    -- if wyvern == dead and engaged.[engaged_mode.current].no_wyvern then
-    --     equip(engaged.no_wyvern[engaged_mode.current].no_wyvern)
-    -- else
-    --     equip(engaged[engaged_mode.current])
-    -- end
--- Separate subset for sets that need a dead wyvern variant
 
 -- Potentially a wyvern DT overlay toggle
 
@@ -455,12 +441,25 @@ function equip_set_and_weapon(set)
 end
 
 function idle()
+    local function wyvern_engaged_check()
+        if pet.isvalid == false and sets.engaged[engaged_mode.current].no_wyvern then
+            add_to_chat(123, "Pet is dead and there IS a no_wyvern set for the current engaged mode")
+            add_to_chat(123, "Equip the no_wyvern set set for this mode")
+            equip_set_and_weapon(sets.engaged[engaged_mode.current].no_wyvern)
+        else
+            add_to_chat(123, "Pet is alive OR the pet is dead but there is no no_wyvern set for the current engaged mode")
+            add_to_chat(123, "Equip the normal TP set for this mode")
+            equip_set_and_weapon(sets.engaged[engaged_mode.current])
+        end
+    end
+
     -- Choose between engaged set and regular idle
     if player.status == "Engaged" then
         if engaged_mode.current == "Idle" then
             equip_set_and_weapon(sets.idle[idle_mode.current])
         else
-            equip_set_and_weapon(sets.engaged[engaged_mode.current])
+            --equip_set_and_weapon(sets.engaged[engaged_mode.current])
+            wyvern_engaged_check()
         end
     else
         equip_set_and_weapon(sets.idle[idle_mode.current])
@@ -528,6 +527,11 @@ function midcast(spell)
 end
 
 function aftercast(spell)
+    -- I imagine Gearswap will not immediately register the pet's summoning, so any pet-related swaps will wait until pet_change for the idle swap
+    if spell.name == "Call Wyvern" then
+        return
+    end
+
     idle()
 end
 
@@ -565,6 +569,7 @@ function pet_midcast(spell)
             
         if match_breath then
             equip_set_and_weapon(sets.pet[match_breath])
+            add_to_chat(123, "Pet breath has matched")
         end
     end
 

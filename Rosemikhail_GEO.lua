@@ -1011,15 +1011,15 @@ function buff_change(name, gain, buff_details)
     end
 end
 
+function status_change(new, old)
+    idle()
+end
+
 function pet_change(pet,gain)
     -- We wait until here to select gear, as Gearswap doesn't immediately register the summoning in aftercast.
     if not midaction() then
         idle()
     end
-end
-
-function status_change(new, old)
-    idle()
 end
 
 function sub_job_change(new,old)
