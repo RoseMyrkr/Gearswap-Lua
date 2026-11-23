@@ -13,6 +13,16 @@ include("Modes.lua")
 
 -- Potentially a wyvern DT overlay toggle
 
+-- Check what kind of HP I'm getting on my WS sets and try to level it with my engaged and idle set
+
+-- Deeds for +2 Relic Chest
+-- Weapon Skills
+-- Vim's Torque +1
+-- Fotia gorget
+-- Fotia belt
+
+-- I might tear out or comment out the elemental breath matching, as the damage increase is insignificant
+
 ----------------------------------------------------------------
 -- VARIABLES & COMMANDS
 ----------------------------------------------------------------
@@ -166,17 +176,27 @@ function get_sets()
                 main="Naegling",
                 sub=empty,
             },
-            engaged_sets = {"Fencer", "Safety"},
-            overrides = {},
+            engaged_sets = {"Fencer", "Safety", "Kraken"},
+            overrides = {
+                ["Kraken"] = {
+                    main="Naegling",
+                    sub="Kraken Club",
+                }
+            },
         },
-        ["Naegling Kraken"] = {
+        ["Mafic Cudgel"] = {
             index = 3,
             gear = {
-                main="Naegling",
-                sub="Kraken Club",
+                main="Mafic Cudgel",
+                sub=empty,
             },
-            engaged_sets = {"Kraken"},
-            overrides = {},
+            engaged_sets = {"TP", "Safety", "Kraken"},
+            overrides = {
+                ["Kraken"] = {
+                    main="Naegling",
+                    sub="Kraken Club",
+                }
+            },
         },
     }
 
@@ -252,7 +272,6 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
 
-    -- Consider having a version of this set that uses Telos Earring instead of Sroda Earring if the Wyvern is missing
     sets.engaged["TP"] = { -- /SAM /DRK Make sure I have enough haste when I've lost subjob haste on DRK (assuming I use that job)
 
     }
@@ -261,8 +280,7 @@ function get_sets()
 
     })
 
-    -- Consider having a version of this set that uses Telos Earring instead of Sroda Earring if the Wyvern is missing
-    sets.engaged["Fencer"] = { -- /WAR
+    sets.engaged["Fencer"] = { -- Sword
 
     }
 
@@ -270,7 +288,6 @@ function get_sets()
 
     })
 
-    -- Consider having a version of this set that uses Telos Earring instead of Sroda Earring if the Wyvern is missing
     sets.engaged["Safety"] = { -- Maximal DT and MEVA if I'm suffering
 
     }
@@ -443,11 +460,11 @@ end
 function idle()
     local function wyvern_engaged_check()
         if pet.isvalid == false and sets.engaged[engaged_mode.current].no_wyvern then
-            add_to_chat(123, "Pet is dead and there IS a no_wyvern set for the current engaged mode")
+            add_to_chat(123, "Pet is absent and there IS a no_wyvern set for the current engaged mode")
             add_to_chat(123, "Equip the no_wyvern set set for this mode")
             equip_set_and_weapon(sets.engaged[engaged_mode.current].no_wyvern)
         else
-            add_to_chat(123, "Pet is alive OR the pet is dead but there is no no_wyvern set for the current engaged mode")
+            add_to_chat(123, "Pet is alive OR the pet is absent but there is no no_wyvern set for the current engaged mode")
             add_to_chat(123, "Equip the normal TP set for this mode")
             equip_set_and_weapon(sets.engaged[engaged_mode.current])
         end
