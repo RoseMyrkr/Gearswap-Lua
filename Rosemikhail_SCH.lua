@@ -522,12 +522,14 @@ function get_sets()
     ----------------------------------------------------------------
  
     sets.midcast.enfeebling_dark = {
+        main="Wizard's Rod",
+        sub="Ammurapi Shield",
         ammo="Pemphredo Tathlum",
         head=jse.AF.head,
         body=jse.AF.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        feet=jse.AF.feet,
         neck="Incanter's Torque",
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
@@ -538,12 +540,14 @@ function get_sets()
     }
 
     sets.midcast.enfeebling_light = {
+        main="Wizard's Rod",
+        sub="Ammurapi Shield",
         ammo="Pemphredo Tathlum",
         head=empty,
         body={ name="Cohort Cloak +1", augments={'Path: A',}},
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        feet=jse.AF.feet,
         neck="Incanter's Torque",
         waist={ name="Acuity Belt +1", augments={'Path: A',}},
         left_ear="Malignance Earring",
