@@ -295,8 +295,26 @@ function get_sets()
     ----------------------------------------------------------------
     -- ENFEEBLING MIDCAST
     ----------------------------------------------------------------
-    
-    sets.midcast["Dispelga"] = set_combine(sets.idle["Normal"], {
+
+    sets.midcast["Enfeebling Magic"] = {
+        main="Bunzi's Rod",
+        sub="Ammurapi Shield",
+        ammo="Pemphredo Tathlum",
+        head=empty,
+        body={ name="Cohort Cloak +1", augments={'Path: A',}},
+        hands=jse.empyrean.hands,
+        legs=jse.AF.legs,
+        feet=jse.empyrean.feet,
+        neck="Incanter's Torque",
+        waist={ name="Acuity Belt +1", augments={'Path: A',}},
+        left_ear="Malignance Earring",
+        right_ear="Regal Earring",
+        left_ring="Kishar Ring",
+        right_ring="Stikini Ring",
+        back={ name="Aurist's Cape +1", augments={'Path: A',}},
+    }
+
+    sets.midcast["Dispelga"] = set_combine(sets.midcast["Enfeebling Magic"], {
         main="Daybreak",
         sub="Ammurapi Shield",
     })
@@ -619,9 +637,6 @@ function midcast(spell)
         ----------------------------------------------------------------
         -- SET MATCHING
         ----------------------------------------------------------------
-
-        -- Missing logic for nuking, but this can be added later. i.e. Holy and Banish
-        -- Missing logic for Enfeebling, but this can be added later.
 
         local match_spell = spell_map[spell.name]
         
