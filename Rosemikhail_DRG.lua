@@ -13,15 +13,14 @@ include("Modes.lua")
 
 -- Potentially a wyvern DT overlay toggle
 
--- Check what kind of HP I'm getting on my WS sets and try to level it with my engaged and idle set
-
--- Deeds for +2 Relic Chest
 -- Weapon Skills
 -- Vim's Torque +1
 -- Fotia gorget
 -- Fotia belt
 
--- I might tear out or comment out the elemental breath matching, as the damage increase is insignificant
+-- Consider ody specific engaged sets (this means no Hasso or Last Resort) and allow for lower gear haste in regular sets
+
+-- Switch to Ephramad's Ring (sigh....)
 
 ----------------------------------------------------------------
 -- VARIABLES & COMMANDS
@@ -30,7 +29,7 @@ include("Modes.lua")
 -- Modes and toggles
 weapon_mode = M{} -- This is automatically populated
 engaged_mode = M{} -- This is automatically populated
-idle_mode = M{"Normal", "Regain/Regen"}
+idle_mode = M{"Normal", "DT"}
 
 toggle_speed = "Off"
 weapon_lock = "Off"
@@ -135,7 +134,7 @@ end
 ----------------------------------------------------------------
 
 function update_lockstyle()
-    send_command("wait 5;input /lockstyleset 34")
+    send_command("wait 5;input /lockstyleset 17")
 end
 
 function update_macro_book()
@@ -190,7 +189,7 @@ function get_sets()
                 main="Mafic Cudgel",
                 sub=empty,
             },
-            engaged_sets = {"TP", "Safety", "Kraken"},
+            engaged_sets = {"Fencer", "Safety", "Kraken"},
             overrides = {
                 ["Kraken"] = {
                     main="Naegling",
@@ -260,59 +259,130 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
-    sets.idle["Normal"] = { -- Probably Adamantite for easy DT and DEF, Carrier's Sash for belt, etc.
-
+    sets.idle["Normal"] = {                 -- 29 PDT, 22 DT (51 PDT, Cap MDT with Shell V) + 6 DT temporarily
+        ammo="Staunch Tathlum",             -- 2 DT
+        head="Null Masque",                 -- 10 DT, 2 Regain
+        body="Gleti's Cuirass",             -- 9 PDT, 3 Regain
+        hands="Gleti's Gauntlets",          -- 7 PDT, 2 Regain
+        legs="Gleti's Breeches",            -- 8 PDT, 3 Regain
+        feet="Gleti's Boots",               -- 5 PDT, 2 Regain
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}}, -- Wyvern level, ??? Wyvern DT
+        waist="Null Belt",                  -- Replace with Carrier's Sash
+        left_ear="Arete del Luna +1",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}}, -- Wyvern level
+        left_ring="Murky Ring",             -- 10 DT
+        right_ring="Shneddick Ring",        -- Resists
+        back="Null Shawl",                  -- MEVA
     }
 
-    sets.idle["Regain/Regen"] = { -- Gleti's. Note lower MEVA.
-
-    }
+    sets.idle["DT"] = set_combine(sets.idle["Normal"], { -- +27 DT (Would cap DT on the main set with Staunch Tathlum +1)
+        body="Adamantite Armor",            -- 20 DT
+        feet="Nyame Sollerets",             -- 7 DT
+    })
 
     ----------------------------------------------------------------
     -- MELEE "IDLE"
     ----------------------------------------------------------------
 
-    sets.engaged["TP"] = { -- /SAM /DRK Make sure I have enough haste when I've lost subjob haste on DRK (assuming I use that job)
+    -- Re-sim everything here when I actually have capes
 
+    sets.engaged["TP"] = { -- /SAM /DRK
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head="Null Masque",     -- Replace with Hjarrandi Helm
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs=jse.empyrean.legs,
+        feet="Carmine Greaves +1",
+        neck="Anu Torque",
+        waist="Sailfi Belt +1",
+        left_ear="Sherida Earring",
+        right_ear="Sroda Earring",
+        left_ring="Murky Ring",
+        right_ring="Lehko's Ring",
+        back="Null Shawl",
     }
 
     sets.engaged["TP"].no_wyvern = set_combine(sets.engaged["TP"], {
-
+        right_ear="Telos Earring",
     })
 
     sets.engaged["Fencer"] = { -- Sword
-
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head="Ischkur Turban",      -- Replace with Hjarrandi Helm
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        neck="Null Loop",
+        waist="Sailfi Belt +1",
+        left_ear="Sherida Earring",
+        right_ear="Sroda Earring",
+        left_ring="Murky Ring",
+        right_ring="Lehko's Ring",
+        back="Null Shawl",
     }
 
     sets.engaged["Fencer"].no_wyvern = set_combine(sets.engaged["Fencer"], {
-
+        right_ear="Telos Earring",
     })
 
     sets.engaged["Safety"] = { -- Maximal DT and MEVA if I'm suffering
-
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Sherida Earring",
+        right_ear="Sroda Earring",
+        left_ring="Murky Ring",
+        right_ring="Lehko's Ring",
+        back="Null Shawl",
     }
 
     sets.engaged["Safety"].no_wyvern = set_combine(sets.engaged["Safety"], {
-
+        right_ear="Telos Earring",
     })
 
     sets.engaged["Kraken"] = { -- /DNC
-
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head="Ischkur Turban",      -- Replace with Hjarrandi Helm
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs=jse.empyrean.legs,
+        feet=jse.empyrean.feet,
+        neck="Anu Torque",
+        waist="Kentarch Belt +1",
+        left_ear="Sherida Earring",
+        right_ear="Alabaster Earring",
+        left_ring="Murky Ring",
+        right_ring="Lehko's Ring",
+        back="Null Shawl",
     }
-
-    -- sets.engaged["Glass"] = {
-    -- }
-
-    -- sets.engaged["Glass"].no_wyvern = set_combine(sets.engaged["Glass"], {
-    -- })
 
     ----------------------------------------------------------------
     -- PRECAST
     ----------------------------------------------------------------
 
-    sets.precast.fast_cast = { -- % FC
-
-    }
+    sets.precast.fast_cast = set_combine(sets.idle["Normal"], { --  45 FC
+        ammo="Sapience Orb",            -- 2 FC
+        --head=,
+        body="Sacro Breastplate",       -- 10 FC
+        hands={ name="Leyline Gloves", augments={'Accuracy+12','Mag. Acc.+14','"Mag.Atk.Bns."+15','"Fast Cast"+2',}}, -- 7 FC
+        legs="Enif Cosciales",          -- 8 FC
+        feet={ name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}}, -- 8 FC
+        neck="Voltsurge Torque",        -- 4 FC
+        --waist=,
+        left_ear="Etiolation Earring",  -- 1 FC
+        right_ear="Loquac. Earring",    -- 2 FC
+        left_ring="Prolix Ring",        -- 2 FC
+        right_ring="Naji's Loop",       -- 1 FC
+        --back=
+    })
 
     ----------------------------------------------------------------
     -- MAGIC
@@ -323,33 +393,48 @@ function get_sets()
     ----------------------------------------------------------------
     
     sets.ja["Call Wyvern"] = {
-
+        body=jse.relic.body,
     }
 
     sets.ja["Spirit Surge"] = sets.ja["Call Wyvern"]
 
     sets.ja["Jump"] = {
-
+        ammo="Coiste Bodhar",           -- Replace with Aurgelmir orb (/+1)
+        head="Ischkur Turban",          -- Replace with Flamma Zucchetto +2 (Ambuscade)
+        body=jse.AF.body,
+        hands=jse.AF.hands,
+        legs=jse.relic.legs,
+        feet=jse.AF.feet,               -- Replace with Ostro Greaves
+        neck="Anu Torque",              -- Replace with Vim Torque
+        waist="Sailfi Belt +1",
+        left_ear="Sherida Earring",
+        right_ear="Telos Earring",
+        left_ring="Petrov Ring",        -- Replace with Niqmaddu Ring
+        right_ring="Lehko's Ring",      -- Replace with Chirich Ring (maybe)
+        back="Null Shawl",              -- Replace with JSE cape
     }
     
     sets.ja["High Jump"] = sets.ja["Jump"]
 
     sets.ja["Soul Jump"] = sets.ja["Jump"]
 
-    sets.ja["Spirit Jump"] = {
-
-    }
+    sets.ja["Spirit Jump"] = set_combine(sets.ja["Jump"], { 
+        feet=jse.empyrean.feet,
+    })
 
     sets.ja["Angon"] = { -- Consider TH for easy tagging
-
+        ammo="Angon",
+        hands=jse.relic.hands,
     }
 
     sets.ja["Spirit Link"] = {
-
+        hands=jse.empyrean.hands,
+        feet=jse.relic.feet,
+        -- Add Pratik Earring
     }
 
     sets.ja["Ancient Circle"] = {
-
+        legs=jse.AF.legs,
     }
 
     -- Nothing for Steady Wing, as HP swaps don't work for that
@@ -360,61 +445,138 @@ function get_sets()
 
     -- NOTE THAT YOU CAN BE HIT WHENEVER YOUR WYVERN IS DOING A THING.
     -- THESE WANT DT. IF I'M LOSING DT TO A SWAP, ADD SOME BACK IN.
+    -- Expand these if I feel like it later.
 
     sets.pet["Elemental Breath"] = { -- I don't know if this applies when I ask the Wyvern to do it or when the Wyvern does it regardless
-
+        head=jse.relic.head,
     }
 
     sets.pet["Healing Breath"] = { -- I don't know if this applies when I ask the Wyvern to do it or when the Wyvern does it regardless
-
+        head=jse.relic.head,
     }
 
     ----------------------------------------------------------------
     -- WEAPONSKILLS
     ----------------------------------------------------------------
 
-    sets.ws.default = { -- Generic physical
-
+    sets.ws.default = { -- Generic physical, based on Stardiver because shrug
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Gleti's Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Gleti's Boots",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Sroda Ring",
+        right_ring="Lehko's Ring",
+        back="Null Shawl",
     }
 
     sets.ws["Impulse Drive"] = {
- 
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Gleti's Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Gleti's Boots",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Epaminondas's Ring",
+        right_ring="Lehko's Ring",
+        back="Alabaster Mantle",
     }
 
-    sets.ws["Vorpal Thrust"] = {
-
-    }
+    -- sets.ws["Vorpal Thrust"] = {
+    -- }
     
-    sets.ws["Wheeling Thrust"] = {
+    -- sets.ws["Wheeling Thrust"] = {
+    -- }
 
+    -- sets.ws["Penta Thrust"] = {
+    -- }
+
+    sets.ws["Stardiver"] = {
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Gleti's Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Gleti's Boots",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Sroda Ring",
+        right_ring="Lehko's Ring",
+        back="Null Shawl",
     }
 
-    sets.ws["Penta Thrust"] = {
-
-    }
-
-    sets.ws["Stardiver"] = { -- Do I go for crit build or regular build? Potentially have a check for the main weapon. If Shining One, use crit.
-
-    }
-
+    -- Do this when I need to AOE something
     sets.ws["Sonic Thrust"] = {
-
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Gleti's Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Nyame Sollerets",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Epaminondas's Ring",
+        right_ring="Lehko's Ring",
+        back="Alabaster Mantle",
     }
 
-    sets.ws["Cammlain's Torment"] = {
+    -- -- I don't have this yet, so don't bother simming
+    -- sets.ws["Cammlain's Torment"] = {
+    -- }
 
-    }
-
-    sets.ws["Drakesbane"] = {
-
-    }
+    -- -- I don't have this yet, so don't bother simming
+    -- sets.ws["Drakesbane"] = {
+    -- }
 
     sets.ws["Savage Blade"] = {
-
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body=jse.empyrean.body,
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Thrud Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Null Shawl",
     }
 
     sets.ws["Judgement"] = {
-
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body="Nyame Mail",
+        hands=jse.empyrean.hands,
+        legs=jse.empyrean.legs,
+        feet=jse.empyrean.feet,
+        neck="Null Loop",
+        waist="Kentarch Belt +1",
+        left_ear="Thrud Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Null Shawl",
     }
 
     ----------------------------------------------------------------
@@ -517,17 +679,14 @@ function precast(spell)
         if sets.ja[spell.name] then
             equip_set_and_weapon(sets.ja[spell.name])
         end
-    end -- Remove this end when I'm using the magic
 
-    -- Consider spell stuff when I have actual spells. Maybe for warp and trusts?
-
-    -- elseif spell.action_type == "Magic" then
-    --     if sets.precast[spell.name] then
-    --         equip_set_and_weapon(sets.precast[spell.name])
-    --     else
-    --         equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
-    --     end
-    -- end
+    elseif spell.action_type == "Magic" then
+        if sets.precast[spell.name] then
+            equip_set_and_weapon(sets.precast[spell.name])
+        else
+            equip_set_and_weapon(sets.precast.fast_cast) -- General purpose
+        end
+    end
 
     if buffactive["doom"] then
         equip(sets.buff.doom)
