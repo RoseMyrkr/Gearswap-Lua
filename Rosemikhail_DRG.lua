@@ -5,11 +5,20 @@ include("Modes.lua")
 -- NOTES
 ----------------------------------------------------------------
 
--- High buff vs low buff WS sets (sets.ws.high_buff["Stardiver"], etc.)
-    -- I think I might try for this after I've gotten Gleti's in a good place
-    -- For now, I'll just assume low buffs in all of my sets and go for high buff when I feel a bit more fleshed out, I think.
+-- High buff vs low buff WS sets (sets.ws["Stardiver"].high_buff, etc.)
+-- How do I make this more generic for other jobs? How do I extend this to be able to use other modes like WS accuracy? ["WS"].high_buff, ["WS"].acc etc.
+-- WS Modes = M{"Low Buff", "High Buff", "Accuracy"} ["WS"]["High Buff"]. Can you use tables like this? What if there is no mode attached? Default.
+-- local set_exists = sets.ws[spell.name]
 
--- GET CAPES!!!!!! AMBUSCADE AMBUSCADE AMBUSCADE!!!
+-- if set_exists then
+--     if high_buff == true and set_exists.high_buff then
+--         equip_set_and_weapon(set_exists.high_buff)
+--     else
+--         equip_set_and_weapon(set_exists)
+--     end
+-- else
+--     equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
+-- end
 
 -- Potentially a wyvern DT overlay toggle
 
@@ -21,6 +30,8 @@ include("Modes.lua")
 -- Consider ody specific engaged sets (this means no Hasso or Last Resort) and allow for lower gear haste in regular sets
 
 -- Switch to Ephramad's Ring (sigh....)
+
+-- Drakesbane requires more critty things
 
 ----------------------------------------------------------------
 -- VARIABLES & COMMANDS
@@ -241,6 +252,12 @@ function get_sets()
         -- lol
     }
 
+    -- TP: Dex +20, Accuracy +20 Attack +20, Accuracy +10, Dbl.Atk. +10, Phys. dmg. taken -10% (Technically I don't need the phys damage but like yolo)
+    -- STR WSD: STR+20, Accuracy+20 Attack+20, STR+10, Weapon skill damage+10, Phys. dmg. taken-10% (Diarmuid, Impulse Drive, Camlann's Torment, Savage Blade)
+    -- STR DA: STR+20, Accuracy+20 Attack+20, STR+10, Dbl.Atk.+10, Phys. dmg. taken-10% (Stardiver No Shining One)
+    -- STR Crit: STR+20, Accuracy+20 Attack+20, STR+10, Crit.hit rate+10, Phys. dmg. taken-10% (Stardiver Shining One, Drakesbane)
+    -- DEX WSD: DEX+20, Accuracy+20 Attack+20, DEX+10, Weapon skill damage+10%, Phys. dmg. taken-10% (Geirskogul)
+
     ----------------------------------------------------------------
     -- GEAR SETS
     ----------------------------------------------------------------
@@ -294,7 +311,7 @@ function get_sets()
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet="Carmine Greaves +1",
-        neck="Anu Torque",
+        neck="Anu Torque",      -- Replace with Vim Torque +1
         waist="Sailfi Belt +1",
         left_ear="Sherida Earring",
         right_ear="Sroda Earring",
@@ -310,10 +327,12 @@ function get_sets()
     sets.engaged["Fencer"] = { -- Sword
         ranged=empty,
         ammo="Coiste Bodhar",
-        head="Ischkur Turban",      -- Replace with Hjarrandi Helm
+        head="Ischkur Turban",  -- Replace with Hjarrandi Helm
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
-        neck="Null Loop",
+        legs=jse.empyrean.legs,
+        feet="Carmine Greaves +1",
+        neck="Null Loop",      -- Replace with Vim Torque +1
         waist="Sailfi Belt +1",
         left_ear="Sherida Earring",
         right_ear="Sroda Earring",
@@ -355,7 +374,7 @@ function get_sets()
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
-        neck="Anu Torque",
+        neck="Anu Torque",          -- Replace with Vim Torque +1
         waist="Kentarch Belt +1",
         left_ear="Sherida Earring",
         right_ear="Alabaster Earring",
@@ -622,12 +641,8 @@ end
 function idle()
     local function wyvern_engaged_check()
         if pet.isvalid == false and sets.engaged[engaged_mode.current].no_wyvern then
-            add_to_chat(123, "Pet is absent and there IS a no_wyvern set for the current engaged mode")
-            add_to_chat(123, "Equip the no_wyvern set set for this mode")
             equip_set_and_weapon(sets.engaged[engaged_mode.current].no_wyvern)
         else
-            add_to_chat(123, "Pet is alive OR the pet is absent but there is no no_wyvern set for the current engaged mode")
-            add_to_chat(123, "Equip the normal TP set for this mode")
             equip_set_and_weapon(sets.engaged[engaged_mode.current])
         end
     end
@@ -745,7 +760,6 @@ function pet_midcast(spell)
             
         if match_breath then
             equip_set_and_weapon(sets.pet[match_breath])
-            add_to_chat(123, "Pet breath has matched")
         end
     end
 
