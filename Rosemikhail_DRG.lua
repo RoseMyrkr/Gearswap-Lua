@@ -6,19 +6,18 @@ include("Modes.lua")
 ----------------------------------------------------------------
 
 -- High buff vs low buff WS sets (sets.ws["Stardiver"].high_buff, etc.)
--- How do I make this more generic for other jobs? How do I extend this to be able to use other modes like WS accuracy? ["WS"].high_buff, ["WS"].acc etc.
--- WS Modes = M{"Low Buff", "High Buff", "Accuracy"} ["WS"]["High Buff"]. Can you use tables like this? What if there is no mode attached? Default.
--- local set_exists = sets.ws[spell.name]
+-- Do this and sim this when I have more pieces upgraded - stretch goal
+    -- local set_exists = sets.ws[spell.name]
 
--- if set_exists then
---     if high_buff == true and set_exists.high_buff then
---         equip_set_and_weapon(set_exists.high_buff)
---     else
---         equip_set_and_weapon(set_exists)
---     end
--- else
---     equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
--- end
+    -- if set_exists then
+    --     if high_buff == true and set_exists.high_buff then
+    --         equip_set_and_weapon(set_exists.high_buff)
+    --     else
+    --         equip_set_and_weapon(set_exists)
+    --     end
+    -- else
+    --     equip_set_and_weapon(sets.ws.default) -- Unhandled Weapon Skills
+    -- end
 
 -- Potentially a wyvern DT overlay toggle
 
