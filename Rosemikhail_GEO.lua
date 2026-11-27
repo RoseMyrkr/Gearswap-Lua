@@ -706,20 +706,20 @@ function get_sets()
 
     -- Would it just be better to use Nyame anyway for much of these sets for the sake of the higher magic evasion? I do have decent DT in all of them anyway.
 
-    sets.ws.default = { -- Hybrid DT, generic for physical weaponskills (idk what else to put here)
+    sets.ws.default = {
         range=empty,
         ammo="Amar Cluster",
-        head="Null Masque",
-        body="Jhakri Robe +2",
+        head="Ischkur Turban",
+        body=jse.empyrean.body,
         hands=jse.empyrean.hands,
-        legs="Jhakri Slops +2",
+        legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Malignance Earring",
-        right_ear="Odnowa Earring +1",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
         left_ring="Murky Ring",
-        right_ring="Rufescent Ring",
+        right_ring="Lehko's Ring",
         back="Null Shawl",
     }
 
