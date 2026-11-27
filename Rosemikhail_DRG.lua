@@ -5,8 +5,8 @@ include("Modes.lua")
 -- NOTES
 ----------------------------------------------------------------
 
+-- When I feel a bit more geared, higher Gleti's, Mastered, etc.
 -- High buff vs low buff WS sets (sets.ws["Stardiver"].high_buff, etc.)
--- Do this and sim this when I have more pieces upgraded - stretch goal
     -- local set_exists = sets.ws[spell.name]
 
     -- if set_exists then
@@ -31,6 +31,8 @@ include("Modes.lua")
 -- Switch to Ephramad's Ring (sigh....)
 
 -- Drakesbane requires more critty things
+
+-- Note that the sets cater a lot to Shining One specifically. Maybe there needs to be special handling for WS sets.[weapon_mode.current]["Stardiver"]?
 
 ----------------------------------------------------------------
 -- VARIABLES & COMMANDS
@@ -319,7 +321,7 @@ function get_sets()
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet="Flam. Gambieras +2",
-        neck="Loricate Torque +1",              -- Replace with Vim Torque +1
+        neck="Loricate Torque +1",     -- Replace with Vim Torque +1
         waist="Kentarch Belt +1",
         left_ear="Sherida Earring",
         right_ear="Sroda Earring",
@@ -492,53 +494,7 @@ function get_sets()
         ammo="Coiste Bodhar",
         head=jse.empyrean.head,
         body="Gleti's Cuirass",
-        hands="Gleti's Gauntlets",
-        legs=jse.empyrean.legs,
-        feet="Gleti's Boots",
-        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
-        waist="Sailfi Belt +1",
-        left_ear="Moonshade Earring",
-        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
-        left_ring="Sroda Ring",
-        right_ring="Lehko's Ring",
-        back=jse.capes.str_wsd,
-    }
-
-    sets.ws["Impulse Drive"] = {
-        ranged=empty,
-        ammo="Knobkierrie",
-        head=jse.empyrean.head,
-        body="Gleti's Cuirass",
-        hands="Gleti's Gauntlets",
-        legs=jse.empyrean.legs,
-        feet="Gleti's Boots",
-        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
-        waist="Sailfi Belt +1",
-        left_ear="Moonshade Earring",
-        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
-        left_ring="Epaminondas's Ring",
-        right_ring="Lehko's Ring",
-        back=jse.capes.str_wsd,
-    }
-
-    -- sets.ws["Vorpal Thrust"] = {
-    -- }
-    
-    -- sets.ws["Wheeling Thrust"] = {
-    -- }
-
-    -- sets.ws["Penta Thrust"] = {
-    -- }
-
-    -- sets.ws["Raiden Thrust"] = {
-    -- }
-
-    sets.ws["Stardiver"] = {
-        ranged=empty,
-        ammo="Coiste Bodhar",
-        head=jse.empyrean.head,
-        body="Gleti's Cuirass",
-        hands="Gleti's Gauntlets",
+        hands="Flam. Manopolas +2",
         legs=jse.empyrean.legs,
         feet="Gleti's Boots",
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
@@ -550,13 +506,12 @@ function get_sets()
         back=jse.capes.str_crit,
     }
 
-    -- Do this when I need to AOE something
-    sets.ws["Sonic Thrust"] = {
+    sets.ws["Impulse Drive"] = {
         ranged=empty,
         ammo="Knobkierrie",
         head=jse.empyrean.head,
         body="Gleti's Cuirass",
-        hands="Gleti's Gauntlets",
+        hands="Flam. Manopolas +2",
         legs=jse.empyrean.legs,
         feet="Nyame Sollerets",
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
@@ -565,17 +520,112 @@ function get_sets()
         right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
         left_ring="Epaminondas's Ring",
         right_ring="Lehko's Ring",
+        back=jse.capes.str_crit, -- Question this, but the sim likes it
+    }
+
+    sets.ws["Penta Thrust"] = {
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head="Gleti's Mask",
+        body="Gleti's Cuirass",
+        hands="Flam. Manopolas +2",
+        legs=jse.empyrean.legs,
+        feet="Gleti's Boots",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Sherida Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Rufescent Ring",
+        right_ring="Lehko's Ring",
+        back=jse.capes.str_crit,
+    }
+
+    sets.ws["Raiden Thrust"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head="Nyame Helm",
+        body="Sacro Breastplate",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Sibyl Scarf",
+        waist="Orpheus's Sash",
+        left_ear="Moonshade Earring",
+        right_ear="Friomisi Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Metamor. Ring +1",
         back=jse.capes.str_wsd,
     }
 
-    -- -- I don't have this yet, so don't bother simming
-    -- sets.ws["Cammlain's Torment"] = {
-    -- }
+    sets.ws["Stardiver"] = {
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Flam. Manopolas +2",
+        legs=jse.empyrean.legs,
+        feet="Gleti's Boots",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Sroda Ring",
+        right_ring="Lehko's Ring",
+        back=jse.capes.str_crit,
+    }
 
-    -- -- I don't have this yet, so don't bother simming
-    -- sets.ws["Drakesbane"] = {
-    -- }
+    sets.ws["Sonic Thrust"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Flam. Manopolas +2",
+        legs=jse.empyrean.legs,
+        feet="Nyame Sollerets",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Epaminondas's Ring",
+        right_ring="Lehko's Ring",
+        back=jse.capes.str_crit,
+    }
 
+    sets.ws["Cammlain's Torment"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Nyame Gauntlets",
+        legs=jse.empyrean.legs,
+        feet="Nyame Sollerets",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear="Thrud Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Lehko's Ring",
+        back=jse.capes.str_crit,
+    }
+
+    sets.ws["Drakesbane"] = {
+        ranged=empty,
+        ammo="Coiste Bodhar",
+        head=jse.empyrean.head,
+        body="Gleti's Cuirass",
+        hands="Flam. Manopolas +2",
+        legs=jse.empyrean.legs,
+        feet="Gleti's Boots",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Sroda Ring",
+        right_ring="Lehko's Ring",
+        back=jse.capes.str_crit,
+    }
+
+    -- Sword
     sets.ws["Savage Blade"] = {
         ranged=empty,
         ammo="Knobkierrie",
@@ -585,7 +635,7 @@ function get_sets()
         legs="Nyame Flanchard",
         feet="Nyame Sollerets",
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
-        waist="Sailfi Belt +1",
+        waist="Kentarch Belt +1",
         left_ear="Thrud Earring",
         right_ear="Moonshade Earring",
         left_ring="Epaminondas's Ring",
@@ -593,11 +643,12 @@ function get_sets()
         back=jse.capes.str_wsd,
     }
 
+    -- Club
     sets.ws["Judgement"] = {
         ranged=empty,
         ammo="Knobkierrie",
         head=jse.empyrean.head,
-        body="Nyame Mail",
+        body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
@@ -610,7 +661,23 @@ function get_sets()
         back=jse.capes.str_wsd,
     }
 
-    -- A staff WS
+    -- Staff
+    sets.ws["Retribution"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck={ name="Dgn. Collar +1", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Thrud Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back=jse.capes.str_wsd,
+    }
 
     ----------------------------------------------------------------
     -- BUFF
