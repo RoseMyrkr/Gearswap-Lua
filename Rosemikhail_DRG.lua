@@ -319,7 +319,7 @@ function get_sets()
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
         feet="Flam. Gambieras +2",
-        neck="Anu Torque",              -- Replace with Vim Torque +1
+        neck="Loricate Torque +1",              -- Replace with Vim Torque +1
         waist="Kentarch Belt +1",
         left_ear="Sherida Earring",
         right_ear="Sroda Earring",
