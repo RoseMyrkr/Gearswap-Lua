@@ -174,17 +174,8 @@ function get_sets()
             engaged_sets = {}, -- Use the default
             overrides = {},
         },
-        ["Daybreak"] = {
-            index = 2,
-            gear = {
-                main="Daybreak",
-                sub="Ammurapi Shield",
-            },
-            engaged_sets = {}, -- Use the default
-            overrides = {},
-        },
         ["Idris"] = {
-            index = 3,
+            index = 2,
             gear = {
                 main="Idris",
                 sub="Ammurapi Shield",
@@ -198,9 +189,18 @@ function get_sets()
             },
         },
         ["Maxentius"] = {
-            index = 4,
+            index = 3,
             gear = {
                 main="Maxentius",
+                sub="Ammurapi Shield",
+            },
+            engaged_sets = {}, -- Use the default
+            overrides = {},
+        },
+        ["Daybreak"] = {
+            index = 3,
+            gear = {
+                main="Daybreak",
                 sub="Ammurapi Shield",
             },
             engaged_sets = {}, -- Use the default
@@ -343,13 +343,13 @@ function get_sets()
         head=jse.empyrean.head,
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
-        legs="Jhakri Slops +2",
+        legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
-        waist="Grunfeld Rope",
-        left_ear="Telos Earring",
-        right_ear="Cessance Earring",
-        left_ring="Petrov Ring",
+        waist="Null Belt",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
+        left_ring="Murky Ring",
         right_ring="Lehko's Ring",
         back="Null Shawl",
     }
@@ -726,91 +726,106 @@ function get_sets()
     sets.ws["Realmrazer"] = {
         range=empty,
         ammo="Amar Cluster",
-        head="Null Masque",
-        body="Jhakri Robe +2",
+        head="Ischkur Turban",
+        body=jse.empyrean.body,
         hands=jse.empyrean.hands,
-        legs="Jhakri Slops +2",
+        legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Malignance Earring",
-        right_ear="Odnowa Earring +1",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
         left_ring="Murky Ring",
-        right_ring="Rufescent Ring",
+        right_ring="Lehko's Ring",
         back="Null Shawl",
     }
 
     sets.ws["Exudation"] = {
         range=empty,
-        ammo="Ghastly Tathlum +1",
+        ammo="Amar Cluster",
         head=jse.empyrean.head,
-        body="Nyame Mail",
-        hands="Jhakri Cuffs +2",
-        legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        body=jse.empyrean.body,
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Malignance Earring",
-        right_ear="Odnowa Earring +1",
-        left_ring="Murky Ring",
-        right_ring="Metamor. Ring +1",
-        back="Alabaster Mantle",
-    }
-
-    sets.ws["Aeolian Edge"] = {
-        range=empty,
-        ammo="Ghastly Tathlum +1",
-        head=jse.empyrean.head,
-        body="Nyame Mail",
-        hands="Jhakri Cuffs +2",
-        legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
-        neck="Null Loop",
-        waist="Null Belt",
-        left_ear="Malignance Earring",
-        right_ear="Odnowa Earring +1",
-        left_ring="Murky Ring",
-        right_ring="Metamor. Ring +1",
-        back="Alabaster Mantle", -- WSD + PDT Ambu cape will be better.
+        left_ear="Moonshade Earring",
+        right_ear="Telos Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Null Shawl",
     }
 
     sets.ws["Black Halo"] = {
         range=empty,
-        ammo="Amar Cluster",
-        head="Null Masque",
-        body="Jhakri Robe +2", 
-        hands="Jhakri Cuffs +2",
+        ammo="Oshasha's Treatise",
+        head="Ischkur Turban",
+        body=jse.empyrean.body,
+        hands="Nyame Gauntlets",
         legs="Nyame Flanchard",
         feet="Nyame Sollerets",
         neck="Null Loop",
-        waist="Grunfeld Rope",
-        left_ear="Malignance Earring",
-        right_ear="Odnowa Earring +1",
-        left_ring="Murky Ring",
+        waist="Null Belt",
+        left_ear="Moonshade Earring",
+        right_ear="Telos Earring",
+        left_ring="Epaminondas's Ring",
         right_ring="Rufescent Ring",
+        back="Null Shawl",
+    }
+
+    sets.ws["Judgment"] = {
+        range=empty,
+        ammo="Amar Cluster",
+        head="Nyame Helm",
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Null Belt",
+        left_ear="Moonshade Earring",
+        right_ear="Telos Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Null Shawl",
+    }
+
+    sets.ws["Seraph Strike"] = { -- 1000+ Prefer Daybreak for this
+        range=empty,
+        ammo="Sroda Tathlum",
+        head=jse.empyrean.head,
+        body="Nyame Mail",
+        hands="Jhakri Cuffs +2",
+        legs=jse.empyrean.legs,
+        feet="Agwu's Pigaches",
+        neck="Saevus Pendant +1",
+        waist="Orpheus's Sash",
+        left_ear="Moonshade Earring",
+        right_ear="Malignance Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Freke Ring",
         back="Alabaster Mantle",
     }
 
-    sets.ws["Judgment"] = sets.ws["Black Halo"]
+    sets.ws["Flash Nova"] = sets.ws["Seraph Strike"] -- 1000
 
-    sets.ws["Seraph Strike"] = { -- 1000+ Prefer Daybreak for this
+    sets.ws["Aeolian Edge"] = {
         range=empty,
         ammo="Sroda Tathlum",
         head=jse.empyrean.head,
         body=jse.empyrean.body,
         hands="Jhakri Cuffs +2",
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        feet="Agwu's Pigaches",
         neck="Saevus Pendant +1",
-        waist="Eschan Stone",
-        left_ear="Malignance Earring",
-        right_ear="Friomisi Earring",
-        left_ring="Murky Ring",
-        right_ring="Defending Ring",
-        back="Alabaster Mantle",
+        waist="Orpheus's Sash",
+        left_ear="Moonshade Earring",
+        right_ear="Malignance Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Freke Ring",
+        back="Alabaster Mantle", -- WSD + PDT Ambu cape will be better.
     }
-
-    sets.ws["Flash Nova"] = sets.ws["Seraph Strike"] -- 1000
 
     ----------------------------------------------------------------
     -- BUFF
