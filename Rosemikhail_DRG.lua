@@ -207,6 +207,15 @@ function get_sets()
                 }
             },
         },
+        ["Malignance Pole"] = {
+            index = 4,
+            gear = {
+                main="Malignance Pole",
+                sub="Khonsu",
+            },
+            engaged_sets = {"TP", "Safety"},
+            overrides = {},
+        },
     }
 
     build_weapon_modes(weapon_sets)
@@ -235,7 +244,7 @@ function get_sets()
         head="Pteroslaver Armet +2",
         body="Pteroslaver Mail +2",
         hands="Pteroslaver Finger Gauntlets +2",
-        legs="Pteroslaver Brais +2",
+        legs="Pteroslaver Brais +3",
         feet="Pteroslaver Greaves +2",
     }
 
@@ -248,13 +257,13 @@ function get_sets()
     }
 
     jse.capes = {
-        -- lol
+        tp={ name="Brigantia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
+        str_wsd={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}, --Diarmuid, Impulse Drive, Camlann's Torment, Savage Blade
+        str_crit={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Crit.hit rate+10','Phys. dmg. taken-10%',}}, -- Stardiver Shining One, Drakesbane
     }
 
-    -- TP: Dex +20, Accuracy +20 Attack +20, Accuracy +10, Dbl.Atk. +10, Phys. dmg. taken -10% (Technically I don't need the phys damage but like yolo)
-    -- STR WSD: STR+20, Accuracy+20 Attack+20, STR+10, Weapon skill damage+10, Phys. dmg. taken-10% (Diarmuid, Impulse Drive, Camlann's Torment, Savage Blade)
+    -- DEX Store TP: Dex +20, Accuracy +20 Attack +20, Accuracy +10, Store TP+10, Phys. dmg. taken -10% (Kraken Club TP)
     -- STR DA: STR+20, Accuracy+20 Attack+20, STR+10, Dbl.Atk.+10, Phys. dmg. taken-10% (Stardiver No Shining One)
-    -- STR Crit: STR+20, Accuracy+20 Attack+20, STR+10, Crit.hit rate+10, Phys. dmg. taken-10% (Stardiver Shining One, Drakesbane)
     -- DEX WSD: DEX+20, Accuracy+20 Attack+20, DEX+10, Weapon skill damage+10%, Phys. dmg. taken-10% (Geirskogul)
 
     ----------------------------------------------------------------
@@ -275,7 +284,7 @@ function get_sets()
     -- IDLE MODES
     ----------------------------------------------------------------
 
-    sets.idle["Normal"] = {                 -- 29 PDT, 22 DT (51 PDT, Cap MDT with Shell V) + 6 DT temporarily
+    sets.idle["Normal"] = {                 -- 29 PDT, 22 DT (51 PDT, Cap MDT with Shell V)
         ammo="Staunch Tathlum",             -- 2 DT
         head="Null Masque",                 -- 10 DT, 2 Regain
         body="Gleti's Cuirass",             -- 9 PDT, 3 Regain
@@ -300,23 +309,23 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
 
-    -- Re-sim everything here when I actually have capes
+    -- Re-sim everything here when I actually have capes and various other bits
 
     sets.engaged["TP"] = { -- /SAM /DRK
         ranged=empty,
         ammo="Coiste Bodhar",
-        head="Null Masque",     -- Replace with Hjarrandi Helm
+        head="Flam. Zucchetto +2",     -- Replace with Hjarrandi Helm
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet="Carmine Greaves +1",
-        neck="Anu Torque",      -- Replace with Vim Torque +1
-        waist="Sailfi Belt +1",
+        feet="Flam. Gambieras +2",
+        neck="Anu Torque",              -- Replace with Vim Torque +1
+        waist="Kentarch Belt +1",
         left_ear="Sherida Earring",
         right_ear="Sroda Earring",
         left_ring="Murky Ring",
         right_ring="Lehko's Ring",
-        back="Null Shawl",
+        back=jse.capes.tp,
     }
 
     sets.engaged["TP"].no_wyvern = set_combine(sets.engaged["TP"], {
@@ -326,18 +335,18 @@ function get_sets()
     sets.engaged["Fencer"] = { -- Sword
         ranged=empty,
         ammo="Coiste Bodhar",
-        head="Ischkur Turban",  -- Replace with Hjarrandi Helm
+        head="Flam. Zucchetto +2",  -- Replace with Hjarrandi Helm
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet="Carmine Greaves +1",
-        neck="Null Loop",      -- Replace with Vim Torque +1
-        waist="Sailfi Belt +1",
+        feet=jse.empyrean.feet,
+        neck="Null Loop",           -- Replace with Vim Torque +1
+        waist="Kentarch Belt +1",
         left_ear="Sherida Earring",
         right_ear="Sroda Earring",
-        left_ring="Murky Ring",
+        left_ring="Petrov Ring",
         right_ring="Lehko's Ring",
-        back="Null Shawl",
+        back=jse.capes.tp,
     }
 
     sets.engaged["Fencer"].no_wyvern = set_combine(sets.engaged["Fencer"], {
@@ -358,28 +367,29 @@ function get_sets()
         right_ear="Sroda Earring",
         left_ring="Murky Ring",
         right_ring="Lehko's Ring",
-        back="Null Shawl",
+        back=jse.capes.tp,
     }
 
     sets.engaged["Safety"].no_wyvern = set_combine(sets.engaged["Safety"], {
         right_ear="Telos Earring",
     })
 
+    -- I'm just assuming BRD and COR are buffing me
     sets.engaged["Kraken"] = { -- /DNC
         ranged=empty,
         ammo="Coiste Bodhar",
-        head="Ischkur Turban",      -- Replace with Hjarrandi Helm
+        head="Flam. Zucchetto +2",  -- Replace with Hjarrandi Helm
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
-        neck="Anu Torque",          -- Replace with Vim Torque +1
+        feet="Flam. Gambieras +2",
+        neck="Loricate Torque +1",  -- Replace with Vim Torque +1
         waist="Kentarch Belt +1",
         left_ear="Sherida Earring",
-        right_ear="Alabaster Earring",
+        right_ear="Telos Earring",
         left_ring="Murky Ring",
         right_ring="Lehko's Ring",
-        back="Null Shawl",
+        back=jse.capes.tp,
     }
 
     ----------------------------------------------------------------
@@ -491,7 +501,7 @@ function get_sets()
         right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
         left_ring="Sroda Ring",
         right_ring="Lehko's Ring",
-        back="Null Shawl",
+        back=jse.capes.str_wsd,
     }
 
     sets.ws["Impulse Drive"] = {
@@ -508,7 +518,7 @@ function get_sets()
         right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
         left_ring="Epaminondas's Ring",
         right_ring="Lehko's Ring",
-        back="Alabaster Mantle",
+        back=jse.capes.str_wsd,
     }
 
     -- sets.ws["Vorpal Thrust"] = {
@@ -518,6 +528,9 @@ function get_sets()
     -- }
 
     -- sets.ws["Penta Thrust"] = {
+    -- }
+
+    -- sets.ws["Raiden Thrust"] = {
     -- }
 
     sets.ws["Stardiver"] = {
@@ -534,7 +547,7 @@ function get_sets()
         right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
         left_ring="Sroda Ring",
         right_ring="Lehko's Ring",
-        back="Null Shawl",
+        back=jse.capes.str_crit,
     }
 
     -- Do this when I need to AOE something
@@ -552,7 +565,7 @@ function get_sets()
         right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
         left_ring="Epaminondas's Ring",
         right_ring="Lehko's Ring",
-        back="Alabaster Mantle",
+        back=jse.capes.str_wsd,
     }
 
     -- -- I don't have this yet, so don't bother simming
@@ -577,7 +590,7 @@ function get_sets()
         right_ear="Moonshade Earring",
         left_ring="Epaminondas's Ring",
         right_ring="Rufescent Ring",
-        back="Null Shawl",
+        back=jse.capes.str_wsd,
     }
 
     sets.ws["Judgement"] = {
@@ -594,8 +607,10 @@ function get_sets()
         right_ear="Moonshade Earring",
         left_ring="Epaminondas's Ring",
         right_ring="Rufescent Ring",
-        back="Null Shawl",
+        back=jse.capes.str_wsd,
     }
+
+    -- A staff WS
 
     ----------------------------------------------------------------
     -- BUFF
