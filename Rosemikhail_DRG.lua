@@ -34,6 +34,8 @@ include("Modes.lua")
 
 -- Note that the sets cater a lot to Shining One specifically. Maybe there needs to be special handling for WS sets.[weapon_mode.current]["Stardiver"]?
 
+-- The speed toggle is somewhat redundant right now
+
 ----------------------------------------------------------------
 -- VARIABLES & COMMANDS
 ----------------------------------------------------------------
