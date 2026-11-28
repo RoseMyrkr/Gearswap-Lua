@@ -430,25 +430,25 @@ function get_sets()
         back=jse.capes.parry, -- Replace with MEVA cape
     }
 
-    -- This probably needs more work. I went for TP but tried keeping SOME HP instead of going buck wild.
-    sets.engaged["TP"] = { -- ~20 per WS
+    -- This probably needs more work.
+    sets.engaged["TP"] = { -- Sort of hybrid rather than pure balls to the wall
         range=empty,
-        ammo="Coiste Bodhar", -- No RP at the moment...
-        head={name="Null Masque", priority=100}, -- Consider "Ischkur Turban". 100 hp for 1s faster WS...
+        ammo="Coiste Bodhar",
+        head={name="Null Masque", priority=100},
         body={name="Ayanmo Corazza +2", priority=57},
-        hands=jse.empyrean.hands,
-        legs=jse.empyrean.legs,
-        feet={name="Carmine Greaves +1", augments={'HP+80','MP+80','Phys. dmg. taken -4',}, priority=95},
-        neck="Loricate Torque +1",
-        waist="Sailfi Belt +1",
+        hands={name="Nyame Gauntlets", priority=91},
+        legs={name="Nyame Flanchard", priority=114},
+        feet={name="Nyame Sollerets", priority=68},
+        neck="Anu Torque",
+        waist="Kentarch Belt +1",
         left_ear="Telos Earring",
-        right_ear="Sherida Earring",
+        right_ear={ name="Erilaz Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Damage taken-4%',}}, -- 4% DT
         left_ring={name="Moonbeam Ring", priority=100, bag="wardrobe5"},
         right_ring={name="Moonbeam Ring", priority=100, bag="wardrobe6"},
         back="Null Shawl",
     }
 
-    -- Consult Dumo guide for better + Ongo variants.
+    -- Add a set for Ongo I guess
 
     ----------------------------------------------------------------
     -- PRECAST
@@ -803,50 +803,50 @@ function get_sets()
         ranged=empty,
         ammo="Knobkierrie",
         head={name="Nyame Helm", priority=91},
-        body={name="Nyame Mail", priority=136},
-        hands={name="Nyame Gauntlets", priority=91},
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
         legs={name="Nyame Flanchard", priority=114},
-        feet={name="Nyame Sollerets", priority=68},
-        neck={name="Null Loop", priority=50},
+        feet=jse.empyrean.feet,
+        neck="Rep. Plat. Medal",
         waist="Kentarch Belt +1",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
-        left_ring="Rufescent Ring",
-        right_ring="Petrov Ring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Lehko's Ring",
         back="Alabaster Mantle",
     }
 
     sets.ws["Resolution"] = {
         ranged=empty,
-        ammo="Knobkierrie",
-        head=jse.relic.head,
-        body={name="Nyame Mail", priority=136},
-        hands={name="Nyame Gauntlets", priority=91},
-        legs=jse.empyrean.legs,
-        feet={name="Nyame Sollerets", priority=68},
-        neck={name="Null Loop", priority=50},
+        ammo="Coiste Bodhar",
+        head=jse.empyrean.head,
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs={name="Nyame Flanchard", priority=114},
+        feet=jse.empyrean.feet,
+        neck="Rep. Plat. Medal",
         waist="Sailfi Belt +1",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
         left_ring="Rufescent Ring",
-        right_ring="Petrov Ring",
-        back="Alabaster Mantle",
+        right_ring="Sroda Ring",
+        back="Null Shawl",
     }
 
     sets.ws["Hard Slash"] = {
         ranged=empty,
         ammo="Knobkierrie",
-        head=jse.relic.head,
-        body={name="Nyame Mail", priority=136},
-        hands={name="Nyame Gauntlets", priority=91},
-        legs=jse.empyrean.legs,
+        head={name="Nyame Helm", priority=91},
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs={name="Nyame Flanchard", priority=114},
         feet={name="Nyame Sollerets", priority=68},
-        neck={name="Null Loop", priority=50},
+        neck="Rep. Plat. Medal",
         waist="Sailfi Belt +1",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
-        left_ring="Rufescent Ring",
-        right_ring="Petrov Ring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
         back="Null Shawl",
     }
 
@@ -862,8 +862,8 @@ function get_sets()
         waist="Orpheus's Sash",
         left_ear="Friomisi Earring",
         right_ear="Ishvara Earring",
-        left_ring={name="Gelatinous Ring +1", priority=135},
-        right_ring="Petrov Ring",
+        left_ring="Epaminondas's Ring",
+        right_ring={name="Gelatinous Ring +1", priority=135},
         back="Alabaster Mantle",
     }
 
@@ -872,51 +872,50 @@ function get_sets()
         ammo="Knobkierrie",
         head={name="Nyame Helm", priority=91},
         body={name="Nyame Mail", priority=136},
-        hands={name="Nyame Gauntlets", priority=91},
-        legs=jse.empyrean.legs,
-        feet={name="Nyame Sollerets", priority=68},
-        neck={name="Null Loop", priority=50},
+        hands=jse.empyrean.hands,
+        legs={name="Nyame Flanchard", priority=114},
+        feet=jse.empyrean.feet,
+        neck="Rep. Plat. Medal",
         waist="Sailfi Belt +1",
         left_ear="Cessance Earring",
         right_ear="Sherida Earring",
-        left_ring="Rufescent Ring",
-        right_ring="Petrov Ring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
         back="Null Shawl",
     }
 
-    -- Can't sim sword WS at the moment due to an issue with the Kastra sim
     sets.ws["Savage Blade"] = set_combine(sets.ws.default, {
-        -- ammo="",
-        -- head="",
-        -- body="",
-        -- hands="",
-        -- legs="",
-        -- feet="",
-        -- neck="",
-        -- waist="",
-        -- left_ear="",
-        -- right_ear="",
-        -- left_ring="",
-        -- right_ring="",
-        -- back="",
+        ranged=empty,
+        ammo="Knobkierrie",
+        head=jse.empyrean.head,
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs={name="Nyame Flanchard", priority=114},
+        feet=jse.empyrean.feet,
+        neck={name="Null Loop", priority=50},
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
+        right_ear="Sherida Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Alabaster Mantle",
     })
 
-    -- Spitballing. I don't know because I can't use the sim :)
     sets.ws["Requiescat"] = {
         ranged=empty,
         ammo="Knobkierrie",
-        head={name="Nyame Helm", priority=91},
-        body={name="Nyame Mail", priority=136},
-        hands={name="Nyame Gauntlets", priority=91},
-        legs={name="Nyame Flanchard", priority=114},
-        feet={name="Nyame Sollerets", priority=68},
-        neck={name="Null Loop", priority=50},
-        waist="Rumination Sash",
+        head=jse.empyrean.head,
+        body=jse.empyrean.body,
+        hands=jse.empyrean.hands,
+        legs=jse.empyrean.legs,
+        feet=jse.empyrean.feet,
+        neck="Rep. Plat. Medal",
+        waist="Sailfi Belt +1",
         left_ear="Moonshade Earring",
         right_ear="Sherida Earring",
         left_ring="Metamor. Ring +1",
         right_ring="Rufescent Ring",
-        back="Alabaster Mantle",
+        back="Null Shawl",
     }
 
     ----------------------------------------------------------------
