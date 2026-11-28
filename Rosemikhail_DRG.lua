@@ -863,8 +863,6 @@ function pet_change(pet,gain) -- Until I know any better
 end
 
 function pet_midcast(spell)
-    add_to_chat(123, string.format("Pet is using %s.", spell.name))
-
     if not midaction() then
         -- Breath check
         local match_breath = breath_map[spell.name]
