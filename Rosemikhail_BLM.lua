@@ -35,6 +35,7 @@ Potential enhancements:
     - This is such a tiny optimisation for BLM that it can come later
 - Maybe a toggle for Occult Acumen Impact?
 - Aftermath-specific TP set
+- Consider changing the default WS sets to a max accuracy set, as it makes sense that it might be more for niche WS skillchain combos
 ]]
 
 ----------------------------------------------------------------
@@ -804,6 +805,22 @@ function get_sets()
         back="Null Shawl",
     }
 
+    sets.ws["Full Swing"] = { -- Consider just trying to load more accuracy
+        ammo="Oshasha's Treatise",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Grunfeld Rope",
+        left_ear="Telos Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Alabaster Mantle",
+    }
+
     sets.ws["Rock Crusher"] = {
         ammo="Oshasha's Treatise",
         head=jse.empyrean.head,
@@ -887,6 +904,8 @@ function get_sets()
         right_ring="Freke Ring",
         back=jse.capes.wsd,
     }
+
+    sets.ws["Flash Nova"] = sets.ws["Seraph Strike"] -- 1000
 
     sets.ws["Black Halo"] = {  -- Use Maxentius
         ammo="Oshasha's Treatise",
