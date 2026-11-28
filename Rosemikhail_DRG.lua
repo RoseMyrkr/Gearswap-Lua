@@ -256,7 +256,7 @@ function get_sets()
     jse.relic = {
         head="Pteroslaver Armet +2",
         body="Pteroslaver Mail +2",
-        hands="Pteroslaver Finger Gauntlets +2",
+        hands="Pteroslaver Finger Gauntlets +4",
         legs="Pteroslaver Brais +3",
         feet="Pteroslaver Greaves +2",
     }
@@ -322,8 +322,6 @@ function get_sets()
     ----------------------------------------------------------------
     -- MELEE "IDLE"
     ----------------------------------------------------------------
-
-    -- Re-sim everything here when I actually have capes and various other bits
 
     sets.engaged["TP"] = { -- /SAM /DRK
         ranged=empty,
@@ -486,7 +484,6 @@ function get_sets()
     ----------------------------------------------------------------
 
     -- NOTE THAT YOU CAN BE HIT WHENEVER YOUR WYVERN IS DOING A THING.
-    -- THESE WANT DT. IF I'M LOSING DT TO A SWAP, ADD SOME BACK IN.
     -- Expand these if I feel like it later.
 
     sets.pet["Elemental Breath"] = { -- I don't know if this applies when I ask the Wyvern to do it or when the Wyvern does it regardless
@@ -523,14 +520,14 @@ function get_sets()
         ammo="Knobkierrie",
         head=jse.empyrean.head,
         body="Gleti's Cuirass",
-        hands="Flam. Manopolas +2",
+        hands=jse.relic.hands,
         legs=jse.empyrean.legs,
         feet="Nyame Sollerets",
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
         waist="Sailfi Belt +1",
         left_ear="Moonshade Earring",
         right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
-        left_ring="Epaminondas's Ring",
+        left_ring="Sroda Ring",
         right_ring="Lehko's Ring",
         back=jse.capes.str_crit, -- Question this, but the sim likes it
     }
@@ -591,7 +588,7 @@ function get_sets()
         ammo="Knobkierrie",
         head=jse.empyrean.head,
         body="Gleti's Cuirass",
-        hands="Flam. Manopolas +2",
+        hands=jse.relic.hands,
         legs=jse.empyrean.legs,
         feet="Nyame Sollerets",
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
@@ -608,7 +605,7 @@ function get_sets()
         ammo="Knobkierrie",
         head=jse.empyrean.head,
         body="Gleti's Cuirass",
-        hands="Nyame Gauntlets",
+        hands=jse.relic.hands,
         legs=jse.empyrean.legs,
         feet="Nyame Sollerets",
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
@@ -642,10 +639,10 @@ function get_sets()
         ranged=empty,
         ammo="Knobkierrie",
         head=jse.empyrean.head,
-        body=jse.empyrean.body,
-        hands="Nyame Gauntlets",
+        body="Nyame Mail",
+        hands=jse.relic.hands,
         legs="Nyame Flanchard",
-        feet="Nyame Sollerets",
+        feet=jse.empyrean.feet,
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
         waist="Kentarch Belt +1",
         left_ear="Thrud Earring",
@@ -661,7 +658,7 @@ function get_sets()
         ammo="Knobkierrie",
         head=jse.empyrean.head,
         body=jse.empyrean.body,
-        hands=jse.empyrean.hands,
+        hands=jse.relic.hands,
         legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
@@ -679,11 +676,11 @@ function get_sets()
         ammo="Knobkierrie",
         head=jse.empyrean.head,
         body="Nyame Mail",
-        hands="Nyame Gauntlets",
+        hands=jse.relic.hands,
         legs="Nyame Flanchard",
         feet="Nyame Sollerets",
         neck={ name="Dgn. Collar +1", augments={'Path: A',}},
-        waist="Sailfi Belt +1",
+        waist="Kentarch Belt +1",
         left_ear="Thrud Earring",
         right_ear="Moonshade Earring",
         left_ring="Epaminondas's Ring",
