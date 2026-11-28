@@ -220,6 +220,15 @@ function get_sets()
             engaged_sets = {"TP", "Safety"},
             overrides = {},
         },
+        ["Malevolence"] = {
+            index = 5,
+            gear = {
+                main="Malevolence",
+                sub=empty,
+            },
+            engaged_sets = {"Fencer", "Safety"},
+            overrides = {},
+        },
     }
 
     build_weapon_modes(weapon_sets)
@@ -269,6 +278,7 @@ function get_sets()
     -- DEX Store TP: Dex +20, Accuracy +20 Attack +20, Accuracy +10, Store TP+10, Phys. dmg. taken -10% (Kraken Club TP)
     -- STR DA: STR+20, Accuracy+20 Attack+20, STR+10, Dbl.Atk.+10, Phys. dmg. taken-10% (Stardiver No Shining One)
     -- DEX WSD: DEX+20, Accuracy+20 Attack+20, DEX+10, Weapon skill damage+10%, Phys. dmg. taken-10% (Geirskogul)
+    -- INT WSD: INT +30, Magic Acc / Magic Dmg +20, Weapon skill damage +10%, Phys. dmg. taken-10% (Magic WS like Cataclysm or Aeolian Edge)
 
     ----------------------------------------------------------------
     -- GEAR SETS
@@ -556,7 +566,7 @@ function get_sets()
         right_ear="Friomisi Earring",
         left_ring="Epaminondas's Ring",
         right_ring="Metamor. Ring +1",
-        back=jse.capes.str_wsd,
+        back=jse.capes.str_wsd, -- Replace with INT WSD
     }
 
     sets.ws["Stardiver"] = {
@@ -679,6 +689,24 @@ function get_sets()
         left_ring="Epaminondas's Ring",
         right_ring="Rufescent Ring",
         back=jse.capes.str_wsd,
+    }
+
+    -- Dagger
+    sets.ws["Aeolian Edge"] = {
+        ranged=empty,
+        ammo="Knobkierrie",
+        head="Nyame Helm",
+        body="Sacro Breastplate",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Sibyl Scarf",
+        waist="Orpheus's Sash",
+        left_ear="Moonshade Earring",
+        right_ear="Friomisi Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Metamor. Ring +1",
+        back="Alabaster Mantle", -- Replace with INT WSD
     }
 
     ----------------------------------------------------------------
