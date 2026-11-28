@@ -442,11 +442,11 @@ function get_sets()
 
     sets.ja["Jump"] = {
         ammo="Coiste Bodhar",           -- Replace with Aurgelmir orb (/+1)
-        head="Ischkur Turban",          -- Replace with Flamma Zucchetto +2 (Ambuscade)
+        head="Flam. Zucchetto +2",
         body=jse.AF.body,
         hands=jse.AF.hands,
         legs=jse.relic.legs,
-        feet=jse.AF.feet,               -- Replace with Ostro Greaves
+        feet="Flam. Gambieras +2",      -- Replace with Ostro Greaves
         neck="Anu Torque",              -- Replace with Vim Torque
         waist="Sailfi Belt +1",
         left_ear="Sherida Earring",
@@ -455,7 +455,7 @@ function get_sets()
         right_ring="Lehko's Ring",      -- Replace with Chirich Ring (maybe)
         back="Null Shawl",              -- Replace with JSE cape
     }
-    
+
     sets.ja["High Jump"] = sets.ja["Jump"]
 
     sets.ja["Soul Jump"] = sets.ja["Jump"]
