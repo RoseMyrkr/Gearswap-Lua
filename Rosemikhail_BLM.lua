@@ -34,6 +34,7 @@ Potential enhancements:
 - For elemental weaponskills, if I have double weather OR single weather + matching day, Hachirin-no-Obi is likely better than Osash
     - This is such a tiny optimisation for BLM that it can come later
 - Maybe a toggle for Occult Acumen Impact?
+- Aftermath-specific TP set
 ]]
 
 ----------------------------------------------------------------
@@ -355,8 +356,6 @@ function get_sets()
     })
 
     sets.idle["DEF"] = {                                                                                                                                -- OVERALL -61% DT, -10% PDT, -2% MDT (-71% DT+PDT, -63% DT+MDT)
-        --main="Wizard's Rod",
-        --sub="Genmei Shield",                                                                                                                            -- -10% PDT, DEF
         ammo="Amar Cluster",                                                                                                                            -- Evasion
         head="Null Masque",                                                                                                                             -- -10% DT, DEF, HP, +3 Regen
         body="Adamantite Armor",                                                                                                                        -- -20% DT, DEF, HP
@@ -367,10 +366,8 @@ function get_sets()
         waist="Null Belt",                                                                                                                              -- Evasion, +3 Regen
         left_ear="Tuisto Earring",                                                                                                                      -- DEF, HP
         right_ear="Odnowa Earring +1",                                                                                                                  -- -2% MDT, 3% DT, DEF, HP
-        left_ring="Mephitas's Ring +1",                                                                                                                    -- DEF, HP balancing
-        right_ring="Mephitas's Ring",                                                                                                                -- DEF, HP balancing
-        -- left_ring="Murky Ring",                                                                                                                      -- -10% DT, DEF
-        -- right_ring="Gelatinous Ring +1",                                                                                                             -- -7% PDT, +1% MDT HP
+        left_ring="Mephitas's Ring +1",                                                                                                                 -- DEF, HP balancing
+        right_ring="Mephitas's Ring",                                                                                                                   -- DEF, HP balancing
         back="Null Shawl",                                                                                                                              -- Evasion
     }
 
@@ -394,37 +391,39 @@ function get_sets()
     -- MELEE "IDLE"
     ----------------------------------------------------------------
     
-    sets.engaged["TP"] = { -- ~28 per WS
+    -- Assuming that we at the very least have bard songs
+
+    sets.engaged["TP"] = {
         ammo="Amar Cluster",
-        head="Ischkur Turban",
-        body="Nyame Mail",
+        head="Null Masque",
+        body=jse.AF.body,
         hands=jse.empyrean.hands,
-        legs="Jhakri Slops +2",
-        feet="Nyame Sollerets",
+        legs=jse.empyrean.legs,
+        feet=jse.empyrean.feet,
         neck="Null Loop",
         waist="Olseni Belt",
-        left_ear="Cessance Earring",
-        right_ear="Telos Earring",
-        left_ring="Murky Ring",
-        right_ring="Lehko's Ring",
+        left_ear="Telos Earring",
+        right_ear="Alabaster Earring",
+        left_ring="Gelatinous Ring +1",
+        right_ring="Petrov Ring",
         back="Null Shawl",
     }
 
     -- Sub Dancer Maxentius + Bunzi's Rod TP (as a treat)
     sets.engaged["/DNC TP"] = { -- ~26 per WS
         ammo="Amar Cluster",
-        head=jse.empyrean.head,
-        body=jse.empyrean.body,
+        head="Null Masque",
+        body=jse.AF.body,
         hands=jse.empyrean.hands,
-        legs="Jhakri Slops +2",
+        legs=jse.empyrean.legs,
         feet=jse.empyrean.feet,
         neck="Null Loop",
-        waist="Olseni Belt",
+        waist="Null Belt",
         left_ear="Cessance Earring",
-        right_ear="Telos Earring",
-        left_ring="Petrov Ring",
-        right_ring="Lehko's Ring",
-        back=jse.capes.tp,
+        right_ear="Alabaster Earring",
+        left_ring="Murky Ring",
+        right_ring="Petrov Ring",
+        back="Null Shawl",
     }
 
     ----------------------------------------------------------------
@@ -521,8 +520,8 @@ function get_sets()
         waist="Oneiros Rope",
         left_ear="Telos Earring",
         right_ear="Crep. Earring",
-        left_ring="Petrov Ring", -- Replace with Chirich Ring +1
-        right_ring="Lehko's Ring",
+        left_ring="Lehko's Ring",
+        right_ring="Petrov Ring", -- Replace with Chirich Ring +1
         back=jse.capes.occult_acumen,
     })
 
@@ -811,19 +810,17 @@ function get_sets()
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        feet="Agwu's Pigaches",
         neck="Saevus Pendant +1",
-        waist="Eschan Stone", -- Maybe Orpheus's Sash?
+        waist="Orpheus's Sash",
         left_ear="Moonshade Earring",
-        right_ear="Malignance Earring",
-        left_ring="Murky Ring",
+        right_ear={ name="Wicce Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+13','Enmity-3',}},
+        left_ring="Epaminondas's Ring",
         right_ring="Freke Ring",
         back=jse.capes.wsd, -- Want STR +MACC/MDMG -10PDT WSD cape
     }
 
-    sets.ws["Starburst"] = sets.ws["Rock Crusher"]
-
-    sets.ws["Vidohunir"] = { -- Potentially resim now that I have agwus
+    sets.ws["Vidohunir"] = {
         ammo="Ghastly Tathlum +1",
         head="Pixie Hairpin +1",
         body=jse.empyrean.body,
@@ -834,25 +831,25 @@ function get_sets()
         waist="Orpheus's Sash",
         left_ear="Malignance Earring",
         right_ear="Regal Earring",
-        left_ring="Murky Ring",
-        right_ring="Archon Ring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Freke Ring",
         back=jse.capes.wsd,
     }
 
     sets.ws["Retribution"] = {
         ammo="Oshasha's Treatise",
-        head=jse.empyrean.head,
-        body=jse.AF.body,
-        hands=jse.AF.hands,
-        legs=jse.AF.legs,
-        feet=jse.empyrean.feet,
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
         neck="Null Loop",
-        waist="Null Belt",
-        left_ear="Odnowa Earring +1",
-        right_ear="Regal Earring",
-        left_ring="Murky Ring",
+        waist="Grunfeld Rope",
+        left_ear="Moonshade Earring",
+        right_ear="Ishvara Earring",
+        left_ring="Epaminondas's Ring",
         right_ring="Rufescent Ring",
-        back=jse.capes.wsd,
+        back="Null Shawl",
     }
 
     sets.ws["Myrkr"] = { -- No DT
@@ -876,68 +873,69 @@ function get_sets()
     ----------------------------------------------------------------
 
     sets.ws["Shining Strike"] = {  -- Use Daybreak
-        ammo="Oshasha's Treatise",
+        ammo="Sroda Tathlum",
         head=jse.empyrean.head,
-        body=jse.empyrean.body,
+        body="Nyame Mail",
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        feet="Agwu's Pigaches",
         neck="Saevus Pendant +1",
-        waist="Eschan Stone", -- Maybe Orpheus's Sash?
+        waist="Orpheus's Sash",
         left_ear="Moonshade Earring",
-        right_ear="Malignance Earring",
-        left_ring="Murky Ring",
+        right_ear={ name="Wicce Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+13','Enmity-3',}},
+        left_ring="Epaminondas's Ring",
         right_ring="Freke Ring",
         back=jse.capes.wsd,
     }
-    
+
     sets.ws["Black Halo"] = {  -- Use Maxentius
+        ammo="Oshasha's Treatise",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands=jse.AF.hands,
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Null Loop",
+        waist="Null Belt",
+        left_ear="Moonshade Earring",
+        right_ear="Regal Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Null Shawl",
+    }
+
+    sets.ws["Realmrazer"] = {  -- Use Maxentius
         ammo="Oshasha's Treatise",
         head="Null Masque",
         body=jse.AF.body,
         hands=jse.AF.hands,
         legs=jse.AF.legs,
-        feet=jse.empyrean.feet,
+        feet="Nyame Sollerets",
         neck="Null Loop",
         waist="Null Belt",
-        left_ear="Moonshade Earring",
+        left_ear="Telos Earring",
         right_ear="Regal Earring",
-        left_ring="Murky Ring",
-        right_ring="Defending Ring",
+        left_ring="Metamor. Ring +1",
+        right_ring="Rufescent Ring",
         back="Null Shawl",
     }
 
-    sets.ws["Realmrazer"] = {  -- Use Maxentius
-        ammo="Amar Cluster",
-        head=jse.empyrean.head,
-        body=jse.AF.body,
-        hands=jse.AF.hands,
-        legs=jse.AF.legs,
-        feet=jse.empyrean.feet,
-        neck="Null Loop",
-        waist="Null Belt",
-        left_ear="Moonshade Earring",
-        right_ear="Regal Earring",
-        left_ring="Murky Ring",
-        right_ring="Defending Ring",
-        back="Null Shawl",
-    }
     ----------------------------------------------------------------
     -- WEAPONSKILLS - OTHER
     ----------------------------------------------------------------
 
     sets.ws["Aeolian Edge"] = { -- Use Malevolence
-        ammo="Oshasha's Treatise",
+        ammo="Sroda Tathlum",
         head=jse.empyrean.head,
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        feet="Agwu's Pigaches",
         neck="Saevus Pendant +1",
-        waist="Eschan Stone",
+        waist="Orpheus's Sash",
         left_ear="Moonshade Earring",
-        right_ear="Malignance Earring",
-        left_ring="Murky Ring",
+        right_ear={ name="Wicce Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+13','Enmity-3',}},
+        left_ring="Epaminondas's Ring",
         right_ring="Freke Ring",
         back=jse.capes.wsd,
     }
