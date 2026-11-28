@@ -338,7 +338,7 @@ function get_sets()
     
     sets.engaged["TP"] = { -- ~32 per WS
         ammo="Amar Cluster",
-        head="Ischkur Turban",
+        head=jse.empyrean.head,
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
@@ -346,7 +346,7 @@ function get_sets()
         neck="Null Loop",
         waist="Null Belt",
         left_ear="Telos Earring",
-        right_ear="Alabaster Earring",
+        right_ear="Crep. Earring",
         left_ring="Murky Ring",
         right_ring="Lehko's Ring",
         back="Null Shawl",
@@ -799,22 +799,35 @@ function get_sets()
     -- WEAPONSKILLS 
     ----------------------------------------------------------------
     
-    -- SIM THESE
-    -- Consider Orpheus's Sash?
-    
     sets.ws.default = {
-        ammo="Amar Cluster",
-        head="Jhakri Coronal +2",
+        ammo="Oshasha's Treatise",
+        head="Nyame Helm",
         body="Nyame Mail",
-        hands="Jhakri Cuffs +2",
+        hands="Nyame Gauntlets",
         legs="Nyame Flanchard",
         feet="Nyame Sollerets",
-        neck="Null Loop",
+        neck="Rep. Plat. Medal",
         waist="Grunfeld Rope",
         left_ear="Moonshade Earring",
-        right_ear="Odnowa Earring +1",
-        left_ring="Murky Ring",
-        right_ring="Defending Ring",
+        right_ear="Ishvara Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
+        back="Alabaster Mantle",
+    }
+
+    sets.ws["Retribution"] = {
+        ammo="Oshasha's Treatise",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Rep. Plat. Medal",
+        waist="Grunfeld Rope",
+        left_ear="Moonshade Earring",
+        right_ear="Ishvara Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Rufescent Ring",
         back="Alabaster Mantle",
     }
 
@@ -824,54 +837,73 @@ function get_sets()
         body=jse.empyrean.body,
         hands=jse.empyrean.hands,
         legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
+        feet="Agwu's Pigaches",
         neck="Saevus Pendant +1",
-        waist="Eschan Stone",
-        left_ear="Malignance Earring",
-        right_ear="Regal Earring",
-        left_ring="Murky Ring",
-        right_ring="Defending Ring",
+        waist="Orpheus's Sash",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+14','Enmity-4',}},
+        left_ring="Epaminondas's Ring",
+        right_ring="Freke Ring",
         back="Alabaster Mantle",
     }
 
-    sets.ws["Black Halo"] = {
-        ammo="Amar Cluster",
+    sets.ws["Seraph Strike"] = { -- 1000+ Prefer Daybreak for this
+        range=empty,
+        ammo="Sroda Tathlum",
         head=jse.empyrean.head,
         body=jse.empyrean.body,
-        hands=jse.empyrean.hands,
-        legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
-        neck="Null Loop",
-        waist="Null Belt",
+        hands="Jhakri Cuffs +2",
+        legs="Nyame Flanchard",
+        feet="Agwu's Pigaches",
+        neck="Saevus Pendant +1",
+        waist="Orpheus's Sash",
         left_ear="Moonshade Earring",
         right_ear={ name="Arbatel Earring +1", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+14','Enmity-4',}},
-        left_ring="Murky Ring",
-        right_ring="Rufescent Ring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Freke Ring",
+        back="Alabaster Mantle",
+    }
+
+    sets.ws["Flash Nova"] = sets.ws["Seraph Strike"] -- 1000
+
+    sets.ws["Black Halo"] = {  -- Use Maxentius
+        ammo="Oshasha's Treatise",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Rep. Plat. Medal",
+        waist="Grunfeld Rope",
+        left_ear="Moonshade Earring",
+        right_ear="Regal Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Metamor. Ring +1",
         back="Alabaster Mantle",
     }
 
     sets.ws["Realmrazer"] = {
-        ammo="Amar Cluster",
-        head=jse.empyrean.head,
-        body=jse.empyrean.body,
-        hands=jse.empyrean.hands,
-        legs=jse.empyrean.legs,
-        feet=jse.empyrean.feet,
-        neck="Null Loop",
-        waist="Null Belt",
-        left_ear="Moonshade Earring",
-        right_ear="Odnowa Earring +1",
-        left_ring="Metamor. Ring +1",
-        right_ring="Rufescent Ring",
-        back="Null Shawl",
+        ammo="Oshasha's Treatise",
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Rep. Plat. Medal",
+        waist="Grunfeld Rope",
+        left_ear="Malignance Earring",
+        right_ear="Regal Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Metamor. Ring +1",
+        back=jse.capes.occult_acumen, -- ??
     }
 
-    sets.ws["Myrkr"] = { -- No DT
+    sets.ws["Myrkr"] = {
         ammo="Strobilus",
-        head={ name="Kaabnax Hat", augments={'HP+30','MP+30','MP+30',}},                                                                -- Want to replace with Amalric Coif +1 augmented
+        head={ name="Kaabnax Hat", augments={'HP+30','MP+30','MP+30',}},                -- Want to replace with Amalric Coif +1 augmented
         body=jse.AF.body,
         hands="Otomi Gloves",
-        legs=jse.empyrean.legs,                                                                                                         -- Want to replace with Amalric Slops +1 augmented
+        legs=jse.empyrean.legs,                                                         -- Want to replace with Amalric Slops +1 augmented
         feet={ name="Psycloth Boots", augments={'MP+50','INT+7','"Conserve MP"+6',}},
         neck="Dualism Collar +1",
         waist={ name="Shinjutsu-no-Obi +1", augments={'Path: A',}},
@@ -887,16 +919,16 @@ function get_sets()
     ----------------------------------------------------------------
 
     sets.buff.sublimation = {
-        head=jse.AF.head,                                                                                                               -- Sublimation +4
-        body=jse.relic.body,                                                                                                            -- Sublimation +5
-        waist="Embla Sash",                                                                                                             -- Sublimation +3
+        head=jse.AF.head,           -- Sublimation +4
+        body=jse.relic.body,        -- Sublimation +5
+        waist="Embla Sash",         -- Sublimation +3
     }
 
     -- Consider separating into Holy Water on self vs Cursna received sets because if I cast Cursna on myself I may want to use Menelaus's Ring
     sets.buff.doom = {
-        neck="Nicander's Necklace", -- 20% Cursna, 30% Holy Water
-        waist="Gishdubar Sash", -- 10% Cursna
-        left_ring="Purity Ring", -- 7% Cursna, 7% Holy Water
+        neck="Nicander's Necklace",     -- 20% Cursna, 30% Holy Water
+        waist="Gishdubar Sash",         -- 10% Cursna
+        left_ring="Purity Ring",        -- 7% Cursna, 7% Holy Water
         right_ring="Blenmot's Ring +1", -- 10% Holy Water
     }
 end
